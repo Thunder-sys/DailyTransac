@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/pink"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <EditText
+            android:layout_width="69dp"
+            android:layout_height="32dp"
+            android:id="@+id/entry2"
+            android:layout_marginLeft="17dp"
+            android:background="@drawable/white"
+            android:gravity="center"
+            android:hint="5000"
+            android:paddingLeft="13dp"
+            android:paddingTop="4dp"
+            android:paddingRight="13dp"
+            android:paddingBottom="4dp"
+            android:textColorHint="#000000"
+            android:textSize="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete"
+                android:background="@drawable/white"
+                android:src="@drawable/delete" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:layout_width="207dp"
+            android:layout_height="32dp"
+            android:id="@+id/work"
+            android:layout_marginLeft="17dp"
+            android:background="@drawable/white"
+            android:gravity="center"
+            android:hint="XP Motor Repair"
+            android:paddingLeft="13dp"
+            android:paddingTop="4dp"
+            android:paddingRight="13dp"
+            android:paddingBottom="4dp"
+            android:textColorHint="#000000"
+            android:textSize="16dp" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_width="100dp"
+                android:id="@+id/spinner"
+                android:layout_height="32dp">
+
+            </androidx.appcompat.widget.AppCompatSpinner>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
