@@ -84,7 +84,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
@@ -92,7 +92,7 @@
 
         <LinearLayout
             android:layout_width="340dp"
-            android:layout_height="274dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/pink">
 
             <RelativeLayout
@@ -112,39 +112,174 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="95dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="35dp"
-                    android:gravity="center">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/black"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginLeft="13dp"
                         android:text="Expense"
                         android:textColor="@color/white"
                         android:textSize="16dp" />
 
+                    <EditText
+                        android:layout_width="69dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="13dp"
+                        android:background="@drawable/white"
+                        android:gravity="center"
+                        android:hint="5000"
+                        android:paddingLeft="13dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="13dp"
+                        android:paddingBottom="4dp"
+                        android:textColorHint="#000000"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/black"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:layout_marginLeft="60dp"
+                        android:text="Income"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="17dp"
-                    android:layout_marginTop="73dp"
-                    android:background="@drawable/black"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Expense"
-                    android:textColor="@color/white"
-                    android:textSize="16dp" />
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="75dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:background="@drawable/black"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="Expense"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="13dp"
+                        android:background="@drawable/white"
+                        android:gravity="center"
+                        android:hint="5000"
+                        android:paddingLeft="13dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="13dp"
+                        android:paddingBottom="4dp"
+                        android:textColorHint="#FF0000"
+                        android:textSize="16dp" />
+                    <TextView
+                        android:layout_width="69dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="63dp"
+                        android:background="@drawable/white"
+                        android:gravity="center"
+                        android:hint="5000"
+                        android:paddingLeft="13dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="13dp"
+                        android:paddingBottom="4dp"
+                        android:textColorHint="#000000"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Layout_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="133dp"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Layout_list"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="49dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="69dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/add"
+                        android:layout_marginLeft="13dp"
+                        android:background="@drawable/yellow"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="ADD"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="69dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/undo"
+                        android:layout_marginLeft="63dp"
+                        android:background="@drawable/black"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Undo"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="13dp"
+                        android:background="@drawable/white"
+                        android:gravity="center"
+                        android:id="@+id/submit"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Submit"
+                        android:textColor="@color/pink"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
 
             </RelativeLayout>
         </LinearLayout>
