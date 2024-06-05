@@ -141,6 +141,7 @@
                         android:background="@drawable/white"
                         android:gravity="center"
                         android:hint="5000"
+                        android:textColor="@color/black"
                         android:paddingLeft="13dp"
                         android:paddingTop="4dp"
                         android:paddingRight="13dp"
@@ -182,7 +183,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="5dp"
-                        android:text="Expense"
+                        android:text="Revenue"
                         android:textColor="@color/white"
                         android:textSize="16dp" />
 
@@ -223,7 +224,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="133dp"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:orientation="horizontal">
+
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -280,11 +285,8 @@
 
                 </LinearLayout>
 
-
+                
             </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
-
-
 </RelativeLayout>
