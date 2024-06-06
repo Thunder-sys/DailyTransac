@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         layout_list = findViewById(R.id.Layout_list)
         add_button = findViewById(R.id.add)
-
-
     }
 
 }

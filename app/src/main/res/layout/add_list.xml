@@ -73,8 +73,8 @@
             android:background="@drawable/white">
 
             <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner"
                 android:layout_width="100dp"
+                android:id="@+id/spinner"
                 android:layout_height="32dp">
 
             </androidx.appcompat.widget.AppCompatSpinner>
