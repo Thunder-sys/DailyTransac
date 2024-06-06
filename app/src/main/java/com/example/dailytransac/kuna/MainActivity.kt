@@ -11,8 +11,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.R
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var entry:EditText
     lateinit var expences: TextView
     lateinit var income: TextView
+    lateinit var data: data
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         entry = findViewById(R.id.entry1)
         expences = findViewById(R.id.expences)
         income = findViewById(R.id.income)
+
     }
 
     private fun setupspinner(spinner: Spinner) {
@@ -60,7 +60,5 @@ class MainActivity : AppCompatActivity() {
             layout_list.removeView(view)
         }
         layout_list.addView(view)
-
-
     }
 }
