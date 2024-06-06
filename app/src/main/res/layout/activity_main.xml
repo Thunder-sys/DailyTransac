@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,283 +9,301 @@
     android:layout_height="match_parent"
     tools:context=".kuna.MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="9dp"
-        android:text="DAILY"
-        android:textColor="#FF0000"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="2dp"
-        android:text="TRANSAC"
-        android:textColor="#000000"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-    <ImageButton
-        android:layout_width="33dp"
-        android:layout_height="21dp"
-        android:id="@+id/secondActivityButton"
-        android:layout_alignStart="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="295dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/sanwitchbutton" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="48dp"
-        android:gravity="center"
-        android:layout_marginEnd="0dp"
         android:layout_height="wrap_content">
-    <LinearLayout
-
-        android:layout_width="338dp"
-        android:layout_height="35dp"
-        android:background="@drawable/grey"
-        android:gravity="center">
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UPLOAD"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="9dp"
+            android:text="DAILY"
             android:textColor="#FF0000"
-            android:textSize="22dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="DATA"
-            android:textColor="@color/black"
-            android:textSize="22dp"
+            android:layout_below="@+id/textView"
+            android:layout_alignStart="@+id/textView"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="2dp"
+            android:text="TRANSAC"
+            android:textColor="#000000"
+            android:textSize="30dp"
             android:textStyle="bold" />
-    </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="34dp">
+        <ImageButton
+            android:layout_width="33dp"
+            android:layout_height="21dp"
+            android:id="@+id/secondActivityButton"
+            android:layout_alignStart="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="295dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/sanwitchbutton" />
 
         <LinearLayout
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/pink">
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:layout_marginEnd="0dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_width="338dp"
+                android:layout_height="35dp"
+                android:background="@drawable/grey"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="6dp"
-                    android:text="30/05/2024"
-                    android:textColor="@color/white"
-                    android:textSize="17dp"
+                    android:text="UPLOAD"
+                    android:textColor="#FF0000"
+                    android:textSize="22dp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="35dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/black"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:layout_marginLeft="13dp"
-                        android:text="Expense"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-
-                    <EditText
-                        android:layout_width="69dp"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="13dp"
-                        android:background="@drawable/white"
-                        android:gravity="center"
-                        android:hint="5000"
-                        android:paddingLeft="13dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="13dp"
-                        android:paddingBottom="4dp"
-                        android:textColorHint="#000000"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/black"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:layout_marginLeft="60dp"
-                        android:text="Income"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="75dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="13dp"
-                        android:background="@drawable/black"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
-                        android:text="Expense"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:layout_width="69dp"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="13dp"
-                        android:background="@drawable/white"
-                        android:gravity="center"
-                        android:hint="5000"
-                        android:paddingLeft="13dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="13dp"
-                        android:paddingBottom="4dp"
-                        android:textColorHint="#FF0000"
-                        android:textSize="16dp" />
-                    <TextView
-                        android:layout_width="69dp"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="63dp"
-                        android:background="@drawable/white"
-                        android:gravity="center"
-                        android:hint="5000"
-                        android:paddingLeft="13dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="13dp"
-                        android:paddingBottom="4dp"
-                        android:textColorHint="#000000"
-                        android:textSize="16dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/Layout_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="133dp"
-                    android:orientation="horizontal"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/Layout_list"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="49dp"
-                    android:layout_marginBottom="20dp"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="69dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/add"
-                        android:layout_marginLeft="13dp"
-                        android:background="@drawable/yellow"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="ADD"
-                        android:textColor="@color/black"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="69dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/undo"
-                        android:layout_marginLeft="63dp"
-                        android:background="@drawable/black"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="Undo"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="13dp"
-                        android:background="@drawable/white"
-                        android:gravity="center"
-                        android:id="@+id/submit"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="Submit"
-                        android:textColor="@color/pink"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
+                    android:layout_marginLeft="5dp"
+                    android:text="DATA"
+                    android:textColor="@color/black"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="34dp"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pink">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="6dp"
+                        android:text="30/05/2024"
+                        android:textColor="@color/white"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="35dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/black"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Revenue"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:layout_width="69dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/entry1"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/white"
+                            android:gravity="center"
+                            android:hint="5000"
+                            android:paddingLeft="13dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="13dp"
+                            android:paddingBottom="4dp"
+                            android:textColorHint="#000000"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="60dp"
+                            android:background="@drawable/black"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Income"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="75dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/black"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="5dp"
+                            android:text="Expense"
+                            android:textColor="@color/white"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="69dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/expences"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/white"
+                            android:gravity="center"
+                            android:hint="5000"
+                            android:paddingLeft="13dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="13dp"
+                            android:paddingBottom="4dp"
+                            android:textColorHint="#FF0000"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:layout_width="69dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/income"
+                            android:layout_marginLeft="63dp"
+                            android:background="@drawable/white"
+                            android:gravity="center"
+                            android:hint="5000"
+                            android:paddingLeft="13dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="13dp"
+                            android:paddingBottom="4dp"
+                            android:textColorHint="#000000"
+                            android:textSize="16dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Layout_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="133dp"
+                        android:orientation="vertical"></LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/Layout_list"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="49dp"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/add"
+                            android:layout_width="69dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/yellow"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="ADD"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/undo"
+                            android:layout_width="69dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="63dp"
+                            android:background="@drawable/black"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Undo"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/submit"
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/white"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="Submit"
+                            android:textColor="@color/pink"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
 
 
-</RelativeLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/updatebutton"
+            android:layout_width="122dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="253dp"
+            android:layout_marginTop="39dp"
+            android:background="@drawable/pink"
+            android:text="UPDATE DATA" />
+    </RelativeLayout>
+</ScrollView>
