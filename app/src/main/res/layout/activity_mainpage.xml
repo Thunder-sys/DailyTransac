@@ -57,13 +57,14 @@
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#8A2351"
+            android:background="#F8F5F6"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recy1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"/>
@@ -80,13 +81,14 @@
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#8A2351"
+            android:background="#F3F1F2"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recy2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"/>
@@ -103,13 +105,14 @@
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="#8A2351"
+            android:background="#F4F4F4"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recy"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"/>

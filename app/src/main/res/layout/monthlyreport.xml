@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/dat1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="may 2024"
@@ -30,16 +30,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text="Revanue"
                 android:textSize="25dp"
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/reva1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text="25000"
                 android:textSize="25dp"
                 android:textColor="@color/white"/>
         </LinearLayout>
@@ -54,16 +54,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text="Expence"
                 android:textSize="25dp"
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/expence1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text="20000"
                 android:textSize="25dp"
                 android:textColor="@color/white"/>
         </LinearLayout>
@@ -80,16 +80,16 @@
                 android:layout_weight="1"
                  android:textSize="25dp"
             android:textColor="@color/white"
-                android:text="TextView" />
+                android:text="Income" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/inc1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="25dp"
                 android:textColor="@color/white"
-                android:text="TextView" />
+                android:text="5000" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,4 +1,5 @@
 package com.example.dailytransac.Saksh
 
-class Model_mainpage (var date:String, var rprice:Int,var eprice:Int,var iprice:Int){
-}
+import androidx.recyclerview.widget.RecyclerView
+
+data class Model_mainpage (var date:String, var rprice:String,var eprice:String,var iprice:String)
