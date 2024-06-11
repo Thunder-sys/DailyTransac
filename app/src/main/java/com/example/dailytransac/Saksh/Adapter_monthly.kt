@@ -30,8 +30,8 @@ class Adapter_monthly(var monthlist:ArrayList<Model_monthly>):RecyclerView.Adapt
 
         init {
             date1=itemview.findViewById(R.id.dat1)
-            revz1=itemview.findViewById(R.id.rev1)
-            expz1=itemview.findViewById(R.id.exp1)
+            revz1=itemview.findViewById(R.id.reva1)
+            expz1=itemview.findViewById(R.id.expence1)
             incz1=itemview.findViewById(R.id.inc1)
 
 

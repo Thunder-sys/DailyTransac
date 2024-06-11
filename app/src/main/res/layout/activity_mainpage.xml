@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/androidcurve"
     tools:context=".Saksh.Mainpage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+
         android:orientation="vertical">
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal">
@@ -27,14 +31,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="DAILY"
-                android:textSize="40dp"/>
+                android:textColor="#FF0303"
+                android:textSize="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="250dp"
-                tools:srcCompat="@tools:sample/avatars" />
+
+                android:layout_marginLeft="250dp" />
 
 
         </LinearLayout>
@@ -44,20 +52,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="40dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
             android:text="TRANSAC" />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/black"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/grey"
             android:text="Daily Report"
-            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#FF00B2"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#F8F5F6"
@@ -67,21 +83,25 @@
                 android:id="@+id/recy1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"/>
+
+                android:orientation="horizontal" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textVie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@color/black"
+            android:background="@drawable/grey"
             android:text="Monthly Report"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#FF00B2"
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#F3F1F2"
@@ -91,21 +111,26 @@
                 android:id="@+id/recy2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:orientation="horizontal"/>
         </LinearLayout>
 
         <TextView
             android:id="@+id/textV"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@color/black"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+
+            android:background="@drawable/grey"
             android:text="Detailed Report"
-            android:textColor="@color/white"
+            android:textColor="#FF00B2"
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#F4F4F4"
@@ -113,10 +138,14 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recy"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pink"
                 android:orientation="vertical"/>
         </LinearLayout>
 
     </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="250dp"
+        android:layout_width="189dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="#BA3B73"
-        android:orientation="vertical">
+        android:background="@drawable/pink"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/dinak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="30/05/2024"
-            android:textSize="25dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,20 +34,23 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:text="Revanue"
                 android:textColor="@color/white"
-                android:text="Revanue" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/reva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:text="25000"
                 android:textColor="@color/white"
-                android:text="25000" />
+                android:textSize="16dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,20 +60,23 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:text="Expence"
                 android:textColor="@color/white"
-                android:text="Expence" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/exp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:text="20000"
                 android:textColor="@color/white"
-                android:text="20000" />
+                android:textSize="16dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -75,19 +86,21 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:text="Income"
                 android:textColor="@color/white"
-                android:text="Income" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/inco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:textSize="25dp"
+                android:text="5000"
                 android:textColor="@color/white"
-                android:text="5000" />
+                android:textSize="16dp" />
         </LinearLayout>
 
     </LinearLayout>
