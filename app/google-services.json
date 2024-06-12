@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "561241672366",
+    "project_id": "dailytransac",
+    "storage_bucket": "dailytransac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561241672366:android:815c0ee0d165cb41debb3f",
+        "android_client_info": {
+          "package_name": "com.example.dailytransac"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3JzzJ9zkCWsZ395yaCTG_G-Wlpz38vck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
