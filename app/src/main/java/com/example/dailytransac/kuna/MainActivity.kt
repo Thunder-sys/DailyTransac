@@ -1,6 +1,7 @@
 package com.example.dailytransac.kuna
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -20,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var entry:EditText
     lateinit var expences: TextView
     lateinit var income: TextView
-    lateinit var data: data
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,20 @@ class MainActivity : AppCompatActivity() {
         entry = findViewById(R.id.entry1)
         expences = findViewById(R.id.expences)
         income = findViewById(R.id.income)
+        expences.isActivated = true
+        expences.movementMethod = ScrollingMovementMethod()
+        expences.isPressed = true
+
+        var str:String
+
+
+
+    }
+
+    private fun expensiontext(str:String) {
+        expences.text = str
+    }
+    private fun incometext(){
 
     }
 
@@ -54,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         val entry2: EditText = view.findViewById(R.id.entry2)
         val work: EditText = view.findViewById(R.id.work)
         val spinner: Spinner = view.findViewById(R.id.spinner)
+
 
         setupspinner(spinner)
         delete.setOnClickListener(){
