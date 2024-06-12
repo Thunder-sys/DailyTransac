@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+
+    android:orientation="vertical"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                >
+
+
+                <EditText
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:textSize="16dp"
+                    android:layout_marginStart="8dp"
+                    android:text="4500"
+
+                    android:gravity="center"
+
+
+                    android:background="@drawable/whiteround"
+                    ></EditText>
+
+                <ImageButton
+                    android:id="@+id/removebuto"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+
+
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/crossicon"
+                    android:scaleType="centerCrop"></ImageButton>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/myidfortex"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:textSize="16dp"
+                android:paddingLeft="8dp"
+                android:background="@drawable/whiteround"
+                android:layout_marginLeft="8dp"
+                android:text="Hello World">
+
+            </EditText>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/whiteround"
+                android:layout_alignParentEnd="@+id/myidfortex"
+
+
+                ></Spinner>
+
+
+            ></LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+</LinearLayout>
