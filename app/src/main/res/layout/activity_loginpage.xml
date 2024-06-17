@@ -88,7 +88,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginRight="30dp"
-            android:textColor="#3671B5"
+            android:textColor="#C32D6E"
            android:gravity="right"/>
 
         <Button
@@ -132,7 +132,7 @@
                 android:layout_marginRight="35dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:textColor="#1E589A"
+                android:textColor="#AD1457"
                 android:text="Sign up" />
         </LinearLayout>
 
