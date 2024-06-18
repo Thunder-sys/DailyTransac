@@ -30,11 +30,11 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="66dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
-            android:background="#F3EFEF"
+            android:background="@drawable/light_pink"
             android:gravity="center"
             android:hint="Enter your mobile number or email addres"
             android:textSize="20dp" />
@@ -42,18 +42,20 @@
         <EditText
             android:id="@+id/editTextTextPassword4"
             android:layout_width="match_parent"
-            android:layout_height="66dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
-            android:background="#F3EFEF"
+            android:background="@drawable/light_pink"
             android:ems="10"
+            android:gravity="center"
+            android:padding="10dp"
             android:hint="Password"
             android:inputType="textPassword"
             android:textSize="24dp" />
 
-        <Button
-            android:id="@+id/button"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -74,28 +76,25 @@
             android:textColor="@color/black"
             android:text="Forgotten Password?"/>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            app:cardCornerRadius="45dp">
 
-            <Button
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
+                android:id="@+id/create"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:textSize="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-
+                android:background="@drawable/light_pink"
                 android:textAllCaps="false"
                 android:text="Create new account" />
-        </androidx.cardview.widget.CardView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="80dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -112,7 +111,7 @@
                 android:text="Meta"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="#DD2B79"
                 android:textSize="40dp"/>
         </LinearLayout>
 

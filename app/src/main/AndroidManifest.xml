@@ -13,8 +13,9 @@
         android:theme="@style/Theme.DailyTransac"
         tools:targetApi="31">
         <activity
-            android:name=".Saksh.loginpage2"
-            android:exported="false" />
+            android:name=".Saksh.Mainpage"
+            android:exported="false"/>
+
         <activity
             android:name=".Saksh.loginpage"
             android:exported="false" />
@@ -24,9 +25,9 @@
         <activity
             android:name=".kuna.MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".Saksh.Mainpage"
-            android:exported="true">
+            <activity
+                android:name=".Saksh.loginpage2"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
