@@ -68,13 +68,10 @@ class MainActivity : AppCompatActivity() {
         val entry2:EditText = view.findViewById(R.id.entry2)
         val work:EditText = view.findViewById(R.id.work)
         val spinner:Spinner = view.findViewById(R.id.spinner)
-
         setupspinner(spinner)
         delete.setOnClickListener(){
             layout_list.removeView(view)
         }
         layout_list.addView(view)
-
-
     }
 }

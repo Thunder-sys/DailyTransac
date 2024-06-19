@@ -22,7 +22,6 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
        holder.expence.setText(datatransac[position].eprice)
        holder.revanue.setText(datatransac[position].rprice)
        holder.income.setText(datatransac[position].iprice)
-
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +38,6 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
             expence=itemView.findViewById(R.id.gaye)
             revanue=itemView.findViewById(R.id.aaye)
             income=itemView.findViewById(R.id.kamaye)
-
         }
     }
 

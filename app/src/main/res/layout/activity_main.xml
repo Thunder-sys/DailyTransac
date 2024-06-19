@@ -141,9 +141,10 @@
                             android:textSize="16dp" />
 
                         <EditText
-                            android:layout_width="69dp"
-                            android:layout_height="32dp"
                             android:id="@+id/entry1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:textColor="@color/black"
                             android:layout_marginLeft="13dp"
                             android:background="@drawable/white"
                             android:gravity="center"
