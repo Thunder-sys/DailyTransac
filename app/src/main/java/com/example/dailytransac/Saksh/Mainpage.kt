@@ -17,7 +17,6 @@ class Mainpage : AppCompatActivity() {
         var reco=findViewById<RecyclerView>(R.id.recy)
         var reco1=findViewById<RecyclerView>(R.id.recy1)
         var reco2=findViewById<RecyclerView>(R.id.recy2)
-        var reco3=findViewById<RecyclerView>(R.id.recodetail)
 
 
 
@@ -65,10 +64,7 @@ class Mainpage : AppCompatActivity() {
         var adap=Adapter_monthly(listofmonth)
         reco2.adapter=adap
 
-        var listofreco:ArrayList<Model_reco> = ArrayList()
-        reco3.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        var adat=Adapter_reco(listofreco)
-        reco3.adapter=adat
+
 
 
 

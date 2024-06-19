@@ -2,6 +2,7 @@ package com.example.dailytransac.kuna
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.R
+import com.example.dailytransac.Saksh.Mainpage
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,11 +29,18 @@ class MainActivity : AppCompatActivity() {
     lateinit var expences:TextView
     lateinit var income:TextView
 
+    lateinit var sand:ImageButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        sand=findViewById(R.id.secondActivityButton)
+        sand.setOnClickListener(){
+            var dhh=Intent(this,Mainpage::class.java)
+            startActivity(dhh)
+        }
         layout_list = findViewById(R.id.Layout_list)
         add_button = findViewById(R.id.add)
         addcard()
