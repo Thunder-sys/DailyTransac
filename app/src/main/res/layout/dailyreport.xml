@@ -16,7 +16,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/dat1"
+            android:id="@+id/dinak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -41,7 +41,7 @@
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/reva1"
+                android:id="@+id/exp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -67,7 +67,7 @@
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/expence1"
+                android:id="@+id/reva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -93,7 +93,7 @@
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/inc1"
+                android:id="@+id/inco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"

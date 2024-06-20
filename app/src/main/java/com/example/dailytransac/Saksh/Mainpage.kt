@@ -18,11 +18,13 @@ class Mainpage : AppCompatActivity() {
         var reco1=findViewById<RecyclerView>(R.id.recy1)
         var reco2=findViewById<RecyclerView>(R.id.recy2)
 
+        var childitem:ArrayList<Model_reco> = ArrayList()
+        childitem.add(Model_reco("ff","faf","fdf"))
 
 
         var listofdata:ArrayList<Model_mainpage> = ArrayList()
-        var d1=Model_mainpage("04/05/2006","25000","20000","5000")
-        var d2=Model_mainpage("04/05/2006","25000","20000","5000")
+        var d1=Model_mainpage("04/05/2006","25000","20000","5000",childitem)
+        var d2=Model_mainpage("04/05/2006","25000","20000","5000",childitem)
 
         listofdata.add(d1)
         listofdata.add(d2)

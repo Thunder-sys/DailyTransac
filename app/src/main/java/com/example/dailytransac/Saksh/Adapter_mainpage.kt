@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.dailytransac.R
@@ -19,10 +21,20 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: Adapter_mainpage.MyviewHolder, position: Int) {
-       holder.date.setText(datatransac[position].date)
-       holder.expence.setText(datatransac[position].eprice)
-       holder.revanue.setText(datatransac[position].rprice)
-       holder.income.setText(datatransac[position].iprice)
+        var parentItem = datatransac[position]
+
+        holder.date.setText(parentItem.date)
+        holder.expence.setText(parentItem.eprice)
+        holder.revanue.setText(parentItem.rprice)
+        holder.income.setText(parentItem.iprice)
+
+        holder.childrecycleview.setHasFixedSize(true)
+        holder.childrecycleview.layoutManager = GridLayoutManager(holder.itemView.context,3)
+
+        var adapter = Adapter_reco(parentItem.childclass)
+        holder.childrecycleview.adapter = adapter
+
+
     }
 
     override fun getItemCount(): Int {
@@ -33,6 +45,9 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
         lateinit var expence:TextView
         lateinit var revanue:TextView
         lateinit var income:TextView
+        lateinit var childrecycleview:RecyclerView
+        lateinit var linearLayout: LinearLayout
+
         
 
         init {
@@ -40,6 +55,8 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
             expence=itemView.findViewById(R.id.gaye)
             revanue=itemView.findViewById(R.id.aaye)
             income=itemView.findViewById(R.id.kamaye)
+            childrecycleview=itemView.findViewById(R.id.recodetail)
+            linearLayout=itemView.findViewById(R.id.detail)
         }
     }
 
