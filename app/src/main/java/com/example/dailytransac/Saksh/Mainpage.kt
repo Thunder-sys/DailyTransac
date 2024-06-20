@@ -19,12 +19,27 @@ class Mainpage : AppCompatActivity() {
         var reco2=findViewById<RecyclerView>(R.id.recy2)
 
         var childitem:ArrayList<Model_reco> = ArrayList()
-        childitem.add(Model_reco("ff","faf","fdf"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+        childitem.add(Model_reco("76877","565476","65767"))
+
+        var childitem1:ArrayList<Model_reco> = ArrayList()
+        childitem1.add(Model_reco("76877","565476","65767"))
+        childitem1.add(Model_reco("76877","565476","65767"))
+        childitem1.add(Model_reco("76877","565476","65767"))
+        childitem1.add(Model_reco("76877","565476","65767"))
+        childitem1.add(Model_reco("76877","565476","65767"))
+        childitem1.add(Model_reco("76877","565476","65767"))
 
 
         var listofdata:ArrayList<Model_mainpage> = ArrayList()
         var d1=Model_mainpage("04/05/2006","25000","20000","5000",childitem)
-        var d2=Model_mainpage("04/05/2006","25000","20000","5000",childitem)
+        var d2=Model_mainpage("04/05/2006","25000","20000","5000",childitem1)
 
         listofdata.add(d1)
         listofdata.add(d2)

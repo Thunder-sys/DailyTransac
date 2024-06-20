@@ -76,7 +76,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#F8F5F6"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -104,7 +103,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#F3F1F2"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -142,7 +140,6 @@
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/pink"
                     android:orientation="vertical"/>
             </LinearLayout>
 

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,7 +28,7 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
         holder.income.setText(parentItem.iprice)
 
         holder.childrecycleview.setHasFixedSize(true)
-        holder.childrecycleview.layoutManager = GridLayoutManager(holder.itemView.context,3)
+        holder.childrecycleview.layoutManager = GridLayoutManager(holder.itemView.context,1)
 
         var adapter = Adapter_reco(parentItem.childclass)
         holder.childrecycleview.adapter = adapter
@@ -46,8 +45,6 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
         lateinit var revanue:TextView
         lateinit var income:TextView
         lateinit var childrecycleview:RecyclerView
-        lateinit var linearLayout: LinearLayout
-
         
 
         init {
@@ -56,7 +53,6 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
             revanue=itemView.findViewById(R.id.aaye)
             income=itemView.findViewById(R.id.kamaye)
             childrecycleview=itemView.findViewById(R.id.recodetail)
-            linearLayout=itemView.findViewById(R.id.detail)
         }
     }
 
