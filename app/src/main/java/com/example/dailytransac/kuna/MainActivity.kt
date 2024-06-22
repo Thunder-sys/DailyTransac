@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var entry:EditText
     lateinit var expences:TextView
     lateinit var income:TextView
-
     lateinit var sand:ImageButton
 
 
