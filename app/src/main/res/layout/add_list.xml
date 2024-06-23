@@ -15,18 +15,18 @@
         android:layout_alignParentTop="true">
 
         <EditText
+            android:id="@+id/entry2"
             android:layout_width="69dp"
             android:layout_height="32dp"
-            android:id="@+id/entry2"
-            android:textColor="@color/black"
             android:layout_marginLeft="17dp"
             android:background="@drawable/white"
             android:gravity="center"
-            android:hint="5000"
+            android:hint="amt"
             android:paddingLeft="13dp"
             android:paddingTop="4dp"
             android:paddingRight="13dp"
             android:paddingBottom="4dp"
+            android:textColor="@color/black"
             android:textColorHint="#000000"
             android:textSize="16dp" />
         <LinearLayout

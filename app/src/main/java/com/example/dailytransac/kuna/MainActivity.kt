@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
@@ -20,6 +21,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Mainpage
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var expences:TextView
     lateinit var income:TextView
     lateinit var sand:ImageButton
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         entry = findViewById(R.id.entry1)
         expences = findViewById(R.id.expences)
         income = findViewById(R.id.income)
+
     }
 
     private fun setupspinner(spinner: Spinner) {
@@ -65,12 +69,30 @@ class MainActivity : AppCompatActivity() {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
         val delete:ImageButton = view.findViewById(R.id.delete)
         val entry2:EditText = view.findViewById(R.id.entry2)
-        val work:EditText = view.findViewById(R.id.work)
+      /*  val work:EditText = view.findViewById(R.id.work)
+        var mytkvl=entry2.text.toString()
+        Log.d("Myco","u"+mytkvl);*/
+        entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val mytkvl:Int = entry2.text.toString().toInt()
+                var c = 0
+                if (mytkvl!=null) {
+                    var i = 0
+                    do {
+                        i = i + mytkvl
+                        expences.setText(""+i)
+                        c++
+                    } while (c < 1)
+                }
+
+            }
+        }
         val spinner:Spinner = view.findViewById(R.id.spinner)
         setupspinner(spinner)
         delete.setOnClickListener(){
             layout_list.removeView(view)
         }
         layout_list.addView(view)
+
     }
 }
