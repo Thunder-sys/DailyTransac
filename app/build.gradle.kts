@@ -52,7 +52,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.github.AnyChart:Anychart-Android:1.1.2")
-    implementation("android.multidex:2.0.1")
-}
+    implementation("com.github.AnyChart:AnyChart-Android:1.1.2")
+    implementation("androidx.multidex:multidex:2.0.1")
 
+}
