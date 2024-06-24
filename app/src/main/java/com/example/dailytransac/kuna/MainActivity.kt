@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                     0
                 }
                 val totalIncome = entryValue - totalMytkvl
-                if (entryValue>totalIncome) income.setText("$totalIncome") else income.setText("- $totalIncome")
+                if (entryValue>totalIncome) income.setText("$totalIncome") else if(entryValue==totalIncome) income.setText("0") else income.setText("- $totalIncome")
             }
         }
         val spinner:Spinner = view.findViewById(R.id.spinner)
