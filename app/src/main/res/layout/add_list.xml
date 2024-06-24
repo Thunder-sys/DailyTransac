@@ -22,10 +22,9 @@
             android:background="@drawable/white"
             android:gravity="center"
             android:hint="amt"
-            android:paddingLeft="13dp"
             android:paddingTop="4dp"
-            android:paddingRight="13dp"
             android:paddingBottom="4dp"
+            android:phoneNumber="true"
             android:textColor="@color/black"
             android:textColorHint="#000000"
             android:textSize="16dp" />

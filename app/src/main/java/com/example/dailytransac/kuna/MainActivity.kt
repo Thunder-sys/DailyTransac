@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var expences:TextView
     lateinit var income:TextView
     lateinit var sand:ImageButton
+    var totalMytkvl: Int = 0
 
 
 
@@ -69,22 +70,26 @@ class MainActivity : AppCompatActivity() {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
         val delete:ImageButton = view.findViewById(R.id.delete)
         val entry2:EditText = view.findViewById(R.id.entry2)
-      /*  val work:EditText = view.findViewById(R.id.work)
-        var mytkvl=entry2.text.toString()
+        val work:EditText = view.findViewById(R.id.work)
+        /*  var mytkvl=entry2.text.toString()
         Log.d("Myco","u"+mytkvl);*/
         entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val mytkvl:Int = entry2.text.toString().toInt()
-                var c = 0
-                if (mytkvl!=null) {
-                    var i = 0
-                    do {
-                        i = i + mytkvl
-                        expences.setText(""+i)
-                        c++
-                    } while (c < 1)
+                val mytkvl: Int = try {
+                    entry2.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    0
                 }
+                totalMytkvl += mytkvl
+                expences.text = totalMytkvl.toString()
 
+                val entryValue: Int = try {
+                    entry.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
+                val totalIncome = entryValue - totalMytkvl
+                if (entryValue>totalIncome) income.setText("$totalIncome") else income.setText("- $totalIncome")
             }
         }
         val spinner:Spinner = view.findViewById(R.id.spinner)
