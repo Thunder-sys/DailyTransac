@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var expences:TextView
     lateinit var income:TextView
     lateinit var sand:ImageButton
+    lateinit var updatebotton:Button
     var totalMytkvl: Int = 0
 
 
@@ -40,8 +41,13 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         sand=findViewById(R.id.secondActivityButton)
+        updatebotton=findViewById(R.id.updatebutton)
         sand.setOnClickListener(){
             var dhh=Intent(this,Mainpage::class.java)
+            startActivity(dhh)
+        }
+        updatebotton.setOnClickListener(){
+            var dhh=Intent(this,UpdateList::class.java)
             startActivity(dhh)
         }
         layout_list = findViewById(R.id.Layout_list)
