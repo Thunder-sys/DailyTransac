@@ -27,6 +27,11 @@ class Budgetscreen : AppCompatActivity() {
             dataVals.add(Entry(1f, 24f))
             dataVals.add(Entry(2f, 28f))
             dataVals.add(Entry(3f, 10f))
+            dataVals.add(Entry(4f, 20f))
+            dataVals.add(Entry(5f, 16f))
+            dataVals.add(Entry(6f, 19f))
+            dataVals.add(Entry(7f, 9f))
+            dataVals.add(Entry(8f, 25f))
             return dataVals
         }
 
@@ -38,8 +43,5 @@ class Budgetscreen : AppCompatActivity() {
         val data = LineData(dataSets)
         linechart.data = data
         linechart.invalidate()
-
-
-
     }
 }
