@@ -45,10 +45,4 @@ class loginpage2 : AppCompatActivity() {
             startActivity(jkl)
         }
     }
-    override fun onStart() {
-        super.onStart()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-
-    }
 }
