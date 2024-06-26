@@ -1,8 +1,12 @@
 package com.example.dailytransac.kuna
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,7 +27,7 @@ import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Mainpage
 import kotlin.math.log
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks {
 
     lateinit var layout_list:LinearLayout
     lateinit var add_button:Button
@@ -33,11 +37,29 @@ class MainActivity : AppCompatActivity() {
     lateinit var sand:ImageButton
     lateinit var updatebotton:Button
     var totalMytkvl: Int = 0
+    @SuppressLint("SourceLockedOrientaionActivity")
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?){
+        runCatching{
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+        }
+    }
 
+    override fun onActivityStarted(activity: Activity) {}
+
+    override fun onActivityResumed(activity: Activity) {}
+
+    override fun onActivityPaused(activity: Activity) {}
+
+    override fun onActivityStopped(activity: Activity) {}
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+
+    override fun onActivityDestroyed(activity: Activity) {}
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerActivityLifecycleCallbacks(this)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         sand=findViewById(R.id.secondActivityButton)

@@ -31,8 +31,6 @@ class loginpage2 : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty())  {
                     firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
                         }
@@ -46,5 +44,11 @@ class loginpage2 : AppCompatActivity() {
             var jkl= Intent(this,loginpage::class.java)
             startActivity(jkl)
         }
+    }
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+
     }
 }
