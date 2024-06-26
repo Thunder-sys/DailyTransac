@@ -3,30 +3,48 @@ package com.example.dailytransac.Saksh
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.R
+import com.example.dailytransac.databinding.ActivityLoginpage2Binding
+import com.example.dailytransac.databinding.ActivityLoginpageBinding
 import com.example.dailytransac.kuna.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class loginpage2 : AppCompatActivity() {
-    lateinit var go:Button
-    lateinit var signup:Button
+    lateinit var binding: ActivityLoginpage2Binding
+    lateinit var firebaseAuth:FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_loginpage2)
-         go=findViewById(R.id.login)
-         signup=findViewById(R.id.create)
-        go.setOnClickListener(){
-            var jkl= Intent(this,MainActivity::class.java)
-            startActivity(jkl)
+        binding = ActivityLoginpage2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        binding.login.setOnClickListener(){
+            val email = binding.reEmail.text.toString()
+            val pass = binding.rePassword.text.toString()
+
+            if (email.isNotEmpty() && pass.isNotEmpty())  {
+                    firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+                else {
+                Toast.makeText(this, "Password is not mataching", Toast.LENGTH_LONG).show()
+            }
         }
-        signup.setOnClickListener(){
+        binding.create.setOnClickListener(){
             var jkl= Intent(this,loginpage::class.java)
             startActivity(jkl)
         }
-
     }
 }

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "553703533003",
+    "firebase_url": "https://daily-transac-default-rtdb.firebaseio.com",
     "project_id": "daily-transac",
     "storage_bucket": "daily-transac.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.dailytransac"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "553703533003-1rmfreg7rn6m9fa2mcvbpqbg3k0q74pd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA9j37K44xwAqimUkdmujErNFI5zK0gdGo"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553703533003-1rmfreg7rn6m9fa2mcvbpqbg3k0q74pd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

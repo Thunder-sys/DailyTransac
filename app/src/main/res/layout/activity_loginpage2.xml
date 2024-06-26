@@ -33,15 +33,16 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
+            android:id="@+id/re_email"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/light_pink"
             android:gravity="center"
-            android:hint="Enter your mobile number or email addres"
+            android:hint="Email Address"
             android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword4"
+            android:id="@+id/re_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
