@@ -30,7 +30,7 @@ class loginpage : AppCompatActivity() {
             val confirmpass = binding.confirmPasswordEt.text.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty() && confirmpass.isNotEmpty())  {
-                if (pass == confirmpass){
+                if (pass==confirmpass){
                     firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener{
                         if (it.isSuccessful){
                             val intent = Intent(this,MainActivity::class.java)

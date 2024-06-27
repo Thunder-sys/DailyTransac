@@ -8,6 +8,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.Looper
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,8 +25,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Mainpage
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks {
@@ -55,35 +65,57 @@ class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
     override fun onActivityDestroyed(activity: Activity) {}
-
-
+    lateinit var calendarTextView:TextView
+    lateinit var sumbit:Button
+    private lateinit var handler: Handler
+    private lateinit var dateFormat: SimpleDateFormat
+    private lateinit var updateTimeRunnable: Runnable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerActivityLifecycleCallbacks(this)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        sand=findViewById(R.id.secondActivityButton)
-        updatebotton=findViewById(R.id.updatebutton)
-        sand.setOnClickListener(){
-            var dhh=Intent(this,Mainpage::class.java)
+
+        calendarTextView = findViewById(R.id.updatedatelist)
+
+        dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        handler = Handler(Looper.getMainLooper())
+        updateTimeRunnable = object : Runnable {
+            override fun run() {
+                // Update TextView with current date
+                val currentDate = dateFormat.format(Date())
+                calendarTextView.text = currentDate
+
+                // Schedule the next update in 1 second
+                handler.postDelayed(this, 1000)
+            }
+        }
+        // Start updating the TextView
+        handler.post(updateTimeRunnable)
+
+        //DynamicView
+        sand = findViewById(R.id.secondActivityButton)
+        updatebotton = findViewById(R.id.updatebutton)
+        sand.setOnClickListener() {
+            var dhh = Intent(this, Mainpage::class.java)
             startActivity(dhh)
         }
-        updatebotton.setOnClickListener(){
-            var dhh=Intent(this,UpdateList::class.java)
+        updatebotton.setOnClickListener() {
+            var dhh = Intent(this, UpdateList::class.java)
             startActivity(dhh)
         }
         layout_list = findViewById(R.id.Layout_list)
         add_button = findViewById(R.id.add)
         addcard()
-        add_button.setOnClickListener(){
+        add_button.setOnClickListener() {
             addcard()
         }
         entry = findViewById(R.id.entry1)
         expences = findViewById(R.id.expences)
         income = findViewById(R.id.income)
-
     }
 
+    //DynamicView Spinner
     private fun setupspinner(spinner: Spinner) {
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -94,6 +126,7 @@ class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks 
         spinner.adapter = adapter
     }
 
+    //DynamicView
     private fun addcard() {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
         val delete:ImageButton = view.findViewById(R.id.delete)
@@ -127,5 +160,13 @@ class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks 
         }
         layout_list.addView(view)
 
+    }
+
+    //Calender = Date
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Remove callbacks to prevent memory leaks
+        handler.removeCallbacks(updateTimeRunnable)
     }
 }
