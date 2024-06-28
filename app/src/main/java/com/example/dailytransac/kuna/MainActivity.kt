@@ -37,7 +37,7 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.math.log
 
-class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks {
+class MainActivity : AppCompatActivity(){
 
     lateinit var layout_list:LinearLayout
     lateinit var add_button:Button
@@ -47,24 +47,6 @@ class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks 
     lateinit var sand:ImageButton
     lateinit var updatebotton:Button
     var totalMytkvl: Int = 0
-    @SuppressLint("SourceLockedOrientaionActivity")
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?){
-        runCatching{
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
-        }
-    }
-
-    override fun onActivityStarted(activity: Activity) {}
-
-    override fun onActivityResumed(activity: Activity) {}
-
-    override fun onActivityPaused(activity: Activity) {}
-
-    override fun onActivityStopped(activity: Activity) {}
-
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-
-    override fun onActivityDestroyed(activity: Activity) {}
     lateinit var calendarTextView:TextView
     lateinit var sumbit:Button
     private lateinit var handler: Handler
@@ -72,7 +54,6 @@ class MainActivity : AppCompatActivity(),Application.ActivityLifecycleCallbacks 
     private lateinit var updateTimeRunnable: Runnable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerActivityLifecycleCallbacks(this)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
