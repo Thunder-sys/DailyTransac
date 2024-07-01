@@ -7,8 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.dailytransac.Database.User
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.loginpage2
+import com.google.firebase.auth.FirebaseAuth
 
 class splashpro : AppCompatActivity() {
     private var splashscreen=3000
