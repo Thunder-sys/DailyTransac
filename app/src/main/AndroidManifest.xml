@@ -25,10 +25,10 @@
             android:name=".khush.Budgetscreen"
             android:exported="false" />
         <activity
-            android:name=".Saksh.loginpage"
+            android:name=".kuna.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".kuna.MainActivity"
+            android:name=".Saksh.loginpage"
             android:exported="false" />
         <activity
             android:name=".khush.splashpro"
