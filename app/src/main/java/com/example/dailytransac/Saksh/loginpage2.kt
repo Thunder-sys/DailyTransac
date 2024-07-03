@@ -5,7 +5,10 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -27,6 +30,19 @@ class loginpage2 : AppCompatActivity() {
         binding = ActivityLoginpage2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        //showpassword
+        var pass = findViewById<EditText>(R.id.editpas)
+        var checkBox = findViewById<CheckBox>(R.id.check)
+         checkBox.setOnClickListener {
+             if (checkBox.isChecked){
+                 pass.inputType = 1
+             }
+             else
+                 pass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+         }
+
+
         //text gradient
         var txt = findViewById<TextView>(R.id.halo)
         var pent = txt.paint
@@ -44,11 +60,14 @@ class loginpage2 : AppCompatActivity() {
 
 
 
+
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.login.setOnClickListener() {
             val email = binding.reEmail.text.toString()
-            val pass = binding.rePassword.text.toString()
+            val pass = binding.rePassword.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {

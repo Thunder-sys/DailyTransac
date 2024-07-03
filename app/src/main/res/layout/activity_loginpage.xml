@@ -8,69 +8,47 @@
     android:layout_height="match_parent"
     tools:context=".Saksh.loginpage">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:background="@drawable/shadow_202441"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-
-
-            android:layout_marginTop="20dp"
              />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/sign_google"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/pink"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="Countinue with Daily Transac"
-
-                android:textSize="15dp"/>
-        </LinearLayout>
-
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/yacc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
+            android:text="Create your account with\n Daily Transac"
+            android:gravity="center"
+            android:fontFamily="@font/font1"
+
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="__________________________OR___________________________"/>
+            android:textColor="@color/blue"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/white"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/img"/>
+
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/light_pink"
+            android:background="@drawable/white"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/baseline_email_24"
+            android:paddingLeft="20dp"
+            android:elevation="20dp"
             android:gravity="center"
             android:id="@+id/emailEt"
             android:hint="Email Address"
@@ -83,7 +61,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/light_pink"
+            android:background="@drawable/white"
+            android:drawableLeft="@drawable/lock"
+            android:textColor="@color/black"
+            android:paddingLeft="20dp"
+            android:elevation="20dp"
             android:ems="10"
             android:gravity="center"
             android:hint="Create Password"
@@ -95,66 +77,47 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/light_pink"
+            android:background="@drawable/white"
+            android:elevation="20dp"
             android:ems="10"
+            android:textColor="@color/black"
             android:gravity="center"
             android:hint="Confirm Password"
             android:inputType="textPassword" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Forgot password?"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginRight="30dp"
-            android:textColor="#C32D6E"
-            android:layout_marginTop="10dp"
-           android:gravity="right"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/sign"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:textColor="@color/white"
-            android:textSize="24dp"
-            android:textAllCaps="false"
-            android:background="@drawable/pink"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="40dp"
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/textView7"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:layout_marginLeft="70dp"
+
+                android:text="Create"
+                android:fontFamily="@font/font1"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="Don't have an account?"
-                />
+                android:textSize="24dp"
+                android:textAllCaps="false"
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="35dp"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:textColor="#AD1457"
-                android:text="Sign up" />
+                />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/sign"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/next"
+                android:background="@drawable/om"/>
+
+
+
         </LinearLayout>
+
+
+
+
 
 
     </LinearLayout>
