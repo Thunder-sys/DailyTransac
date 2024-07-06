@@ -58,15 +58,10 @@ class loginpage2 : AppCompatActivity() {
         )
 
 
-
-
-
-
-
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.login.setOnClickListener() {
-            val email = binding.reEmail.text.toString()
+       /*     val email = binding.reEmail.text.toString()
             val pass = binding.rePassword.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
@@ -81,7 +76,10 @@ class loginpage2 : AppCompatActivity() {
                 }
             } else {
                 Toast.makeText(this, "Password is not mataching", Toast.LENGTH_LONG).show()
-            }
+            }*/
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+
         }
         binding.create.setOnClickListener() {
             var jkl = Intent(this, loginpage::class.java)

@@ -15,8 +15,8 @@
         android:gravity="center"
         android:background="@drawable/shadow_202441"
         android:orientation="vertical">
+        />
 
-             />
 
         <TextView
             android:id="@+id/yacc"
@@ -38,7 +38,7 @@
             android:src="@drawable/img"/>
 
 
-        <EditText
+         <EditText
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginLeft="20dp"
@@ -52,6 +52,8 @@
             android:gravity="center"
             android:id="@+id/emailEt"
             android:hint="Email Address"
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/font1"
             android:textSize="20dp" />
 
         <EditText
@@ -66,6 +68,8 @@
             android:textColor="@color/black"
             android:paddingLeft="20dp"
             android:elevation="20dp"
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/font1"
             android:ems="10"
             android:gravity="center"
             android:hint="Create Password"
@@ -79,6 +83,8 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/white"
             android:elevation="20dp"
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/font1"
             android:ems="10"
             android:textColor="@color/black"
             android:gravity="center"
@@ -106,7 +112,7 @@
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/sign"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/next"
                 android:background="@drawable/om"/>

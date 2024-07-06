@@ -57,6 +57,7 @@
                android:id="@+id/re_email"
                android:gravity="center"
                android:textColorHint="@color/black"
+               android:fontFamily="@font/font1"
                android:textColor="@color/black"
                android:drawableLeft="@drawable/man"
                android:layout_marginLeft="10dp"
@@ -102,10 +103,11 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:ems="10"
-               android:hint="password"
+               android:hint="Password"
+               android:fontFamily="@font/font1"
                android:gravity="center"
                android:layout_marginRight="15dp"
-               android:textColorHint="@drawable/black"
+               android:textColorHint="@color/black"
                android:textColor="@color/black"
                android:inputType="textPassword"
                />
@@ -116,6 +118,8 @@
                android:layout_height="wrap_content"
                android:layout_marginLeft="20dp"
                android:layout_marginTop="10dp"
+               android:textStyle="bold"
+               android:textColor="#63062F"
                android:text="Showpassword"
                android:textSize="15dp"/>
 

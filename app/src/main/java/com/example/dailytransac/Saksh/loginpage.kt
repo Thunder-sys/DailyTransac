@@ -40,11 +40,6 @@ class loginpage : AppCompatActivity() {
             0f, 0f, widha, txta.textSize, intArrayOf(
                 Color.parseColor("#a6767c"),
                 Color.parseColor("#e63e62"),
-                Color.parseColor("#9c2542"),
-                Color.parseColor("#d3629f"),
-                Color.parseColor("#693036"),
-                Color.parseColor("#b34c59"),
-
                 ), null, Shader.TileMode.REPEAT
         )
 
@@ -83,3 +78,4 @@ class loginpage : AppCompatActivity() {
 
     }
 }
+
