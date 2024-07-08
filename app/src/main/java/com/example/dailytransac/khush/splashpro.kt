@@ -3,6 +3,9 @@ package com.example.dailytransac.khush
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,9 +19,12 @@ class splashpro : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_splashpro)
+
+        val backgroundImg: ImageView = findViewById(R.id.logo)
+        val topAnimation =AnimationUtils.loadAnimation(this,R.anim.slide)
+        backgroundImg.startAnimation(topAnimation)
         Handler().postDelayed({
-            var intent=Intent(this,loginpage2::class.java)
-            startActivity(intent)
+           startActivity(Intent(this,loginpage2::class.java))
             finish()
         },splashscreen.toLong()
 
