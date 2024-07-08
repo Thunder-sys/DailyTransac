@@ -25,16 +25,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Mainpage
-import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import java.time.format.DateTimeFormatter
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity(){
@@ -59,13 +57,20 @@ class MainActivity : AppCompatActivity(){
 
         calendarTextView = findViewById(R.id.updatedatelist)
 
-        dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+       val formatte=DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val mydatestrin="01/07/2022"
+        val initiadate= LocalDate.parse(mydatestrin,formatte)
+        val initda=initiadate.toEpochDay()
+        Log.d("Mus",""+initda)
+
         handler = Handler(Looper.getMainLooper())
         updateTimeRunnable = object : Runnable {
             override fun run() {
                 // Update TextView with current date
                 val currentDate = dateFormat.format(Date())
                 calendarTextView.text = currentDate
+//                Log.d("Mydatevalue","h"+(currentDate.toString().toInt()))
 
                 // Schedule the next update in 1 second
                 handler.postDelayed(this, 1000)

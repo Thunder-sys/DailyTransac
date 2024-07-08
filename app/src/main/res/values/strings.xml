@@ -8,5 +8,9 @@
         <item>Food</item>
         <item>Cloth</item>
     </string-array>
+    <string name="acc">
+
+        <u><b>Create</b></u>
+    </string>
 
 </resources>

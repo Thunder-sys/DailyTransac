@@ -34,9 +34,6 @@
             android:name=".kuna.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".khush.twitterpro"
-            android:exported="true" />
-        <activity
             android:name=".khush.splashpro"
             android:exported="true">
             <intent-filter>

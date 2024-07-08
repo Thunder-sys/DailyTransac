@@ -1,8 +1,12 @@
 package com.example.dailytransac.Saksh
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +30,20 @@ class loginpage : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLoginpageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //textgradient
+
+        var txta = findViewById<TextView>(R.id.yacc)
+        var penta = txta.paint
+        var widha = penta.measureText(txta.text.toString())
+        txta.paint.shader = LinearGradient(
+            0f, 0f, widha, txta.textSize, intArrayOf(
+                Color.parseColor("#a6767c"),
+                Color.parseColor("#e63e62"),
+                ), null, Shader.TileMode.REPEAT
+        )
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.sign.setOnClickListener(){
@@ -60,3 +78,4 @@ class loginpage : AppCompatActivity() {
 
     }
 }
+

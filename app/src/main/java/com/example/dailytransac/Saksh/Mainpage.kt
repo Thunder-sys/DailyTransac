@@ -1,6 +1,8 @@
 package com.example.dailytransac.Saksh
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -8,12 +10,22 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
+import com.example.dailytransac.khush.Budgetscreen
 
 class Mainpage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_mainpage)
+
+        var grap = findViewById<ImageButton>(R.id.imageButton)
+        grap.setOnClickListener(){
+            var intent =Intent(this,Budgetscreen::class.java)
+            startActivity(intent)
+        }
+
+
+
         var reco=findViewById<RecyclerView>(R.id.recy)
         var reco1=findViewById<RecyclerView>(R.id.recy1)
         var reco2=findViewById<RecyclerView>(R.id.recy2)

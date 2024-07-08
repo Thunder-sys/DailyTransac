@@ -40,10 +40,10 @@
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="40dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="350dp"
-        android:background="@drawable/sanwitchbutton" />
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="290dp"
+        android:background="@drawable/baseline_dehaze_24" />
 
     <LinearLayout
         android:layout_width="190dp"
@@ -86,7 +86,7 @@
         android:layout_height="40dp"
         android:background="@drawable/grey"
         android:layout_marginTop="180dp"
-        android:layout_marginLeft="240dp"
+        android:layout_marginLeft="235dp"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -109,7 +109,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_marginTop="240dp"
         android:layout_marginLeft="16dp"
@@ -130,8 +130,9 @@
                 android:gravity="center"
                 android:text="INCOME"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -140,7 +141,7 @@
                 android:gravity="center"
                 android:text="100000"
                 android:textColor="#F3F849"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -149,10 +150,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_marginTop="240dp"
-        android:layout_marginLeft="280dp"
+        android:layout_marginLeft="250dp"
         android:background="@drawable/pink"
         android:orientation="horizontal">
 
@@ -170,7 +171,7 @@
                 android:gravity="center"
                 android:text="EXPENSE"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/rev1"
@@ -180,7 +181,7 @@
                 android:gravity="center"
                 android:text="300000"
                 android:textColor="#F3F849"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -189,10 +190,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_marginTop="240dp"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="130dp"
         android:background="@drawable/pink"
         android:orientation="horizontal">
 
@@ -210,7 +211,7 @@
                 android:gravity="center"
                 android:text="REVENUE"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/exp1"
@@ -220,7 +221,7 @@
                 android:gravity="center"
                 android:text="400000"
                 android:textColor="#F3F849"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -268,7 +269,7 @@
         android:layout_height="40dp"
         android:background="@drawable/grey"
         android:layout_marginTop="330dp"
-        android:layout_marginLeft="240dp"
+        android:layout_marginLeft="235dp"
         android:orientation="horizontal">
 
         <TextView
@@ -289,7 +290,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="390dp"
@@ -310,7 +311,7 @@
                 android:gravity="center"
                 android:text="INCOME"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -321,7 +322,7 @@
                 android:gravity="center"
                 android:text="100000"
                 android:textColor="#F3F849"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -330,9 +331,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="130dp"
         android:layout_marginTop="390dp"
         android:background="@drawable/pink"
         android:orientation="horizontal">
@@ -351,7 +352,7 @@
                 android:gravity="center"
                 android:text="INCOME"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -362,17 +363,17 @@
                 android:gravity="center"
                 android:text="100000"
                 android:textColor="#F3F849"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_marginTop="390dp"
-        android:layout_marginLeft="280dp"
+        android:layout_marginLeft="250dp"
         android:background="@drawable/pink"
         android:orientation="horizontal">
 
@@ -390,7 +391,7 @@
                 android:gravity="center"
                 android:text="INCOME"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/textview2"
@@ -400,7 +401,7 @@
                 android:gravity="center"
                 android:text="100000"
                 android:textColor="#F3F849"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
