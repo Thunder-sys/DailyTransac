@@ -109,7 +109,6 @@
                android:layout_marginRight="15dp"
                android:textColorHint="@color/black"
                android:textColor="@color/black"
-               android:inputType="textPassword"
                />
        </LinearLayout>
            <CheckBox
@@ -150,6 +149,7 @@
                 android:fontFamily="@font/font1"
                 android:gravity="center"
                 android:layout_marginLeft="25dp"
+                android:id="@+id/login"
                 android:text="Sign in"
                 android:textColor="@color/black"
                 android:textSize="45dp" />
@@ -158,7 +158,6 @@
                 android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:background="@drawable/om"
-                android:id="@+id/login"
                 android:src="@drawable/next">
 
             </androidx.appcompat.widget.AppCompatImageButton>

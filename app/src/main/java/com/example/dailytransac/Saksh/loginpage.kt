@@ -1,12 +1,8 @@
 package com.example.dailytransac.Saksh
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.LinearGradient
-import android.graphics.Shader
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,26 +20,16 @@ import com.google.firebase.database.FirebaseDatabase
 class loginpage : AppCompatActivity() {
     lateinit var binding: ActivityLoginpageBinding
     lateinit var firebaseAuth:FirebaseAuth
-    lateinit var database: DatabaseReference
+    lateinit var Reference:DatabaseReference
+    init {
+
+        Reference = FirebaseDatabase.getInstance().getReference().child("User")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityLoginpageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //textgradient
-
-        var txta = findViewById<TextView>(R.id.yacc)
-        var penta = txta.paint
-        var widha = penta.measureText(txta.text.toString())
-        txta.paint.shader = LinearGradient(
-            0f, 0f, widha, txta.textSize, intArrayOf(
-                Color.parseColor("#a6767c"),
-                Color.parseColor("#e63e62"),
-                ), null, Shader.TileMode.REPEAT
-        )
-
-
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.sign.setOnClickListener(){
@@ -73,9 +59,9 @@ class loginpage : AppCompatActivity() {
         }
     }
     private fun addUsertoDatabase(email: String, uid: String) {
-        database = FirebaseDatabase.getInstance().getReference()
-        database.child("User").child(uid).setValue(User(email,uid))
-
+        val mysendt: MutableMap<String, Any> = HashMap()
+        mysendt["email"] = email
+        mysendt["uid"] = uid
+        Reference.child(uid).setValue(mysendt)
     }
 }
-

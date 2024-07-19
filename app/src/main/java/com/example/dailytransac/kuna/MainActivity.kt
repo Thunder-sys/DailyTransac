@@ -1,18 +1,13 @@
 package com.example.dailytransac.kuna
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Application
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Looper
 import android.os.Handler
+import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -20,20 +15,20 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Mainpage
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 import java.time.format.DateTimeFormatter
-import kotlin.math.log
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity(){
 
@@ -44,33 +39,59 @@ class MainActivity : AppCompatActivity(){
     lateinit var income:TextView
     lateinit var sand:ImageButton
     lateinit var updatebotton:Button
-    var totalMytkvl: Int = 0
     lateinit var calendarTextView:TextView
     lateinit var sumbit:Button
     private lateinit var handler: Handler
     private lateinit var dateFormat: SimpleDateFormat
     private lateinit var updateTimeRunnable: Runnable
+    private lateinit var firebaseReference: DatabaseReference
+    private lateinit var firebaseDatabase:FirebaseDatabase
+    lateinit var currentDate:String
+    private lateinit var valuefor:String
+    var totalMytkl:Int = 0
+    var itemselected:String = ""
+    var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
+
+    var uid = firebaseAuth.currentUser?.uid!!
+
+    init{
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        firebaseReference = firebaseDatabase.getReference().child("User").child(uid)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         calendarTextView = findViewById(R.id.updatedatelist)
+        entry = findViewById(R.id.entry1)
+        expences = findViewById(R.id.expences)
+        income = findViewById(R.id.income)
+        sumbit = findViewById(R.id.submit)
+        layout_list = findViewById(R.id.layout_list)
+        add_button = findViewById(R.id.add)
 
         dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-       val formatte=DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val mydatestrin="01/07/2022"
-        val initiadate= LocalDate.parse(mydatestrin,formatte)
-        val initda=initiadate.toEpochDay()
-        Log.d("Mus",""+initda)
+        val formatte=DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val finalDate = "30/12/2050"
+
 
         handler = Handler(Looper.getMainLooper())
         updateTimeRunnable = object : Runnable {
             override fun run() {
                 // Update TextView with current date
-                val currentDate = dateFormat.format(Date())
+                currentDate = "20/07/2024"
                 calendarTextView.text = currentDate
-//                Log.d("Mydatevalue","h"+(currentDate.toString().toInt()))
+                var dataStringm= currentDate.toString()
+
+                val initiadate= LocalDate.parse(finalDate,formatte)
+                val initda=initiadate.toEpochDay().toInt()
+                val initiadate2= LocalDate.parse(dataStringm,formatte)
+                val initda2=initiadate2.toEpochDay().toInt()
+                Log.d("Mus",""+initda)
+                valuefor = (initda - initda2).toString()
+
 
                 // Schedule the next update in 1 second
                 handler.postDelayed(this, 1000)
@@ -90,36 +111,86 @@ class MainActivity : AppCompatActivity(){
             var dhh = Intent(this, UpdateList::class.java)
             startActivity(dhh)
         }
-        layout_list = findViewById(R.id.Layout_list)
-        add_button = findViewById(R.id.add)
         addcard()
         add_button.setOnClickListener() {
             addcard()
         }
-        entry = findViewById(R.id.entry1)
-        expences = findViewById(R.id.expences)
-        income = findViewById(R.id.income)
-    }
+        sumbit.setOnClickListener(){
+            servedForTheServer()
+        }
 
-    //DynamicView Spinner
-    private fun setupspinner(spinner: Spinner) {
-        val adapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.Work,
-            android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+
+    }
+    private fun servedForTheServer() {
+        var sum = 0
+        for (i in 0 until layout_list.childCount) {
+            val view: View = layout_list.getChildAt(i)
+            val entry2: EditText = view.findViewById(R.id.entry2)
+            val work: EditText = view.findViewById(R.id.work)
+            val myvalie = entry2.text.toString()
+            val mycat = work.text.toString()
+
+            if (TextUtils.isEmpty(myvalie)) {
+                entry2.error = "Please Enter The Data"
+                return
+            } else if (TextUtils.isEmpty(mycat)) {
+                work.error = "Please Enter The Data"
+                return
+            }else{
+                sum += myvalie.toInt()
+                val mysendti: MutableMap<String, Any> = HashMap()
+                mysendti["entry2"] = myvalie
+                mysendti["work"] = mycat
+                mysendti["Spinner"] = itemselected
+                firebaseReference.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendti)
+            }
+        }
+        val myallsum = entry.text.toString()
+        val ik = myallsum.toInt()
+        expences.text = sum.toString()
+        val myallsav = ik - sum
+        income.text = myallsav.toString()
+
+        val allexper = sum.toString()
+        val allstru: MutableMap<String, Any> = HashMap()
+        allstru["entry"] = myallsum
+        allstru["Expenses"] = allexper
+        allstru["income"] = myallsav.toString()
+        allstru["datevalue"] = valuefor
+        allstru["mydateg"] = currentDate
+
+        firebaseReference.child(valuefor).updateChildren(allstru)
+            .addOnSuccessListener {
+                Toast.makeText(this@MainActivity, "Data Send Successfully", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this@MainActivity, "There Are Some Problem", Toast.LENGTH_SHORT).show()
+            }
     }
 
     //DynamicView
     private fun addcard() {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
-        val delete:ImageButton = view.findViewById(R.id.delete)
+        layout_list.addView(view)
         val entry2:EditText = view.findViewById(R.id.entry2)
-        val work:EditText = view.findViewById(R.id.work)
-        /*  var mytkvl=entry2.text.toString()
-        Log.d("Myco","u"+mytkvl);*/
+        val spinner:Spinner = view.findViewById(R.id.spinner)
+        var category = arrayOf("None","Food","Study","Cloths","Vehicle","Other")
+        val arrayAdp = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,category)
+        spinner.adapter = arrayAdp
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                itemselected = category[position].toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
         entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 val mytkvl: Int = try {
@@ -127,26 +198,28 @@ class MainActivity : AppCompatActivity(){
                 } catch (e: NumberFormatException) {
                     0
                 }
-                totalMytkvl += mytkvl
-                expences.text = totalMytkvl.toString()
+                totalMytkl += mytkvl
+                expences.text = totalMytkl.toString()
 
                 val entryValue: Int = try {
                     entry.text.toString().toInt()
                 } catch (e: NumberFormatException) {
                     0
                 }
-                val totalIncome = entryValue - totalMytkvl
+                val totalIncome = entryValue - totalMytkl
                 if (entryValue>totalIncome) income.setText("$totalIncome") else if(entryValue==totalIncome) income.setText("0") else income.setText("- $totalIncome")
             }
         }
-        val spinner:Spinner = view.findViewById(R.id.spinner)
-        setupspinner(spinner)
-        delete.setOnClickListener(){
-            layout_list.removeView(view)
-        }
-        layout_list.addView(view)
 
+        view.findViewById<ImageButton>(R.id.delete).setOnClickListener(){
+            removeCard(view)
+        }
     }
+
+    private fun removeCard(view: View) {
+        layout_list.removeView(view)
+    }
+
 
     //Calender = Date
     override fun onDestroy() {
