@@ -9,7 +9,7 @@
         android:layout_width="189dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/pink"
+        android:background="@drawable/next"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="10dp">
@@ -101,6 +101,5 @@
                 android:textColor="@color/white"
                 android:textSize="16dp" />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

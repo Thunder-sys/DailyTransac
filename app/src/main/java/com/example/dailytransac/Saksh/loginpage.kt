@@ -22,7 +22,6 @@ class loginpage : AppCompatActivity() {
     lateinit var firebaseAuth:FirebaseAuth
     lateinit var Reference:DatabaseReference
     init {
-
         Reference = FirebaseDatabase.getInstance().getReference().child("User")
     }
     override fun onCreate(savedInstanceState: Bundle?) {

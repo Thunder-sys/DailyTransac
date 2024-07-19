@@ -40,7 +40,6 @@ class loginpage2 : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
 
                     if (it.isSuccessful) {
-                        addUsertoDatabase(email,firebaseAuth.currentUser?.uid!!)
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
@@ -56,12 +55,5 @@ class loginpage2 : AppCompatActivity() {
             var jkl= Intent(this,loginpage::class.java)
             startActivity(jkl)
         }
-    }
-
-    private fun addUsertoDatabase(email: String, uid: String) {
-        val mysendt: MutableMap<String, Any> = HashMap()
-        mysendt["email"] = email
-        mysendt["uid"] = uid
-        Reference.child(uid).setValue(mysendt)
     }
 }

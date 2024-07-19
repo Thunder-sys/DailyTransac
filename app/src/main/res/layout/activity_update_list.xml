@@ -49,14 +49,14 @@
                     android:textStyle="bold" />
 
                 <ImageButton
+                    android:layout_width="33dp"
+                    android:layout_height="21dp"
                     android:id="@+id/secondActivityButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
                     android:layout_alignStart="@+id/textView"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="310dp"
+                    android:layout_marginStart="285dp"
                     android:layout_marginTop="42dp"
-                    android:background="@drawable/baseline_dehaze_24" />
+                    android:background="@drawable/sanwitchbutton" />
             </RelativeLayout>
         </LinearLayout>
 

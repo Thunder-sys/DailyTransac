@@ -69,19 +69,19 @@ class MainActivity : AppCompatActivity(){
         expences = findViewById(R.id.expences)
         income = findViewById(R.id.income)
         sumbit = findViewById(R.id.submit)
-        layout_list = findViewById(R.id.layout_list)
+        layout_list = findViewById(R.id.Layout_list)
         add_button = findViewById(R.id.add)
 
         dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val formatte=DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val finalDate = "30/12/2050"
+        val finalDate = "30/12/2100"
 
 
         handler = Handler(Looper.getMainLooper())
         updateTimeRunnable = object : Runnable {
             override fun run() {
                 // Update TextView with current date
-                currentDate = "20/07/2024"
+                currentDate = dateFormat.format(Date())
                 calendarTextView.text = currentDate
                 var dataStringm= currentDate.toString()
 
