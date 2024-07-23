@@ -14,9 +14,9 @@ class Adapter_reco(var recolist:ArrayList<Model_reco>):RecyclerView.Adapter<Adap
     }
 
     override fun onBindViewHolder(holder: Adapter_reco.MyviewHolder, position: Int) {
-        holder.expen1.setText(recolist[position].exr1)
-        holder.descri.setText(recolist[position].des)
-        holder.tpe.setText(recolist[position].type)
+        holder.expen1.setText(recolist[position].entry2)
+        holder.descri.setText(recolist[position].work)
+        holder.tpe.setText(recolist[position].Spinner)
     }
 
     override fun getItemCount(): Int {

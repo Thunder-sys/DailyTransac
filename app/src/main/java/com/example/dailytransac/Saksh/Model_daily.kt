@@ -1,4 +1,4 @@
 package com.example.dailytransac.Saksh
 
-data class Model_daily(var d:String,var r:String,var e:String,var i:String) {
+data class Model_daily(var mydateg:String,var entry:String,var Expenses:String,var income:String) {
 }

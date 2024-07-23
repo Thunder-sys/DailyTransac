@@ -31,20 +31,20 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
+
                 android:text="Revanue"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/exp"
-                android:layout_width="wrap_content"
+                android:id="@+id/entry"
+                android:layout_width="70dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:text="25000"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
@@ -57,21 +57,20 @@
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="Expence"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/reva"
-                android:layout_width="wrap_content"
+                android:id="@+id/Expenses"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:text="20000"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -83,20 +82,19 @@
 
             <TextView
                 android:id="@+id/textView10"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text="Income"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
             <TextView
-                android:id="@+id/inco"
-                android:layout_width="wrap_content"
+                android:id="@+id/income"
+                android:layout_width="70dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:text="5000"
                 android:textColor="@color/white"
                 android:textSize="16dp" />

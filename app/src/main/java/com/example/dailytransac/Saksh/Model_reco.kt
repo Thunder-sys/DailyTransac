@@ -1,5 +1,5 @@
 package com.example.dailytransac.Saksh
 
-data class Model_reco(var exr1:String,var des:String,var type:String){
+data class Model_reco(var entry2:String,var work:String,var Spinner:String){
 
 }

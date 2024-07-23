@@ -14,10 +14,10 @@ class Adapter_monthly(var monthlist:ArrayList<Model_monthly>):RecyclerView.Adapt
        }
 
     override fun onBindViewHolder(holder: Adapter_monthly.MyviewHolder, position: Int) {
-    holder.incz1.setText(monthlist[position].i1)
-     holder.date1.setText(monthlist[position].d1)
-     holder.expz1.setText(monthlist[position].e1)
-     holder.revz1.setText(monthlist[position].r1)
+    holder.incz1.setText(monthlist[position].income)
+     holder.date1.setText(monthlist[position].date)
+     holder.expz1.setText(monthlist[position].Expenses)
+     holder.revz1.setText(monthlist[position].entry)
       }
     override fun getItemCount(): Int {
      return monthlist.size

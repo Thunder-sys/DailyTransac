@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.Database.User
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.loginpage2
+import com.example.dailytransac.kuna.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class splashpro : AppCompatActivity() {
@@ -26,8 +27,8 @@ class splashpro : AppCompatActivity() {
         val topAnimation =AnimationUtils.loadAnimation(this,R.anim.slide)
         backgroundImg.startAnimation(topAnimation)
         Handler().postDelayed({
-           startActivity(Intent(this,loginpage2::class.java))
-            finish()
+                startActivity(Intent(this, loginpage2::class.java))
+                finish()
         },splashscreen.toLong()
 
         )

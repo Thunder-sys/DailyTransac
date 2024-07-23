@@ -14,13 +14,20 @@ class Adapter_daily(var dailylist:ArrayList<Model_daily>):RecyclerView.Adapter<A
     }
 
     override fun onBindViewHolder(holder: Adapter_daily.MyviewHolder, position: Int) {
-     holder.dat.setText(dailylist[position].d)
-     holder.ex.setText(dailylist[position].e)
-     holder.re.setText(dailylist[position].r)
-     holder.inc.setText(dailylist[position].i)    }
+        holder.dat.setText(dailylist[position].mydateg)
+        holder.re.setText(dailylist[position].entry)
+        holder.ex.setText(dailylist[position].Expenses)
+        holder.inc.setText(dailylist[position].income)
+    }
 
     override fun getItemCount(): Int {
-     return dailylist.size   }
+        return if (dailylist.size > 30) {
+            30
+        } else {
+            dailylist.size
+        }
+    }
+
     inner class MyviewHolder(itemview: View):RecyclerView.ViewHolder(itemview){
         lateinit var dat:TextView
         lateinit var ex:TextView
@@ -29,9 +36,9 @@ class Adapter_daily(var dailylist:ArrayList<Model_daily>):RecyclerView.Adapter<A
 
         init {
             dat=itemview.findViewById(R.id.dinak)
-            ex=itemview.findViewById(R.id.exp)
-            re=itemview.findViewById(R.id.reva)
-            inc=itemview.findViewById(R.id.inco)
+            re=itemview.findViewById(R.id.entry)
+            ex=itemview.findViewById(R.id.Expenses)
+            inc=itemview.findViewById(R.id.income)
         }
     }
 }

@@ -22,10 +22,10 @@ class Adapter_mainpage(var datatransac:ArrayList<Model_mainpage>):RecyclerView.A
     override fun onBindViewHolder(holder: Adapter_mainpage.MyviewHolder, position: Int) {
         var parentItem = datatransac[position]
 
-        holder.date.setText(parentItem.date)
-        holder.expence.setText(parentItem.eprice)
-        holder.revanue.setText(parentItem.rprice)
-        holder.income.setText(parentItem.iprice)
+        holder.date.setText(parentItem.mydateg)
+        holder.expence.setText(parentItem.Expenses)
+        holder.revanue.setText(parentItem.entry)
+        holder.income.setText(parentItem.income)
 
         holder.childrecycleview.setHasFixedSize(true)
         holder.childrecycleview.layoutManager = GridLayoutManager(holder.itemView.context,1)
