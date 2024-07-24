@@ -1,10 +1,16 @@
+package com.example.dailytransac.Saksh
+
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dailytransac.Database.monthly_data
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Adapter_daily
 import com.example.dailytransac.Saksh.Adapter_mainpage
@@ -19,16 +25,27 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 class Mainpage : AppCompatActivity() {
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var firebase_for_daily: DatabaseReference
     private lateinit var firebase_for_month: DatabaseReference
     private lateinit var firebase_for_dailyfull_data: DatabaseReference
+    private lateinit var firebaseRefrence: DatabaseReference
 
     private lateinit var reco1: RecyclerView
     private lateinit var reco2: RecyclerView
     private lateinit var reco3: RecyclerView
+
+    private lateinit var handler: Handler
+    private lateinit var dateFormat: SimpleDateFormat
+    private lateinit var updateTimeRunnable: Runnable
+    lateinit var currentDate:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +55,29 @@ class Mainpage : AppCompatActivity() {
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebase_for_daily = firebaseDatabase.getReference("User").child(uid).child("data")
-        firebase_for_month = firebaseDatabase.getReference("User").child(uid).child("monthly_data")
+        firebase_for_month = firebaseDatabase.getReference("User").child(uid).child("data")
+        firebaseRefrence = firebaseDatabase.getReference().child("User").child(uid).child("year")
 
         reco1 = findViewById(R.id.recy1)
         reco2 = findViewById(R.id.recy2)
         reco3 = findViewById(R.id.recy)
+
+        dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+
+        handler = Handler(Looper.getMainLooper())
+        updateTimeRunnable = object : Runnable {
+            override fun run() {
+                // Update TextView with current date
+                currentDate = dateFormat.format(Date())
+
+                // Schedule the next update in 1 second
+                handler.postDelayed(this, 1000)
+            }
+        }
+        // Start updating the TextView
+        handler.post(updateTimeRunnable)
+
 
         var grap = findViewById<ImageButton>(R.id.imageButton)
         grap.setOnClickListener() {
@@ -113,40 +148,43 @@ class Mainpage : AppCompatActivity() {
         reco2.adapter = adap
 
         firebase_for_month.addListenerForSingleValueEvent(object : ValueEventListener {
-            var monthlyDataMap = HashMap<String, Model_monthly>()
+
             var totalEntry = 0
+            var totalExpenses = 0
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (mype in snapshot.children) {
                     var date = mype.child("mydateg").getValue().toString()
                     var short_date = date.substring(3, 5)
-                    var entry = mype.child("entry").getValue().toString().toInt()
-                    var expenses = mype.child("Expenses").getValue().toString().toInt()
+                    var short_year = date.substring(6, 10)
+                    var entry = mype.child("entry").getValue().toString()
+                    var expenses = mype.child("Expenses").getValue().toString()
 
-                    if (monthlyDataMap.containsKey(short_date)) {
-                        val existingMonthData = monthlyDataMap[short_date]!!
-                        existingMonthData.totalEntry += entry
-                        existingMonthData.totalExpenses += expenses
-                    } else {
-                        monthlyDataMap[short_date] = Model_monthly(short_date, "$entry", "$expenses")
-                    }
+                    totalEntry+=entry.toInt()
+                    totalExpenses+=expenses.toInt()
+
+                    var child_month_data = monthly_data("$totalEntry","$totalExpenses",short_date)
+                    firebaseRefrence.child("$short_year").child("month").child("$short_date").setValue(child_month_data)
+
+
+
                 }
 
-                listofmonth.addAll(monthlyDataMap.values)
                 adap.notifyDataSetChanged()
 
-                // Save monthly data to Firebase
-                for ((key, value) in monthlyDataMap) {
-                    val monthNode = firebase_for_month.child("User").child(uid).child("manthdata")
-                    monthNode.child("mydateg").setValue(value.monthName)
-                    monthNode.child("entry").setValue(value.totalEntry)
-                    monthNode.child("Expenses").setValue(value.totalExpenses)
-                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@Mainpage, "There Are some error", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Remove callbacks to prevent memory leaks
+        handler.removeCallbacks(updateTimeRunnable)
     }
 }
