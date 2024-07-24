@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -165,7 +166,15 @@ class Mainpage : AppCompatActivity() {
 
                     var child_month_data = monthly_data("$totalEntry","$totalExpenses",short_date)
                     firebaseRefrence.child("$short_year").child("month").child("$short_date").setValue(child_month_data)
+                    var totalentry = mype.child("totalEntry").getValue().toString().toInt()
+                    var totalexpenses = mype.child("totalExpenses").getValue().toString().toInt()
 
+
+                    if (totalentry == 0 && totalexpenses == 0) {
+                        totalEntry = totalentry
+
+                        totalExpenses = totalexpenses
+                    }
 
 
                 }

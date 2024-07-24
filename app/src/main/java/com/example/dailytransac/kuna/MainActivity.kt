@@ -21,8 +21,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.Mainpage
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var dateFormat: SimpleDateFormat
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseReference: DatabaseReference
+    private lateinit var firebaseRefer: DatabaseReference
     private lateinit var firebaseDatabase:FirebaseDatabase
     lateinit var currentDate:String
     private lateinit var valuefor:String
@@ -57,6 +61,7 @@ class MainActivity : AppCompatActivity(){
     init{
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseReference = firebaseDatabase.getReference().child("User").child(uid).child("data")
+        firebaseRefer = firebaseDatabase.getReference().child("User").child(uid).child("data")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +86,7 @@ class MainActivity : AppCompatActivity(){
         updateTimeRunnable = object : Runnable {
             override fun run() {
                 // Update TextView with current date
-                currentDate = dateFormat.format(Date())
+                currentDate = dateFormat.format(data())
                 calendarTextView.text = currentDate
                 var dataStringm= currentDate.toString()
 
@@ -123,50 +128,140 @@ class MainActivity : AppCompatActivity(){
 
     }
     private fun servedForTheServer() {
-        var sum = 0
-        for (i in 0 until layout_list.childCount) {
-            val view: View = layout_list.getChildAt(i)
-            val entry2: EditText = view.findViewById(R.id.entry2)
-            val work: EditText = view.findViewById(R.id.work)
-            val myvalie = entry2.text.toString()
-            val mycat = work.text.toString()
+        firebaseRefer.limitToFirst(1).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
 
-            if (TextUtils.isEmpty(myvalie)) {
-                entry2.error = "Please Enter The Data"
-                return
-            } else if (TextUtils.isEmpty(mycat)) {
-                work.error = "Please Enter The Data"
-                return
-            }else{
-                sum += myvalie.toInt()
-                val mysendti: MutableMap<String, Any> = HashMap()
-                mysendti["entry2"] = myvalie
-                mysendti["work"] = mycat
-                mysendti["Spinner"] = itemselected
-                firebaseReference.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendti)
-            }
-        }
-        val myallsum = entry.text.toString()
-        val ik = myallsum.toInt()
-        expences.text = sum.toString()
-        val myallsav = ik - sum
-        income.text = myallsav.toString()
+                for (yut in snapshot.children) {
+                    var dateg = yut.child("mydateg").getValue().toString()
+                    var dateop = dateg.substring(3, 5)
+                    var datop = currentDate.substring(3, 5)
+                    if (dateop != datop) {
+                        var sum = 0
+                        for (i in 0 until layout_list.childCount) {
+                            val view: View = layout_list.getChildAt(i)
+                            val entry2: EditText = view.findViewById(R.id.entry2)
+                            val work: EditText = view.findViewById(R.id.work)
+                            val myvalie = entry2.text.toString()
+                            val mycat = work.text.toString()
 
-        val allexper = sum.toString()
-        val allstru: MutableMap<String, Any> = HashMap()
-        allstru["entry"] = myallsum
-        allstru["Expenses"] = allexper
-        allstru["income"] = myallsav.toString()
-        allstru["datevalue"] = valuefor
-        allstru["mydateg"] = currentDate
+                            if (TextUtils.isEmpty(myvalie)) {
+                                entry2.error = "Please Enter The Data"
+                                return
+                            } else if (TextUtils.isEmpty(mycat)) {
+                                work.error = "Please Enter The Data"
+                                return
+                            } else {
+                                sum += myvalie.toInt()
+                                val mysendti: MutableMap<String, Any> = HashMap()
+                                mysendti["entry2"] = myvalie
+                                mysendti["work"] = mycat
+                                mysendti["Spinner"] = itemselected
+                                firebaseReference.child(valuefor).child("dateri")
+                                    .child("Myfirstdata$i")
+                                    .setValue(mysendti)
+                            }
+                        }
+                        val myallsum = entry.text.toString()
+                        val ik = myallsum.toInt()
+                        expences.text = sum.toString()
+                        val myallsav = ik - sum
+                        income.text = myallsav.toString()
 
-        firebaseReference.child(valuefor).updateChildren(allstru)
-            .addOnSuccessListener {
-                Toast.makeText(this@MainActivity, "Data Send Successfully", Toast.LENGTH_SHORT).show()
+                        val allexper = sum.toString()
+                        val allstru: MutableMap<String, Any> = HashMap()
+                        allstru["entry"] = myallsum
+                        allstru["Expenses"] = allexper
+                        allstru["income"] = myallsav.toString()
+                        allstru["datevalue"] = valuefor
+                        allstru["mydateg"] = currentDate
+                        allstru["totalEntry"] = 0
+                        allstru["totalExpenses"] = 0
+
+                        firebaseReference.child(valuefor).updateChildren(allstru)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Data Send Successfully",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "There Are Some Problem",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                    } else {
+                        var sum = 0
+                        for (i in 0 until layout_list.childCount) {
+                            val view: View = layout_list.getChildAt(i)
+                            val entry2: EditText = view.findViewById(R.id.entry2)
+                            val work: EditText = view.findViewById(R.id.work)
+                            val myvalie = entry2.text.toString()
+                            val mycat = work.text.toString()
+
+                            if (TextUtils.isEmpty(myvalie)) {
+                                entry2.error = "Please Enter The Data"
+                                return
+                            } else if (TextUtils.isEmpty(mycat)) {
+                                work.error = "Please Enter The Data"
+                                return
+                            } else {
+                                sum += myvalie.toInt()
+                                val mysendti: MutableMap<String, Any> = HashMap()
+                                mysendti["entry2"] = myvalie
+                                mysendti["work"] = mycat
+                                mysendti["Spinner"] = itemselected
+                                firebaseReference.child(valuefor).child("dateri")
+                                    .child("Myfirstdata$i")
+                                    .setValue(mysendti)
+                            }
+                        }
+                        val myallsum = entry.text.toString()
+                        val ik = myallsum.toInt()
+                        expences.text = sum.toString()
+                        val myallsav = ik - sum
+                        income.text = myallsav.toString()
+
+                        val allexper = sum.toString()
+                        val allstru: MutableMap<String, Any> = HashMap()
+                        allstru["entry"] = myallsum
+                        allstru["Expenses"] = allexper
+                        allstru["income"] = myallsav.toString()
+                        allstru["datevalue"] = valuefor
+                        allstru["mydateg"] = currentDate
+                        allstru["totalEntry"] = 2
+                        allstru["totalExpenses"] = 2
+
+                        firebaseReference.child(valuefor).updateChildren(allstru)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Data Send Successfully",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "There Are Some Problem",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                    }
+                }
+
             }
-            .addOnFailureListener {
-                Toast.makeText(this@MainActivity, "There Are Some Problem", Toast.LENGTH_SHORT).show()
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
             }
+        })
     }
 
     //DynamicView
