@@ -38,6 +38,7 @@ class Mainpage : AppCompatActivity() {
     private lateinit var firebase_for_month: DatabaseReference
     private lateinit var firebase_for_dailyfull_data: DatabaseReference
     private lateinit var firebaseRefrence: DatabaseReference
+    private lateinit var firebaseRefrence1: DatabaseReference
 
     private lateinit var reco1: RecyclerView
     private lateinit var reco2: RecyclerView
@@ -166,19 +167,17 @@ class Mainpage : AppCompatActivity() {
 
                     var child_month_data = monthly_data("$totalEntry","$totalExpenses",short_date)
                     firebaseRefrence.child("$short_year").child("month").child("$short_date").setValue(child_month_data)
+                    val allstruu: MutableMap<String, Any> = HashMap()
+                    allstruu["yearop"] = short_year
+                    firebaseRefrence.child("$short_year").updateChildren(allstruu)
                     var totalentry = mype.child("totalEntry").getValue().toString().toInt()
                     var totalexpenses = mype.child("totalExpenses").getValue().toString().toInt()
 
-
                     if (totalentry == 0 && totalexpenses == 0) {
                         totalEntry = totalentry
-
                         totalExpenses = totalexpenses
                     }
-
-
                 }
-
                 adap.notifyDataSetChanged()
 
 
@@ -188,6 +187,58 @@ class Mainpage : AppCompatActivity() {
                 Toast.makeText(this@Mainpage, "There Are some error", Toast.LENGTH_SHORT).show()
             }
         })
+        firebaseRefrence.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(apidata in snapshot.children){
+                    var Year = apidata.child("yearop").getValue().toString()
+
+                    firebaseRefrence1 = firebaseDatabase.getReference("User").child(uid).child("year").child("$Year").child("month")
+
+                    firebaseRefrence1.addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onDataChange(datasnapshot: DataSnapshot) {
+                            for(open in datasnapshot.children){
+                                var totalmonth = open.child("currentmonth").getValue().toString()
+                                var Totalentry = open.child("totalentry").getValue().toString()
+                                var Totalexpenses = open.child("totalExpenses").getValue().toString()
+
+                                var totalweop = Totalentry.toInt()
+                                var totalweo = Totalexpenses.toInt()
+
+                                var Totalincome = (totalweop - totalweo).toString()
+
+                                when(totalmonth){
+                                    "01" -> listofmonth.add(Model_monthly("Janaury",Totalentry,Totalexpenses,Totalincome))
+                                    "02" -> listofmonth.add(Model_monthly("Febrary",Totalentry,Totalexpenses,Totalincome))
+                                    "03" -> listofmonth.add(Model_monthly("March",Totalentry,Totalexpenses,Totalincome))
+                                    "04" -> listofmonth.add(Model_monthly("April",Totalentry,Totalexpenses,Totalincome))
+                                    "05" -> listofmonth.add(Model_monthly("May",Totalentry,Totalexpenses,Totalincome))
+                                    "06" -> listofmonth.add(Model_monthly("June",Totalentry,Totalexpenses,Totalincome))
+                                    "07" -> listofmonth.add(Model_monthly("July",Totalentry,Totalexpenses,Totalincome))
+                                    "08" -> listofmonth.add(Model_monthly("August",Totalentry,Totalexpenses,Totalincome))
+                                    "09" -> listofmonth.add(Model_monthly("September",Totalentry,Totalexpenses,Totalincome))
+                                    "10" -> listofmonth.add(Model_monthly("October",Totalentry,Totalexpenses,Totalincome))
+                                    "11" -> listofmonth.add(Model_monthly("November",Totalentry,Totalexpenses,Totalincome))
+                                    "12" -> listofmonth.add(Model_monthly("December",Totalentry,Totalexpenses,Totalincome))
+
+                                }
+
+                            }
+                            adap.notifyDataSetChanged()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                }
+                adap.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
     }
 
     override fun onDestroy() {

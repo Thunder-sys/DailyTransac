@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(){
         updateTimeRunnable = object : Runnable {
             override fun run() {
                 // Update TextView with current date
-                currentDate = dateFormat.format(data())
+                currentDate = dateFormat.format(Date())
                 calendarTextView.text = currentDate
                 var dataStringm= currentDate.toString()
 
