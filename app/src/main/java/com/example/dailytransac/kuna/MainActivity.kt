@@ -45,15 +45,14 @@ class MainActivity : AppCompatActivity(){
     lateinit var calendarTextView:TextView
     lateinit var sumbit:Button
     private lateinit var handler: Handler
+    lateinit var currentDate:String
     private lateinit var dateFormat: SimpleDateFormat
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseReference: DatabaseReference
     private lateinit var firebaseRefer: DatabaseReference
     private lateinit var firebaseDatabase:FirebaseDatabase
-    lateinit var currentDate:String
     private lateinit var valuefor:String
     var totalMytkl:Int = 0
-    var itemselected:String = ""
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
 
     var uid = firebaseAuth.currentUser?.uid!!
@@ -80,7 +79,6 @@ class MainActivity : AppCompatActivity(){
         dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val formatte=DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val finalDate = "30/12/2100"
-
 
         handler = Handler(Looper.getMainLooper())
         updateTimeRunnable = object : Runnable {
@@ -109,7 +107,7 @@ class MainActivity : AppCompatActivity(){
         sand = findViewById(R.id.secondActivityButton)
         updatebotton = findViewById(R.id.updatebutton)
         sand.setOnClickListener() {
-            var dhh = Intent(this, Mainpage::class.java)
+            var dhh = Intent(this, datasplash::class.java)
             dhh.putExtra("uid","$uid")
             startActivity(dhh)
         }
@@ -130,7 +128,6 @@ class MainActivity : AppCompatActivity(){
     private fun servedForTheServer() {
         firebaseRefer.limitToFirst(1).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
                 for (yut in snapshot.children) {
                     var dateg = yut.child("mydateg").getValue().toString()
                     var dateop = dateg.substring(3, 5)
@@ -141,8 +138,10 @@ class MainActivity : AppCompatActivity(){
                             val view: View = layout_list.getChildAt(i)
                             val entry2: EditText = view.findViewById(R.id.entry2)
                             val work: EditText = view.findViewById(R.id.work)
+                            val spinnerresult: TextView = view.findViewById(R.id.spinnervalue)
                             val myvalie = entry2.text.toString()
                             val mycat = work.text.toString()
+                            var myspin = spinnerresult.text.toString()
 
                             if (TextUtils.isEmpty(myvalie)) {
                                 entry2.error = "Please Enter The Data"
@@ -155,7 +154,7 @@ class MainActivity : AppCompatActivity(){
                                 val mysendti: MutableMap<String, Any> = HashMap()
                                 mysendti["entry2"] = myvalie
                                 mysendti["work"] = mycat
-                                mysendti["Spinner"] = itemselected
+                                mysendti["Spinner"] = myspin
                                 firebaseReference.child(valuefor).child("dateri")
                                     .child("Myfirstdata$i")
                                     .setValue(mysendti)
@@ -200,8 +199,10 @@ class MainActivity : AppCompatActivity(){
                             val view: View = layout_list.getChildAt(i)
                             val entry2: EditText = view.findViewById(R.id.entry2)
                             val work: EditText = view.findViewById(R.id.work)
+                            val spinnerresult: TextView = view.findViewById(R.id.spinnervalue)
                             val myvalie = entry2.text.toString()
                             val mycat = work.text.toString()
+                            var myspin = spinnerresult.text.toString()
 
                             if (TextUtils.isEmpty(myvalie)) {
                                 entry2.error = "Please Enter The Data"
@@ -214,7 +215,7 @@ class MainActivity : AppCompatActivity(){
                                 val mysendti: MutableMap<String, Any> = HashMap()
                                 mysendti["entry2"] = myvalie
                                 mysendti["work"] = mycat
-                                mysendti["Spinner"] = itemselected
+                                mysendti["Spinner"] = myspin
                                 firebaseReference.child(valuefor).child("dateri")
                                     .child("Myfirstdata$i")
                                     .setValue(mysendti)
@@ -270,6 +271,7 @@ class MainActivity : AppCompatActivity(){
         layout_list.addView(view)
         val entry2:EditText = view.findViewById(R.id.entry2)
         val spinner:Spinner = view.findViewById(R.id.spinner)
+        val spinnerresult:TextView= view.findViewById(R.id.spinnervalue)
         var category = arrayOf("None","Food","Study","Cloths","Vehicle","Other")
         val arrayAdp = ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,category)
         spinner.adapter = arrayAdp
@@ -280,7 +282,7 @@ class MainActivity : AppCompatActivity(){
                 position: Int,
                 id: Long
             ) {
-                itemselected = category[position].toString()
+                spinnerresult.text = category[position].toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

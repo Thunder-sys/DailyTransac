@@ -81,6 +81,10 @@
             </androidx.appcompat.widget.AppCompatSpinner>
 
         </FrameLayout>
+        <TextView
+            android:layout_width="1dp"
+            android:id="@+id/spinnervalue"
+            android:layout_height="1dp"/>
 
     </LinearLayout>
 

@@ -271,15 +271,15 @@
                             android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/undo"
-                            android:layout_width="69dp"
+                            android:id="@+id/Data"
+                            android:layout_width="109dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="63dp"
+                            android:layout_marginLeft="23dp"
                             android:background="@drawable/black"
                             android:gravity="center"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:text="Undo"
+                            android:text="Add Item"
                             android:textColor="@color/white"
                             android:textSize="16dp"
                             android:textStyle="bold" />

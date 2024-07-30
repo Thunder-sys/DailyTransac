@@ -13,6 +13,7 @@ import com.example.dailytransac.R
 import com.example.dailytransac.databinding.ActivityLoginpage2Binding
 import com.example.dailytransac.databinding.ActivityLoginpageBinding
 import com.example.dailytransac.kuna.MainActivity
+import com.example.dailytransac.kuna.loginsplash
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -41,7 +42,9 @@ class loginpage : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener{
                         if (it.isSuccessful){
                             addUsertoDatabase(email,firebaseAuth.currentUser?.uid!!)
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, loginsplash::class.java)
+                            intent.putExtra("Email1",email)
+                            intent.putExtra("Pass1",pass)
                             startActivity(intent)
                         }else{
                             Toast.makeText(this,it.exception.toString(),Toast.LENGTH_LONG).show()

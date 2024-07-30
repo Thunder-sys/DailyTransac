@@ -1,9 +1,13 @@
 package com.example.dailytransac.Saksh
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +36,30 @@ class loginpage2 : AppCompatActivity() {
         setContentView(binding.root)
         firebaseAuth = FirebaseAuth.getInstance()
 
+        val sharef:SharedPreferences = getSharedPreferences("namedemo", MODE_PRIVATE)
+
+
+        val s1:String? =sharef.getString("Email","")
+        val s2:String? =sharef.getString("Pass","")
+
+        var s11 = s1.toString()
+        var s22 = s2.toString()
+
+        if (s11.isEmpty() && s22.isEmpty()){
+            Toast.makeText(this,"Enter your Email or Password",Toast.LENGTH_LONG).show()
+        }
+        else{
+            binding.reEmail.setText("$s11")
+            binding.editpas.setText("$s22")
+            val email1 = binding.reEmail.text.toString()
+            val pass1 = binding.editpas.text.toString()
+            firebaseAuth.signInWithEmailAndPassword(email1,pass1).addOnCompleteListener {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
         binding.login.setOnClickListener(){
             val email = binding.reEmail.text.toString()
             val pass = binding.editpas.text.toString()
@@ -40,8 +68,14 @@ class loginpage2 : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
 
                     if (it.isSuccessful) {
+                        val editor:SharedPreferences.Editor = sharef.edit()
+                        editor.putString("Email",email)
+                        editor.putString("Pass",pass)
+                        editor.commit()
+
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
                     }
