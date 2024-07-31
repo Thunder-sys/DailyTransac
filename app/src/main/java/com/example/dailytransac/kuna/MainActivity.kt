@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var dateFormat: SimpleDateFormat
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseReference: DatabaseReference
+    private lateinit var firebaseReference1: DatabaseReference
     private lateinit var firebaseRefer: DatabaseReference
     private lateinit var firebaseDatabase:FirebaseDatabase
     private lateinit var valuefor:String
@@ -260,7 +261,7 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
         })
     }
