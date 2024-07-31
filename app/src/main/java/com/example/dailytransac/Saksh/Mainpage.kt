@@ -53,7 +53,7 @@ class Mainpage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainpage)
         var bundle: Bundle? = intent.extras
-        var uid = bundle?.getString("uid") ?: ""
+        var uid = bundle?.getString("uid1") ?: ""
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebase_for_daily = firebaseDatabase.getReference("User").child(uid).child("data")
@@ -149,44 +149,6 @@ class Mainpage : AppCompatActivity() {
         var adap = Adapter_monthly(listofmonth)
         reco2.adapter = adap
 
-        firebase_for_month.addListenerForSingleValueEvent(object : ValueEventListener {
-
-            var totalEntry = 0
-            var totalExpenses = 0
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (mype in snapshot.children) {
-                    var date = mype.child("mydateg").getValue().toString()
-                    var short_date = date.substring(3, 5)
-                    var short_year = date.substring(6, 10)
-                    var entry = mype.child("entry").getValue().toString()
-                    var expenses = mype.child("Expenses").getValue().toString()
-
-                    totalEntry+=entry.toInt()
-                    totalExpenses+=expenses.toInt()
-
-                    var child_month_data = monthly_data("$totalEntry","$totalExpenses",short_date)
-                    firebaseRefrence.child("$short_year").child("month").child("$short_date").setValue(child_month_data)
-                    val allstruu: MutableMap<String, Any> = HashMap()
-                    allstruu["yearop"] = short_year
-                    firebaseRefrence.child("$short_year").updateChildren(allstruu)
-                    var totalentry = mype.child("totalEntry").getValue().toString().toInt()
-                    var totalexpenses = mype.child("totalExpenses").getValue().toString().toInt()
-
-                    if (totalentry == 0 && totalexpenses == 0) {
-                        totalEntry = totalentry
-                        totalExpenses = totalexpenses
-                    }
-                }
-                adap.notifyDataSetChanged()
-
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@Mainpage, "There Are some error", Toast.LENGTH_SHORT).show()
-            }
-        })
         firebaseRefrence.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(apidata in snapshot.children){
