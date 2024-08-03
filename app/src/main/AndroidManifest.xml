@@ -13,6 +13,12 @@
         android:theme="@style/Theme.DailyTransac"
         tools:targetApi="31">
         <activity
+            android:name=".kuna.simmer_effect"
+            android:exported="false" />
+        <activity
+            android:name=".kuna.MainActivity2"
+            android:exported="false" />
+        <activity
             android:name=".dataset"
             android:exported="false" />
         <activity

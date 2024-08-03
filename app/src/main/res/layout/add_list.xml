@@ -79,6 +79,10 @@
                 android:layout_height="32dp">
 
             </androidx.appcompat.widget.AppCompatSpinner>
+            <TextView
+                android:layout_width="1dp"
+                android:id="@+id/spinnershow"
+                android:layout_height="1dp"/>
 
         </FrameLayout>
 
