@@ -16,7 +16,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:padding="10dp"
-        android:background="@drawable/pink"
+        android:background="@drawable/gredient_light_green"
         android:orientation="vertical">
 
         <TextView
@@ -102,7 +102,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/pink"
+            android:background="@drawable/gradient_green"
             android:layout_height="wrap_content"
             android:orientation="vertical">
         <LinearLayout
@@ -116,12 +116,14 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Expence"
+                android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:text="Description" />
@@ -131,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:text="Type" />
         </LinearLayout>

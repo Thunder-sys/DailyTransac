@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_connector"
+    app:startDestination="@id/home2">
+
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.dailytransac.frame.home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home2_to_updatelist"
+            app:destination="@id/updatelist" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatelist"
+        android:name="com.example.dailytransac.frame.updatelist"
+        android:label="fragment_updatelist"
+        tools:layout="@layout/fragment_updatelist">
+        <action
+            android:id="@+id/action_updatelist_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+</navigation>

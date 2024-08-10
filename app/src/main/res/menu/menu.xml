@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+    <item
+        android:id="@+id/transaction"
+        android:icon="@drawable/transaction"
+        android:title="Transaction"/>
+    <item
+        android:id="@+id/analysis"
+        android:icon="@drawable/market_research"
+        android:title="Analysis"/>
+    <item
+        android:id="@+id/graph"
+        android:icon="@drawable/piechart"
+        android:title="Graph"/>
+
+</menu>

@@ -5,4 +5,10 @@
     <color name="pink">#972675</color>
     <color name="blue">#459DE4</color>
     <color name="red">#FF0000</color>
+    <color name="light_blue">#03CFAD</color>
+    <color name="sea_blue">#2CF195</color>
+    <color name="sea">#99eff6</color>
+    <color name="light_green">#026857</color>
+    <color name="green">#02866A</color>
+    <color name="dark_green">#004335</color>
 </resources>
