@@ -3,20 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kuna.MainActivity">
+    tools:context=".frame.updatelist">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="40dp"
-        android:layout_height="wrap_content">
+        android:background="@color/light_blue"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/lineartext"
-            android:background="@drawable/backgroundpng"
+            android:background="@drawable/backdround"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -27,11 +26,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="18dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="30dp"
                     android:text="DAILY"
-                    android:textColor="#FF0000"
-                    android:textSize="30dp"
+                    android:textColor="@color/dark_green"
+                    android:textSize="50dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -44,58 +43,115 @@
                     android:layout_marginTop="2dp"
                     android:text="TRANSAC"
                     android:layout_marginBottom="25dp"
-                    android:textColor="#000000"
-                    android:textSize="30dp"
+                    android:textColor="@color/light_blue"
+                    android:textSize="50dp"
                     android:textStyle="bold" />
 
-                <ImageButton
-                    android:layout_width="33dp"
-                    android:layout_height="21dp"
-                    android:id="@+id/secondActivityButton"
-                    android:layout_alignStart="@+id/textView"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="285dp"
-                    android:layout_marginTop="42dp"
-                    android:background="@drawable/sanwitchbutton" />
             </RelativeLayout>
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="270dp"
+            android:layout_height="48dp"
             android:layout_below="@+id/lineartext"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="35dp"
+                android:background="@color/sea"
+                android:textStyle="bold"
+                android:paddingLeft="26dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/black"
+                android:layout_height="45dp"
+                android:text="UPLOAD DATA" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/linearLayout"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:layout_marginEnd="0dp"
-            android:layout_height="wrap_content">
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp">
+
             <LinearLayout
-
-                android:layout_width="338dp"
-                android:layout_height="35dp"
-                android:background="@drawable/grey"
-                android:gravity="center">
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UPLOAD"
-                    android:textColor="#FF0000"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
+                    android:text="Expenses"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/dark_green"
+                    android:layout_height="wrap_content"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="DATA"
-                    android:textColor="@color/black"
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="₹"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="0"
+                        android:id="@+id/update_Expenses"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="40dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Saving"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/dark_green"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="₹"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="0"
+                        android:id="@+id/update_saving"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -105,14 +161,15 @@
             android:layout_below="@+id/linearLayout"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="34dp"
-            android:layout_marginBottom="180dp"
+            android:layout_marginBottom="150dp"
+            android:layout_marginTop="70dp"
             android:gravity="center_horizontal">
 
             <LinearLayout
                 android:layout_width="340dp"
+                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/pink">
+                android:background="@drawable/gradient_green">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -124,8 +181,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
                         android:text="Select Date"
                         android:textColor="@color/white"
                         android:textSize="17dp"
@@ -135,16 +192,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/white"
-                        android:layout_marginStart="59dp"
+                        android:layout_marginStart="50dp"
                         android:gravity="center"
                         android:id="@+id/Celender_View"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toEndOf="@+id/tttt">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="93dp"
                             android:layout_height="wrap_content"
-                            android:text="24/05/2024"
+                            android:id="@+id/calender"
+                            android:text=""
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="3dp"
                             android:layout_marginBottom="3dp"
@@ -171,159 +229,78 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="13dp"
-                            android:background="@drawable/black"
                             android:gravity="center"
                             android:paddingLeft="10dp"
+                            android:textStyle="bold"
                             android:paddingTop="5dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="5dp"
                             android:text="Revenue"
                             android:textColor="@color/white"
-                            android:textSize="16dp" />
+                            android:textSize="25dp" />
 
                         <EditText
-                            android:id="@+id/Update_entry1"
-                            android:layout_width="69dp"
+                            android:id="@+id/update_entry1"
+                            android:layout_width="135dp"
                             android:layout_height="32dp"
                             android:layout_marginLeft="13dp"
                             android:background="@drawable/white"
                             android:gravity="center"
-                            android:hint="0"
+                            android:textColor="@color/black"
+                            android:hint="Amount"
                             android:paddingTop="4dp"
                             android:paddingBottom="4dp"
                             android:phoneNumber="true"
-                            android:textColor="@color/black"
-                            android:textColorHint="#000000"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="60dp"
-                            android:background="@drawable/black"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp"
-                            android:text="Income"
-                            android:textColor="@color/white"
-                            android:textSize="16dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="80dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="13dp"
-                            android:background="@drawable/black"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp"
-                            android:text="Expense"
-                            android:textColor="@color/white"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:layout_width="69dp"
-                            android:layout_height="32dp"
-                            android:id="@+id/Update_expences"
-                            android:layout_marginLeft="13dp"
-                            android:background="@drawable/white"
-                            android:gravity="center"
-                            android:hint="0"
-                            android:textColor="#FF0000"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:textColorHint="#FF0000"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:layout_width="69dp"
-                            android:layout_height="32dp"
-                            android:id="@+id/Update_income"
-                            android:layout_marginLeft="63dp"
-                            android:background="@drawable/white"
-                            android:gravity="center"
-                            android:textColor="@color/black"
-                            android:hint="0"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
-                            android:textColorHint="#000000"
+                            android:textStyle="bold"
                             android:textSize="16dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/Update_Layout_list"
+                        android:id="@+id/update_Layout_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="138dp"
+                        android:layout_marginTop="94dp"
                         android:orientation="vertical"></LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/linearLayout2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/Update_Layout_list"
+                        android:layout_below="@+id/update_Layout_list"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="49dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginBottom="20dp"
                         android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/Update_add"
-                            android:layout_width="69dp"
-                            android:layout_height="30dp"
+                            android:id="@+id/update_add"
+                            android:layout_width="90dp"
+                            android:layout_height="35dp"
                             android:layout_marginLeft="13dp"
                             android:background="@drawable/yellow"
                             android:gravity="center"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="ADD"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:textSize="19dp"
+                            />
 
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/Update_undo"
-                            android:layout_width="69dp"
+                            android:id="@+id/update_submit"
+                            android:layout_width="100dp"
                             android:layout_height="30dp"
-                            android:layout_marginLeft="63dp"
-                            android:background="@drawable/black"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:text="Undo"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/Update_submit"
-                            android:layout_width="80dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="13dp"
-                            android:background="@drawable/white"
+                            android:layout_marginLeft="105dp"
+                            android:background="@drawable/button_green"
                             android:gravity="center"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="Submit"
-                            android:textColor="@color/pink"
+                            android:textColor="@color/white"
                             android:textSize="16dp"
                             android:textStyle="bold" />
 
@@ -334,5 +311,8 @@
             </LinearLayout>
         </LinearLayout>
 
+
     </RelativeLayout>
+
+
 </ScrollView>

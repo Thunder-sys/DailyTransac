@@ -52,6 +52,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,5 +68,13 @@ dependencies {
 
     //celender
     implementation("androidx.work:work-runtime-ktx:2.7.0")
+
+    //fragment
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("androidx.fragment:fragment-ktx:1.6.0")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("androidx.viewpager:viewpager:1.0.0")
+    implementation ("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+
 
 }
