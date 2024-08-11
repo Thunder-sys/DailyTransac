@@ -66,7 +66,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
 
-    //celender
+    //calender
     implementation("androidx.work:work-runtime-ktx:2.7.0")
 
     //fragment
@@ -75,6 +75,9 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
     implementation ("androidx.viewpager:viewpager:1.0.0")
     implementation ("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+
+    //simmer effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
 
 }

@@ -50,6 +50,7 @@ class home : Fragment() {
     private lateinit var firebaseRefer1: DatabaseReference
     private lateinit var firebaseRefer2: DatabaseReference
     private lateinit var firebaseRefer3: DatabaseReference
+    private lateinit var yearspinner: DatabaseReference
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var firebaseReferfulldata: DatabaseReference
     private lateinit var firebaseReferfulldata1: DatabaseReference
@@ -117,7 +118,7 @@ class home : Fragment() {
         handler.post(updateTimeRunnable)
 
         updatebotton.setOnClickListener() {
-            Navigation.findNavController(view).navigate(R.id.action_home2_to_updatelist)
+            navigateToFragmentB()
         }
 
         //DynamicView
@@ -131,6 +132,13 @@ class home : Fragment() {
 
     return view
     }
+    private fun navigateToFragmentB() {
+        val fragmentB = updatelist()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame, fragmentB)
+            .addToBackStack(null)
+            .commit()
+    }
     private fun servedForTheServer(view: View) {
         val currentyear = currentDate.substring(6, 10)
         val year = 2100 - currentyear.toInt()
@@ -143,6 +151,12 @@ class home : Fragment() {
 
         val currentdate = currentDate.substring(0,2)
         var date = 32 - currentdate.toInt()
+
+        val mysendt1: MutableMap<String, Any> = HashMap()
+        mysendt1["yearspinner"] = "$currentyear"
+
+        yearspinner = firebaseDatabase.getReference().child("User").child(uid).child("yearspinner")
+        yearspinner.child("$year").setValue(mysendt1)
 
         firebaseRefer = firebaseDatabase.getReference().child("User").child(uid).child("year")
             .child("$year").child("month").child("$month")
@@ -171,7 +185,8 @@ class home : Fragment() {
                 mysendtipp["work"] = mycat
                 mysendtipp["Spinner"] = myspin
                 firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer.child("date").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer.child("date").child("$currentdate").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer.child("date1").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                     .addOnSuccessListener {
                         Log.d("Firebase", "Data saved successfully for item $i")
                     }
@@ -194,7 +209,8 @@ class home : Fragment() {
         allstru["datevalue"] = valuefor
         allstru["mydateg"] = currentDate
 
-        firebaseRefer.child("date").child("$date").updateChildren(allstru)
+        firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
+        firebaseRefer.child("date1").child("$date").updateChildren(allstru)
         firebaseRefer2.child(valuefor).updateChildren(allstru)
 
 
@@ -261,6 +277,7 @@ class home : Fragment() {
                     mysendtp["monthvalue"] = ("$monthvalue " + "$year")
 
                     firebaseRefer3.child(valuefor1).setValue(mysendtp)
+                    firebaseReferfulldata1.child("$s").child("month1").child("$month").updateChildren(mysendtp)
                     firebaseReferfulldata1.child("$s").child("month").child("$s1").updateChildren(mysendtp)
                         .addOnSuccessListener {
                             Toast.makeText(

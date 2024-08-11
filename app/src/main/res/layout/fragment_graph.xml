@@ -1,14 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frame.graph">
+    tools:context=".frame.home">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/light_blue"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/lineartext"
+            android:background="@drawable/backdround"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="30dp"
+                    android:text="DAILY"
+                    android:textColor="@color/dark_green"
+                    android:textSize="50dp"
+                    android:textStyle="bold" />
 
-</FrameLayout>
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView"
+                    android:layout_alignStart="@+id/textView"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="2dp"
+                    android:text="TRANSAC"
+                    android:layout_marginBottom="25dp"
+                    android:textColor="@color/light_blue"
+                    android:textSize="50dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/lineartext"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:background="@color/sea"
+                android:textStyle="bold"
+                android:paddingRight="10dp"
+                android:paddingTop="3dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="3dp"
+                android:textColor="@color/dark_green"
+                android:layout_height="wrap_content"
+                android:text="Monthly Budget" />
+
+            <TextView
+                android:id="@+id/shorspinner"
+                android:layout_width="100dp"
+                android:background="@color/sea"
+                android:layout_marginLeft="20dp"
+                android:layout_height="32dp"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/graph_spinner"
+                android:layout_width="20dp"
+                android:layout_height="32dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lineartext"
+            android:layout_marginTop="63dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:background="@drawable/gradient_white"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Revenue"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/graph_revenue"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="10dp"
+                    android:text="778783242" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:background="@drawable/gradient_white"
+                android:orientation="vertical"
+                android:layout_marginLeft="30dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Expenses"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="7787824235"
+                    android:id="@+id/graph_expenses"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="127dp"
+            android:layout_marginBottom="150dp"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient_green">
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</ScrollView>
