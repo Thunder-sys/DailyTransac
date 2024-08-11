@@ -70,6 +70,24 @@
                 android:textColor="@color/dark_green"
                 android:textSize="30dp" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:id="@+id/shimmer1"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/simmer_monthlyreport"/>
+                    <include layout="@layout/simmer_monthlyreport"/>
+                    <include layout="@layout/simmer_monthlyreport"/>
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +98,7 @@
                     android:id="@+id/recy1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
+                    android:visibility="gone"
                     android:orientation="horizontal" />
             </LinearLayout>
 
@@ -97,6 +115,24 @@
                 android:textColor="@color/dark_green"
                 android:textSize="30dp" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:id="@+id/shimmer2"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/simmer_monthlyreport"/>
+                    <include layout="@layout/simmer_monthlyreport"/>
+                    <include layout="@layout/simmer_monthlyreport"/>
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,7 +143,7 @@
                     android:id="@+id/recy2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
+                    android:visibility="gone"
                     android:orientation="horizontal" />
             </LinearLayout>
 
@@ -124,6 +160,23 @@
                 android:textColor="@color/dark_green"
                 android:textSize="30dp" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:id="@+id/shimmer3"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/shimmer_fulldailyreport"/>
+                    <include layout="@layout/shimmer_fulldailyreport"/>
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,6 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:visibility="gone"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical" />
             </LinearLayout>

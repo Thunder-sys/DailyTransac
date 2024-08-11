@@ -21,6 +21,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/yearly_less_than"
                 android:layout_width="50dp"
                 android:background="@drawable/less_than"
                 android:layout_height="40dp"/>
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/year_value"
                 android:layout_width="wrap_content"
                 android:text="2024"
                 android:textSize="30dp"
@@ -49,6 +51,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/yearly_greater_than"
                 android:layout_width="50dp"
                 android:background="@drawable/right_than"
                 android:layout_height="40dp"/>
@@ -100,6 +103,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
+        android:id="@+id/year_reco"
         tools:listitem="@layout/yearly_list"
         android:layout_height="wrap_content"/>
 
@@ -118,6 +122,7 @@
             <TextView
                 android:layout_width="80dp"
                 android:text=""
+                android:id="@+id/month_income"
                 android:textSize="20dp"
                 android:layout_marginRight="30dp"
                 android:textColor="@color/light_blue"
@@ -126,12 +131,14 @@
             <TextView
                 android:layout_width="100dp"
                 android:text=""
+                android:id="@+id/month_expenses"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:layout_marginRight="25dp"
                 android:textColor="@color/light_blue"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/month_saving"
                 android:layout_width="80dp"
                 android:text=""
                 android:gravity="center"

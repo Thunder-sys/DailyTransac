@@ -165,17 +165,18 @@ class updatelist : Fragment() {
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
                                     snapshot.children.forEach { dataSnapshot ->
-                                        val entry2 = dataSnapshot.child("entry2").getValue(String::class.java) ?: ""
-                                        val work = dataSnapshot.child("work").getValue(String::class.java) ?: ""
-                                        var wo = work.toString()
-                                        var en = entry2.toString()
+                                        val entry22 = dataSnapshot.child("entry2").getValue(String::class.java) ?: ""
+                                        val work2 = dataSnapshot.child("work").getValue(String::class.java) ?: ""
+                                        var wo = work2.toString()
+                                        var en = entry22.toString()
 
 
 
-                                        Log.d("mio","$entry2")
-                                        Log.d("mio","$work")
 
-                                        addcard(entry2,work)
+                                        Log.d("mio","$entry22")
+                                        Log.d("mio","$work2")
+
+                                        addcard(wo,en)
 
                                     }
 
@@ -320,6 +321,9 @@ class updatelist : Fragment() {
         var category = arrayOf("None","Food","Study","Cloths","Vehicle","Other")
         val arrayAdp = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,category)
         spinner.adapter = arrayAdp
+
+        entry2.setText("$entry22")
+        work.setText("$work2")
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,

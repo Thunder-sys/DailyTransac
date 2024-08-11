@@ -1,6 +1,5 @@
 package com.example.dailytransac.frame
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +18,7 @@ import com.example.dailytransac.Saksh.Model_daily
 import com.example.dailytransac.Saksh.Model_mainpage
 import com.example.dailytransac.Saksh.Model_monthly
 import com.example.dailytransac.Saksh.Model_reco
-import com.example.dailytransac.khush.Budgetscreen
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -43,6 +41,9 @@ class transaction : Fragment() {
     private lateinit var reco1: RecyclerView
     private lateinit var reco2: RecyclerView
     private lateinit var reco3: RecyclerView
+    private lateinit var shimmereffect1: ShimmerFrameLayout
+    private lateinit var shimmereffect2: ShimmerFrameLayout
+    private lateinit var shimmereffect3: ShimmerFrameLayout
 
     private lateinit var handler: Handler
     private lateinit var dateFormat: SimpleDateFormat
@@ -64,6 +65,12 @@ class transaction : Fragment() {
         firebase_for_daily = firebaseDatabase.getReference("User").child(uid).child("daily")
         firebase_for_month = firebaseDatabase.getReference("User").child(uid).child("monthly")
         firebaseRefrence = firebaseDatabase.getReference().child("User").child(uid).child("monthly")
+
+        shimmereffect1 = view.findViewById(R.id.shimmer1)
+        shimmereffect2 = view.findViewById(R.id.shimmer2)
+        shimmereffect3 = view.findViewById(R.id.shimmer3)
+
+        simmereffect(view,shimmereffect1,shimmereffect2,shimmereffect3)
 
         reco1 = view.findViewById(R.id.recy1)
         reco2 = view.findViewById(R.id.recy2)
@@ -106,7 +113,10 @@ class transaction : Fragment() {
                     var mydateg = myds.child("mydateg").getValue().toString()
                     var datevalue = myds.child("datevalue").getValue().toString()
                     var dateVlaue = datevalue.toInt()
+
+                    reco1.visibility = View.VISIBLE
                     mythisn.add(Model_daily(mydateg, entry, Expenses, income))
+                    shimmereffect1.visibility = View.GONE
 
                     var childitem = ArrayList<Model_reco>()
                     firebase_for_dailyfull_data =
@@ -120,6 +130,9 @@ class transaction : Fragment() {
                                 var entry2 = mydata.child("entry2").getValue().toString()
                                 var work = mydata.child("work").getValue().toString()
                                 var spinner = mydata.child("Spinner").getValue().toString()
+                                shimmereffect1.visibility = View.GONE
+                                shimmereffect3.visibility = View.GONE
+                                reco3.visibility = View.VISIBLE
                                 childitem.add(Model_reco(entry2, work, spinner))
                             }
                             adaptt.notifyDataSetChanged()
@@ -158,17 +171,39 @@ class transaction : Fragment() {
                     var Totalsaving = apidata.child("totalsaving").getValue().toString()
 
 
+                    reco2.visibility = View.VISIBLE
+
                     listofmonth.add(Model_monthly("$Year", Totalentry, Totalexpenses, Totalsaving))
 
+                    shimmereffect1.visibility = View.GONE
+                    shimmereffect2.visibility = View.GONE
+                    shimmereffect3.visibility = View.GONE
                 }
                 adap.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(
+                    requireContext(),
+                    "There Are some error",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 
         return view
+
+    }
+
+    private fun simmereffect(
+        view: View,
+        shimmereffect1: ShimmerFrameLayout,
+        shimmereffect2: ShimmerFrameLayout,
+        shimmereffect3: ShimmerFrameLayout
+    ) {
+
+        shimmereffect1.visibility = View.VISIBLE
+        shimmereffect2.visibility = View.VISIBLE
+        shimmereffect3.visibility = View.VISIBLE
 
     }
 
