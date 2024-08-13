@@ -15,21 +15,15 @@
         <activity
             android:name=".kuna.full_data"
             android:exported="false" />
-        <activity
-            android:name=".dataset"
-            android:exported="false" />
+
         <activity
             android:name=".khush.MainActivity12"
             android:exported="false" />
         <activity
-            android:name=".Saksh.loginpage2"
-            android:exported="false" />
-        <activity
-            android:name=".kuna.UpdateList"
-            android:exported="false" />
-        <activity
-            android:name=".Saksh.Mainpage"
-            android:exported="false" />
+            android:name=".khush.splashpro"
+            android:exported="false"/>
+
+
         <activity
             android:name=".khush.Budgetscreen"
             android:exported="false" />
@@ -39,9 +33,10 @@
         <activity
             android:name=".kuna.MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".khush.splashpro"
-            android:exported="true">
+
+            <activity
+                android:name=".Saksh.loginpage2"
+                android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
