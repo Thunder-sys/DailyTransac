@@ -1,5 +1,6 @@
 package com.example.dailytransac.frame
 
+import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,17 +10,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
+import com.example.dailytransac.kuna.home_spinner_adapter
+import com.example.dailytransac.kuna.home_spinner_adapter_add
+import com.example.dailytransac.kuna.home_spinner_model
+import com.example.dailytransac.kuna.home_spinner_model_add
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -45,18 +48,25 @@ class home : Fragment() {
     private lateinit var handler: Handler
     lateinit var currentDate:String
     private lateinit var dateFormat: SimpleDateFormat
+    private lateinit var spinnerReference: DatabaseReference
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseRefer: DatabaseReference
     private lateinit var firebaseRefer1: DatabaseReference
     private lateinit var firebaseRefer2: DatabaseReference
     private lateinit var firebaseRefer3: DatabaseReference
     private lateinit var yearspinner: DatabaseReference
+    private lateinit var add_data_for_spinner: DatabaseReference
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var firebaseReferfulldata: DatabaseReference
     private lateinit var firebaseReferfulldata1: DatabaseReference
     private lateinit var valuefor:String
     private lateinit var valuefor1:String
+    private lateinit var listOfMonth: ArrayList<home_spinner_model>
+    private lateinit var listOfMonth1: ArrayList<home_spinner_model_add>
+    private lateinit var adapter: home_spinner_adapter
+    private lateinit var adapter1: home_spinner_adapter_add
     var totalMytkl:Int = 0
+    var addSpinnervalue:Int = 10000000
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
 
     var uid = firebaseAuth.currentUser?.uid!!
@@ -65,6 +75,10 @@ class home : Fragment() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseReferfulldata = firebaseDatabase.getReference().child("User").child(uid).child("year")
         firebaseReferfulldata1 = firebaseDatabase.getReference().child("User").child(uid).child("year")
+        spinnerReference = FirebaseDatabase.getInstance().getReference()
+            .child("User").child(uid).child("homespinner")
+        add_data_for_spinner = FirebaseDatabase.getInstance().getReference()
+            .child("User").child(uid).child("homespinner")
     }
 
     override fun onCreateView(
@@ -121,10 +135,11 @@ class home : Fragment() {
             navigateToFragmentB()
         }
 
+
         //DynamicView
-        addcard()
+        addcard("None")
         add_button.setOnClickListener() {
-            addcard()
+            addcard("None")
         }
         sumbit.setOnClickListener() {
             servedForTheServer(view)
@@ -132,6 +147,123 @@ class home : Fragment() {
 
     return view
     }
+    private fun showGraphdataSpinner() {
+
+        val view:View = layoutInflater.inflate(R.layout.add_list,null)
+        val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.home_spinner_show)
+
+        val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
+        val searchView:androidx.appcompat.widget.SearchView = dialog.findViewById(R.id.home_searchView)
+        val adddata :TextView = dialog.findViewById(R.id.home_adddata)
+        adddata.setOnClickListener(){
+            addspinnerdata()
+            dialog.dismiss()
+        }
+
+        listOfMonth = ArrayList()
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter = home_spinner_adapter(listOfMonth){ dattaspinner->
+            addcard(dattaspinner.text.toString())
+            dialog.dismiss()
+        }
+        recyclerView.adapter = adapter
+
+        searchView.clearFocus()
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filter(newText)
+                return true
+            }
+        })
+
+        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                listOfMonth.clear()  // Clear existing data
+                for (ip in snapshot.children) {
+                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                    listOfMonth.add(home_spinner_model(yearSpinner))
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        dialog.show()
+    }
+
+    private fun addspinnerdata() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.home_add_spinner_data)
+
+        var recyclerView1:RecyclerView = dialog.findViewById(R.id.home_recent_recycle)
+        var adddataop:EditText = dialog.findViewById(R.id.home_adddata_box)
+        var add_button:TextView = dialog.findViewById(R.id.home_add)
+        var sumbit:TextView = dialog.findViewById(R.id.home_submit)
+
+        listOfMonth1 = ArrayList()
+        recyclerView1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter1 = home_spinner_adapter_add(listOfMonth1)
+        recyclerView1.adapter = adapter
+
+        add_button.setOnClickListener(){
+            var dataForSpinner = adddataop.text.toString()
+            if (dataForSpinner.isEmpty()){
+                adddataop.setError("Enter the value")
+            }else{
+                adddataop.setText("")
+                val mysendtipp: MutableMap<String, Any> = HashMap()
+                mysendtipp["homespin"] = dataForSpinner
+                addSpinnervalue+=-1
+                add_data_for_spinner.child("i$addSpinnervalue").setValue(mysendtipp)
+                Toast.makeText(requireContext(),"Add Data Successful",Toast.LENGTH_SHORT).show()
+                spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        listOfMonth.clear()  // Clear existing data
+                        for (ip in snapshot.children) {
+                            val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                            listOfMonth.add(home_spinner_model(yearSpinner))
+                        }
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        }
+        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                listOfMonth1.clear()  // Clear existing data
+                for (ip in snapshot.children) {
+                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                    listOfMonth1.add(home_spinner_model_add(yearSpinner))
+                }
+                adapter1.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+        sumbit.setOnClickListener(){
+            dialog.dismiss()
+            showGraphdataSpinner()
+        }
+
+        dialog.show()
+
+    }
+
     private fun navigateToFragmentB() {
         val fragmentB = updatelist()
         parentFragmentManager.beginTransaction()
@@ -167,7 +299,7 @@ class home : Fragment() {
             val view1: View = layout_list.getChildAt(i)
             val entry2: EditText = view1.findViewById(R.id.entry2)
             val work: EditText = view1.findViewById(R.id.work)
-            val spinnershow: TextView = view1.findViewById(R.id.spinnershow)
+            val spinnershow: TextView = view1.findViewById(R.id.home_spinnershow)
             val myvalie = entry2.text.toString()
             val mycat = work.text.toString()
             val myspin = spinnershow.text.toString()
@@ -306,30 +438,22 @@ class home : Fragment() {
     }
 
     //DynamicView
-    private fun addcard() {
+    private fun addcard(s: String) {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
-        layout_list.addView(view)
         val entry2: EditText = view.findViewById(R.id.entry2)
-        val spinner: Spinner = view.findViewById(R.id.spinner)
-        val spinnershow: TextView = view.findViewById(R.id.spinnershow)
-        var category = arrayOf("None","Food","Study","Cloths","Vehicle","Other")
-        val items = arrayOf("Item 1", "Item 2", "Item 3")
-        val adapter = ArrayAdapter<String>(requireContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, category)
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                spinnershow.text = category[position].toString()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
+        val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
+        if (s=="None"){
+            layout_list.addView(view)
         }
+
+        spinnershow.setOnClickListener(){
+            showGraphdataSpinner()
+        }
+
+        spinnershow.setText("$s")
+
+
+
         entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 val mytkvl: Int = try {
@@ -368,6 +492,15 @@ class home : Fragment() {
         income.text = if (totalIncome >= 0) totalIncome.toString() else "-${-totalIncome}"
 
         layout_list.removeView(view)
+    }
+    private fun filter(newText: String?) {
+        val filteredList = listOfMonth.filter {
+            it.text.toLowerCase(Locale.ROOT).contains(newText?.toLowerCase(Locale.ROOT) ?: "")
+        }
+        if (filteredList.isEmpty()) {
+            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show()
+        }
+        adapter.setAdapterList(ArrayList(filteredList))
     }
 
 
