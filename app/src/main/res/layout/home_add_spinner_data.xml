@@ -41,6 +41,7 @@
             android:background="@drawable/gradient_white_black_outline"
             android:layout_height="40dp"
             android:hint="Add Data"
+            android:textColor="@color/black"
             android:paddingLeft="20dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"/>
