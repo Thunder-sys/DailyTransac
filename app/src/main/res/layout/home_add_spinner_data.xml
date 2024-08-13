@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_white_black_outline"
+        android:layout_height="350dp">
+
+
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="190dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_recent_recycle"
+                    tools:listitem="@layout/home_spinner_recycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </ScrollView>
+
+
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/home_adddata_box"
+            android:layout_width="260dp"
+            android:background="@drawable/gradient_white_black_outline"
+            android:layout_height="40dp"
+            android:hint="Add Data"
+            android:paddingLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/home_add"
+                android:text="ADD"
+                android:textSize="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:textColor="@color/black"
+                android:background="@drawable/gradient_white_black_outline"
+                android:layout_marginRight="80dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/home_submit"
+                android:text="Submit"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:background="@drawable/gradient_white_black_outline"
+                android:padding="5dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

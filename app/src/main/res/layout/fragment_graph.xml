@@ -74,15 +74,17 @@
 
             <TextView
                 android:id="@+id/shorspinner"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
+                android:text="2024"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_green"
                 android:background="@color/sea"
                 android:layout_marginLeft="20dp"
                 android:layout_height="32dp"/>
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/graph_spinner"
-                android:layout_width="20dp"
-                android:layout_height="32dp"/>
+
 
         </LinearLayout>
 

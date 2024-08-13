@@ -28,15 +28,26 @@
             android:textSize="20dp" />
 
         <NumberPicker
-            android:id="@+id/yearpicker"
+            android:id="@+id/monthpicker_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="118dp"
+            android:layout_marginStart="158dp"
             android:layout_marginTop="34dp"
-            android:layout_marginEnd="118dp" />
+            android:layout_marginEnd="78dp" />
+
+        <NumberPicker
+            android:id="@+id/monthpicker_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="164dp" />
 
         <LinearLayout
             android:layout_width="200dp"
@@ -48,17 +59,19 @@
             android:gravity="end">
 
             <TextView
-                android:id="@+id/year_cancel"
+                android:id="@+id/month_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:textSize="20dp"
                 android:text="Cancel" />
 
             <TextView
-                android:id="@+id/year_ok"
+                android:id="@+id/month_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textSize="20dp"
                 android:layout_marginRight="40dp"
                 android:text="OK" />
 

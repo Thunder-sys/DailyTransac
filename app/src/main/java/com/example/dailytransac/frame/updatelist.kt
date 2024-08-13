@@ -214,7 +214,7 @@ class updatelist : Fragment() {
             val view: View = layout_list.getChildAt(i)
             val entry2: EditText = view.findViewById(R.id.entry2)
             val work: EditText = view.findViewById(R.id.work)
-            val spinnershow: TextView = view.findViewById(R.id.spinnershow)
+            val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
             val myvalie = entry2.text.toString()
             val mycat = work.text.toString()
             val myspin = spinnershow.text.toString()
@@ -315,29 +315,15 @@ class updatelist : Fragment() {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
         layout_list.addView(view)
         val entry2:EditText = view.findViewById(R.id.entry2)
-        val work:EditText = view.findViewById(R.id.entry2)
-        val spinner: Spinner = view.findViewById(R.id.spinner)
-        val spinnershow:TextView= view.findViewById(R.id.spinnershow)
+        val work:EditText = view.findViewById(R.id.entry)
+        val spinnershow:TextView= view.findViewById(R.id.home_spinnershow)
         var category = arrayOf("None","Food","Study","Cloths","Vehicle","Other")
         val arrayAdp = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,category)
-        spinner.adapter = arrayAdp
+
 
         entry2.setText("$entry22")
         work.setText("$work2")
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                spinnershow.text = category[position].toString()
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
         entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             entry2.setText("$entry22")
             work.setText("$work2")

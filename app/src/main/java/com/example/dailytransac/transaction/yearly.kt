@@ -110,8 +110,8 @@ class yearly : Fragment() {
 
         numberPicker.value = calendar.get(Calendar.YEAR)
 
-        var cancel: Button = dialog.findViewById(R.id.year_cancel)
-        var ok: Button = dialog.findViewById(R.id.year_ok)
+        var cancel: TextView = dialog.findViewById(R.id.year_cancel)
+        var ok: TextView = dialog.findViewById(R.id.year_ok)
 
         ok.setOnClickListener {
             dateTextView.text = numberPicker.value.toString()
