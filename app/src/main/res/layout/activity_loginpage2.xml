@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="22dp"
             android:text="Hi,There nice to see you again"
             android:textStyle="bold"/>
 
@@ -35,10 +35,9 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="350dp"
-                android:layout_height="55dp"
-                android:hint="Email id"
+                android:layout_height="60dp"
                 android:textStyle="bold"
                 app:hintTextColor="@color/green"
                 app:startIconDrawable="@drawable/baseline_email_24"
@@ -48,6 +47,8 @@
                     android:layout_width="350dp"
                     android:layout_height="50dp"
                     android:gravity="center"
+                    android:hint="Email id"
+                    android:textStyle="bold"
                     android:id="@+id/reEmail">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -63,12 +64,13 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="350dp"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 app:hintTextColor="@color/green"
                 app:endIconMode="password_toggle"
                 app:startIconDrawable="@drawable/lock"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:hint="Password">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -121,18 +123,17 @@
                 android:layout_height="wrap_content"
                 android:text="I am new user?"
                 android:textSize="20dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/create"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sign Up"
-                android:textSize="20dp"
+                android:textSize="24dp"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/light_blue"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/light_blue"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

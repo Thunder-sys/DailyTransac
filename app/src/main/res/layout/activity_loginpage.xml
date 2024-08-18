@@ -10,11 +10,11 @@
     tools:context=".Saksh.loginpage">
 
     <ImageView
-        android:layout_width="160dp"
-        android:layout_height="150dp"
+        android:layout_width="150dp"
+        android:layout_height="140dp"
         android:background="@drawable/dailytransac"
         android:layout_gravity="center"
-        android:layout_marginTop="35dp"/>
+        android:layout_marginTop="45dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -125,19 +125,18 @@
         app:endIconMode="password_toggle"
         app:hintTextColor="@color/green"
         android:hint="Password">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/createPasswordEt"
             android:layout_width="match_parent"
-            android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:maxLength="19">
-        </com.google.android.material.textfield.TextInputEditText>
+            android:maxLength="19"
+            android:textStyle="bold"></com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
@@ -180,15 +179,14 @@
             android:layout_height="wrap_content"
             android:text="Already have an account?"
             android:textSize="20dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textColor="@color/black"/>
 
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign In"
-            android:textSize="20dp"
+            android:textSize="24dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/light_blue"
             android:textStyle="bold"/>

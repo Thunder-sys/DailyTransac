@@ -394,27 +394,6 @@ class home : Fragment() {
         val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
         layout_list.addView(view)
 
-        var currentyear = currentDate.substring(6,10)
-        var currentmonth = currentDate.substring(3,5)
-        var currentdate = currentDate.substring(0,2)
-
-        var year = 2100 - currentyear.toInt()
-        var month = 13 - currentmonth.toInt()
-        var date = 32 - currentdate.toInt()
-
-        fetchDataforview.child("$year").child("month").child("$month").child("date1").child("$date")
-        fetchDataforview.addListenerForSingleValueEvent(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(ip in snapshot.children){
-
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-
         spinnershow.setOnClickListener(){
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.home_spinner_show)

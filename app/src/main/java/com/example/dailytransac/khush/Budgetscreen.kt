@@ -1,5 +1,6 @@
 package com.example.dailytransac.khush
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import java.util.ArrayList
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,9 @@ class  Budgetscreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_budgetscreen)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         linechart = findViewById(R.id.Linechart)
 
         fun dataValues1(): ArrayList<Entry> {
