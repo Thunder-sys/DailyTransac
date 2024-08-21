@@ -1,12 +1,15 @@
 package com.example.dailytransac.transaction
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,17 +31,17 @@ class monthly : Fragment() {
     private val calendar: Calendar = Calendar.getInstance()
     private lateinit var dateTextView: TextView
 
-    lateinit var firebaseDatabase: FirebaseDatabase
-    lateinit var firebaseRefrence : DatabaseReference
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var firebaseReference: DatabaseReference
 
-    lateinit var textView1: TextView
-    lateinit var textView2: TextView
-    lateinit var textView3: TextView
+    private lateinit var textView1: TextView
+    private lateinit var textView2: TextView
+    private lateinit var textView3: TextView
 
-    lateinit var reco1:RecyclerView
+    private lateinit var reco1: RecyclerView
 
-    var firebaseAuth:FirebaseAuth = FirebaseAuth.getInstance()
-    var uid = firebaseAuth.currentUser?.uid!!
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val uid: String = firebaseAuth.currentUser?.uid ?: ""
 
     init {
         firebaseDatabase = FirebaseDatabase.getInstance()
@@ -49,11 +52,9 @@ class monthly : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_monthly, container, false)
+        val view = inflater.inflate(R.layout.fragment_monthly, container, false)
 
         reco1 = view.findViewById(R.id.month_reco)
-
-
         dateTextView = view.findViewById(R.id.monthly_value)
 
         val incrementButton: ImageView = view.findViewById(R.id.monthly_greater_than)
@@ -63,12 +64,11 @@ class monthly : Fragment() {
         textView2 = view.findViewById(R.id.daily_expenses)
         textView3 = view.findViewById(R.id.daily_saving)
 
-        dateTextView.setOnClickListener(){
+        dateTextView.setOnClickListener {
+            monthPicker(view, calendar)
         }
 
-
         updateDateDisplay(view)
-
 
         incrementButton.setOnClickListener {
             calendar.add(Calendar.MONTH, 1)
@@ -83,94 +83,117 @@ class monthly : Fragment() {
         return view
     }
 
+    private fun monthPicker(view: View, calendar: Calendar) {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.month_picker)
+
+        val yearPicker = dialog.findViewById<NumberPicker>(R.id.monthpicker_year)
+        yearPicker.minValue = 2000
+        yearPicker.maxValue = 2100
+        yearPicker.wrapSelectorWheel = true
+
+        val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+        val monthPicker = dialog.findViewById<NumberPicker>(R.id.monthpicker_month)
+        monthPicker.minValue = 0
+        monthPicker.maxValue = 11
+        monthPicker.wrapSelectorWheel = true
+        monthPicker.displayedValues = months
+
+        yearPicker.value = calendar.get(Calendar.YEAR)
+        monthPicker.value = calendar.get(Calendar.MONTH)
+
+        val cancel: Button = dialog.findViewById(R.id.month_cancel)
+        val ok: Button = dialog.findViewById(R.id.month_ok)
+
+        ok.setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+
+            calendar.set(Calendar.YEAR, selectedYear)
+            calendar.set(Calendar.MONTH, selectedMonth)
+
+            val formattedMonth = months[selectedMonth]
+            val formattedYear = selectedYear
+
+            dateTextView.text = "$formattedMonth $formattedYear"
+            dialog.dismiss()
+            updateDateDisplay(view)
+        }
+
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 
     private fun updateDateDisplay(view: View) {
         val dateFormat = SimpleDateFormat("MM", Locale.getDefault())
         val dateFormat1 = SimpleDateFormat("yyyy", Locale.getDefault())
-        val dateString = dateFormat.format(calendar.time).toString()
-        val dateString1 = dateFormat1.format(calendar.time).toString()
+        val dateString = dateFormat.format(calendar.time)
+        val dateString1 = dateFormat1.format(calendar.time)
 
-        var monthvalue = ""
-        when("$dateString"){
-            "01" ->monthvalue = "Jan"
-            "02" ->monthvalue = "Feb"
-            "03" ->monthvalue = "Mar"
-            "04" ->monthvalue = "Apr"
-            "05" ->monthvalue = "May"
-            "06" ->monthvalue = "Jun"
-            "07" ->monthvalue = "Jul"
-            "08" ->monthvalue = "Aug"
-            "09" ->monthvalue = "Sep"
-            "10" ->monthvalue = "Oct"
-            "11" ->monthvalue = "Nov"
-            "12" ->monthvalue = "Dec"
-        }
+        val monthNames = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+        val monthvalue = monthNames[dateString.toInt() - 1]
+
         textView1.text = ""
         textView2.text = ""
         textView3.text = ""
 
-        dateTextView.text = "$monthvalue "+"$dateString1"
+        dateTextView.text = "$monthvalue $dateString1"
 
-        fetchdata(view,dateString,dateString1)
-
-
+        fetchdata(view, dateString, dateString1)
     }
 
-    private fun fetchdata(view:View,dateString: String, dateString1: String) {
+    private fun fetchdata(view: View, dateString: String, dateString1: String) {
 
-        var listofmonth1 = ArrayList<datafetch_montlydata>()
+        Log.d("mio","$dateString")
+        Log.d("mio","$dateString1")
+        val listOfMonthData = ArrayList<datafetch_montlydata>()
         reco1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        var adap = datafetch_montlydata_adapter(listofmonth1)
-        reco1.adapter = adap
+        val adapter = datafetch_montlydata_adapter(listOfMonthData)
+        reco1.adapter = adapter
 
-        var year = 2100 - dateString1.toInt()
-        var month = 13 - dateString.toInt()
-        Log.d("mio","$year")
-        Log.d("mio","$month")
+        val year = 2100 - dateString1.toInt()
+        val month = 13 - dateString.toInt()
+        Log.d("mio", "Year: $year, Month: $month")
 
-        firebaseRefrence = firebaseDatabase.getReference().child("User").child(uid).child("year").child("$year").child("month").child("$month").child("date")
+        firebaseReference = firebaseDatabase.getReference("User/$uid/year/$year/month/$month/date")
 
-        firebaseRefrence.addListenerForSingleValueEvent(object :ValueEventListener{
+        firebaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             var value1 = 0
             var value2 = 0
             var value3 = 0
+
             override fun onDataChange(snapshot: DataSnapshot) {
-                for(ip in snapshot.children){
-                    var expenses = ip.child("Expenses").getValue().toString()
-                    var revenue = ip.child("entry").getValue().toString()
-                    var saving = ip.child("income").getValue().toString()
-                    var mydate = ip.child("mydateg").getValue().toString()
+                for (ip in snapshot.children) {
+                    val expenses = ip.child("Expenses").getValue(String::class.java)?.toIntOrNull() ?: 0
+                    val revenue = ip.child("entry").getValue(String::class.java)?.toIntOrNull() ?: 0
+                    val saving = ip.child("income").getValue(String::class.java)?.toIntOrNull() ?: 0
+                    val mydate = ip.child("mydateg").getValue(String::class.java) ?: ""
 
-                    value1+=revenue.toInt()
-                    value2+=expenses.toInt()
-                    value3+=saving.toInt()
+                    Log.d("month","$expenses")
+                    Log.d("month","$revenue")
+                    Log.d("month","$saving")
+                    Log.d("month","$mydate")
 
-                    Log.d("mio","$expenses")
-                    Log.d("mio","$revenue")
-                    Log.d("mio","$saving")
-                    Log.d("mio","$mydate")
+                    value1 += revenue
+                    value2 += expenses
+                    value3 += saving
 
-                    var curent = mydate.substring(0,2).toString()
-                    Log.d("mio","$curent")
+                    val current = mydate.substring(0, 2)
+                    listOfMonthData.add(datafetch_montlydata(current, revenue.toString(), expenses.toString(), saving.toString()))
 
-                    listofmonth1.add(datafetch_montlydata("$curent","$revenue","$expenses","$saving"))
-
-                    textView1.text = "$value1"
-                    textView2.text = "$value2"
-                    textView3.text = "$value3"
-
+                    textView1.text = value1.toString()
+                    textView2.text = value2.toString()
+                    textView3.text = value3.toString()
                 }
-                adap.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    requireContext(),
-                    "There Are some error",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), "There was an error", Toast.LENGTH_SHORT).show()
             }
         })
-
     }
 }

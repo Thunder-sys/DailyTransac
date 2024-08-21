@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@color/light_blue"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="300dp"
+        android:orientation="vertical"
+        android:layout_height="430dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Select Year"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="116dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/white">
+
+                    <TextView
+                        android:id="@+id/graph_yearstart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:paddingRight="30dp"
+                        android:text="All"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="87dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/spinner_downarror" />
+
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="to"
+                    android:textSize="15dp"
+                    android:layout_height="wrap_content"/>
+                <RelativeLayout
+                    android:layout_width="116dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/white">
+
+                    <TextView
+                        android:id="@+id/graph_yearend"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:paddingRight="30dp"
+                        android:text="All"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="87dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/spinner_downarror" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Select Month"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="116dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/white">
+
+                    <TextView
+                        android:id="@+id/graph_monthstart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:paddingRight="30dp"
+                        android:text="All"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="87dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/spinner_downarror" />
+
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="to"
+                    android:textSize="15dp"
+                    android:layout_height="wrap_content"/>
+                <RelativeLayout
+                    android:layout_width="116dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/white">
+
+                    <TextView
+                        android:id="@+id/graph_monthend"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:paddingRight="30dp"
+                        android:text="All"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="87dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/spinner_downarror" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginBottom="30dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Select Date"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="116dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/white">
+
+                    <TextView
+                        android:id="@+id/graph_datestart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:paddingRight="30dp"
+                        android:text="All"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="87dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/spinner_downarror" />
+
+
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="to"
+                    android:textSize="15dp"
+                    android:layout_height="wrap_content"/>
+                <RelativeLayout
+                    android:layout_width="116dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/white">
+
+                    <TextView
+                        android:id="@+id/graph_dateend"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:paddingRight="30dp"
+                        android:text="All"
+                        android:textSize="20dp" />
+
+                    <ImageView
+                        android:layout_width="19dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="87dp"
+                        android:layout_marginTop="9dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/spinner_downarror" />
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/graph_cancel"
+                android:text="Cancel"
+                android:layout_marginRight="20dp"
+                android:textSize="30dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/graph_ok"
+                android:text="OK"
+                android:textSize="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
