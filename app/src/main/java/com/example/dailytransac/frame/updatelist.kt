@@ -1,8 +1,10 @@
 package com.example.dailytransac.frame
 
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,6 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
 import com.example.dailytransac.kuna.datafetch_adapter
 import com.example.dailytransac.kuna.datafetch_model
+import com.example.dailytransac.kuna.home_spinner_adapter
+import com.example.dailytransac.kuna.home_spinner_adapter_add
+import com.example.dailytransac.kuna.home_spinner_model
+import com.example.dailytransac.kuna.home_spinner_model_add
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,43 +36,65 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class updatelist : Fragment() {
-
+    var datepicker = Calendar.getInstance()
     lateinit var layout_list: LinearLayout
-    lateinit var calenderView: LinearLayout
     lateinit var add_button: Button
-    lateinit var entry: EditText
-    lateinit var expences: TextView
-    lateinit var income: TextView
-    lateinit var sand: ImageButton
-    lateinit var calendarTextView: TextView
+    lateinit var entry:EditText
+    lateinit var expences:TextView
+    lateinit var income:TextView
+    lateinit var sand:ImageButton
+    lateinit var updatebotton: Button
+    lateinit var calendar:TextView
+    lateinit var calendarTextView:LinearLayout
     lateinit var sumbit: Button
     private lateinit var handler: Handler
-    lateinit var custumDate:String
+    lateinit var currentDate:String
     private lateinit var dateFormat: SimpleDateFormat
+    private lateinit var spinnerReference: DatabaseReference
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseRefer: DatabaseReference
+    private lateinit var firebaseRefer100: DatabaseReference
+    private lateinit var firebaseRefer200: DatabaseReference
     private lateinit var firebaseRefer1: DatabaseReference
+    private lateinit var firebaseRefer2: DatabaseReference
+    private lateinit var firebaseRefer4: DatabaseReference
+    private lateinit var firebaseRefer5: DatabaseReference
+    private lateinit var firebaseRefer3: DatabaseReference
+    private lateinit var yearspinner: DatabaseReference
+    private lateinit var fetchDataforview: DatabaseReference
+    private lateinit var add_data_for_spinner: DatabaseReference
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var firebaseReferfulldata: DatabaseReference
     private lateinit var firebaseReferfulldata1: DatabaseReference
-    private lateinit var firebasedatafetch: DatabaseReference
-    private lateinit var firebasedatafetch1: DatabaseReference
     private lateinit var valuefor:String
+    private lateinit var valuefor1:String
+    private lateinit var valuefor2:String
+    private lateinit var listOfMonth: ArrayList<home_spinner_model>
+    private lateinit var listOfMonth1: ArrayList<home_spinner_model_add>
+    private lateinit var adapter: home_spinner_adapter
+    private lateinit var adapter1: home_spinner_adapter_add
     var totalMytkl:Int = 0
+    var addSpinnervalue:Int = 10000000
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
 
     var uid = firebaseAuth.currentUser?.uid!!
-    var datepicker = Calendar.getInstance()
 
     init{
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseReferfulldata = firebaseDatabase.getReference().child("User").child(uid).child("year")
-        firebasedatafetch1 = firebaseDatabase.getReference().child("User").child(uid).child("year")
         firebaseReferfulldata1 = firebaseDatabase.getReference().child("User").child(uid).child("year")
+        spinnerReference = FirebaseDatabase.getInstance().getReference()
+            .child("User").child(uid).child("homespinner")
+        add_data_for_spinner = FirebaseDatabase.getInstance().getReference()
+            .child("User").child(uid).child("homespinner")
+        fetchDataforview = FirebaseDatabase.getInstance().getReference().child("year")
     }
 
     override fun onCreateView(
@@ -76,8 +104,8 @@ class updatelist : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_updatelist, container, false)
 
-        calendarTextView = view.findViewById(R.id.calender)
-        calenderView = view.findViewById(R.id.Celender_View)
+        calendar = view.findViewById(R.id.calender)
+        calendarTextView = view.findViewById(R.id.Celender_View)
         entry = view.findViewById(R.id.update_entry1)
         expences = view.findViewById(R.id.update_Expenses)
         income = view.findViewById(R.id.update_saving)
@@ -85,8 +113,21 @@ class updatelist : Fragment() {
         layout_list = view.findViewById(R.id.update_Layout_list)
         add_button = view.findViewById(R.id.update_add)
 
+        dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        handler = Handler(Looper.getMainLooper())
+        updateTimeRunnable = object : Runnable {
+            override fun run() {
+                // Update TextView with current date
+                currentDate = dateFormat.format(Date())
+                calendar.text = currentDate
+                addcard()
+            }
+        }
+        // Start updating the TextView
+        handler.post(updateTimeRunnable)
 
-        calenderView.setOnClickListener(){
+
+        calendarTextView.setOnClickListener(){
             showDataPicker(view)
 
         }
@@ -94,10 +135,10 @@ class updatelist : Fragment() {
         //DynamicView
 
         add_button.setOnClickListener() {
-            addcard("", "")
+            addcard()
         }
         sumbit.setOnClickListener(){
-            servedForTheServer()
+            servedForTheServer(view)
         }
 
 
@@ -109,12 +150,13 @@ class updatelist : Fragment() {
             val selectedate = Calendar.getInstance()
             selectedate.set(year, monthOfYear, dayOfMonth)
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            custumDate= dateFormat.format(selectedate.time)
-            calendarTextView.setText(custumDate)
+            currentDate= dateFormat.format(selectedate.time)
+            calendar.setText(currentDate)
 
-            var p = calendarTextView.text.toString()
+            var p = calendar.text.toString()
             if (p.isNotEmpty()){
-                datafetch(view)
+                entry.setText("")
+                fetchdataforview()
             }
         },
             datepicker.get(Calendar.YEAR),
@@ -125,96 +167,105 @@ class updatelist : Fragment() {
 
     }
 
-    private fun datafetch(view: View?) {
-        val currentyear = custumDate.substring(6, 10)
-        val year = 2100 - currentyear.toInt()
-        val currentmonth = custumDate.substring(3, 5)
-        val month = 13 - currentmonth.toInt()
-        val currentdate = custumDate.substring(0, 2)
-        val date = 32 - currentdate.toInt()
-        firebasedatafetch = firebaseDatabase.getReference().child("User").child(uid)
-            .child("year").child("$year").child("month")
-            .child("$month").child("date").child("$date")
-        firebasedatafetch.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(io in snapshot.children){
-                    var totalexp = io.child("Expenses").getValue(String::class.java) ?: ""
-                    var totalrev = io.child("entry").getValue(String::class.java) ?: ""
-                    var totalsav = io.child("income").getValue(String::class.java) ?: ""
-                    val datevalue = io.child("datevalue").getValue(String::class.java) ?: ""
 
-                    if (totalexp != ""){
-                        var exp = totalexp
-                        var sav = totalsav
-                        var rev = totalrev
-                        expences.setText(exp)
-                        entry.setText(sav)
-                        income.setText(rev)
-                        Log.d("mio",""+exp)
-                        Log.d("mio","$sav")
-                        Log.d("mio","$rev")
-                        Log.d("mio",datevalue)
-                        Log.d("mio","$year")
-                        Log.d("mio","$month")
-                        Log.d("mio","$date")
+    private fun addspinnerdata() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.home_add_spinner_data)
 
+        var recyclerView1:RecyclerView = dialog.findViewById(R.id.home_recent_recycle)
+        var adddataop:EditText = dialog.findViewById(R.id.home_adddata_box)
+        var add_button:TextView = dialog.findViewById(R.id.home_add)
+        var sumbit:TextView = dialog.findViewById(R.id.home_submit)
 
+        listOfMonth1 = ArrayList()
+        var layourmanger:LinearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        layourmanger.reverseLayout = true
+        layourmanger.stackFromEnd = true
+        recyclerView1.layoutManager = layourmanger
+        adapter1 = home_spinner_adapter_add(listOfMonth1)
+        recyclerView1.adapter = adapter
 
-                        firebasedatafetch1.child("$year").child("month")
-                            .child("$month").child("date").child("$date").child("dateri")
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    snapshot.children.forEach { dataSnapshot ->
-                                        val entry22 = dataSnapshot.child("entry2").getValue(String::class.java) ?: ""
-                                        val work2 = dataSnapshot.child("work").getValue(String::class.java) ?: ""
-                                        var wo = work2.toString()
-                                        var en = entry22.toString()
-
-
-
-
-                                        Log.d("mio","$entry22")
-                                        Log.d("mio","$work2")
-
-                                        addcard(wo,en)
-
-                                    }
-
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                    Log.e("Firebase", "Additional data fetch failed", error.toException())
-                                }
-                            })
+        add_button.setOnClickListener(){
+            var dataForSpinner = adddataop.text.toString()
+            if (dataForSpinner.isEmpty()){
+                adddataop.setError("Enter the value")
+            }else{
+                adddataop.setText("")
+                val mysendtipp: MutableMap<String, Any> = HashMap()
+                mysendtipp["homespin"] = dataForSpinner
+                addSpinnervalue+=-1
+                add_data_for_spinner.child("i$addSpinnervalue").setValue(mysendtipp)
+                Toast.makeText(requireContext(),"Add Data Successful",Toast.LENGTH_SHORT).show()
+                spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        listOfMonth.clear()  // Clear existing data
+                        for (ip in snapshot.children) {
+                            val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                            listOfMonth.add(home_spinner_model(yearSpinner))
+                        }
+                        adapter.notifyDataSetChanged()
                     }
 
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+        }
+        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                listOfMonth1.clear()  // Clear existing data
+                for (ip in snapshot.children) {
+                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                    listOfMonth1.add(home_spinner_model_add(yearSpinner))
                 }
+                adapter1.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
+        sumbit.setOnClickListener(){
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
     }
 
-    private fun servedForTheServer() {
-        val currentyear = custumDate.substring(6, 10)
+
+    private fun servedForTheServer(view: View) {
+        val currentyear = currentDate.substring(6, 10)
         val year = 2100 - currentyear.toInt()
         val mysendt: MutableMap<String, Any> = HashMap()
         mysendt["currentyear"] = "$currentyear"
         mysendt["yearvalue"] = "$year"
         firebaseReferfulldata.child("$year").updateChildren(mysendt)
-        val currentmonth = custumDate.substring(3, 5)
+        val currentmonth = currentDate.substring(3, 5)
         val month = 13 - currentmonth.toInt()
 
-        firebaseRefer = firebaseDatabase.getReference().child("User").child(uid).child("year").child("$year").child("month").child("$month")
+        val currentdate = currentDate.substring(0,2)
+        var date = 32 - currentdate.toInt()
+
+        val mysendt1: MutableMap<String, Any> = HashMap()
+        mysendt1["yearspinner"] = "$currentyear"
+
+        yearspinner = firebaseDatabase.getReference().child("User").child(uid).child("yearspinner")
+        yearspinner.child("$year").setValue(mysendt1)
+
+        firebaseRefer = firebaseDatabase.getReference().child("User").child(uid).child("year")
+            .child("$year").child("month").child("$month")
+        firebaseRefer2 = firebaseDatabase.getReference().child("User").child(uid).child("daily")
+        firebaseRefer4 = firebaseDatabase.getReference().child("User").child(uid).child("daily2")
+        firebaseRefer5 = firebaseDatabase.getReference().child("User").child(uid).child("pie1")
 
         var sum = 0
         for (i in 0 until layout_list.childCount) {
-            val view: View = layout_list.getChildAt(i)
-            val entry2: EditText = view.findViewById(R.id.entry2)
-            val work: EditText = view.findViewById(R.id.work)
-            val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
+            val view1: View = layout_list.getChildAt(i)
+            val entry2: EditText = view1.findViewById(R.id.entry2)
+            val work: EditText = view1.findViewById(R.id.work)
+            val spinnershow: TextView = view1.findViewById(R.id.home_spinnershow)
             val myvalie = entry2.text.toString()
             val mycat = work.text.toString()
             val myspin = spinnershow.text.toString()
@@ -231,7 +282,10 @@ class updatelist : Fragment() {
                 mysendtipp["entry2"] = myvalie
                 mysendtipp["work"] = mycat
                 mysendtipp["Spinner"] = myspin
-                firebaseRefer.child("date").child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer.child("date").child("$currentdate").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer.child("date1").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                     .addOnSuccessListener {
                         Log.d("Firebase", "Data saved successfully for item $i")
                     }
@@ -248,34 +302,26 @@ class updatelist : Fragment() {
 
         val allexper = sum.toString()
         val allstru: MutableMap<String, Any> = HashMap()
+        val allstru1: MutableMap<String, Any> = HashMap()
+        allstru1["entry"] = myallsum
         allstru["entry"] = myallsum
         allstru["Expenses"] = allexper
         allstru["income"] = myallsav.toString()
         allstru["datevalue"] = valuefor
-        allstru["mydateg"] = custumDate
+        allstru["mydateg"] = currentDate
 
-        firebaseRefer.child("date").child(valuefor).updateChildren(allstru)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Data Send Successfully",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    requireContext(),
-                    "There Are Some Problem",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+        firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
+        firebaseRefer.child("date1").child("$date").updateChildren(allstru)
+        firebaseRefer.child("date1").child("$date").child("dater").child("op").updateChildren(allstru)
+        firebaseRefer2.child(valuefor).updateChildren(allstru)
+        firebaseRefer4.child(valuefor2).child("date1").child("date").updateChildren(allstru)
+        firebaseRefer4.child(valuefor2).updateChildren(allstru)
 
-        monthlyp("$year","$month","$currentmonth")
+
+        monthlyp("$year","$month","$currentmonth",view)
     }
-
-    private fun monthlyp(s: String, s1: String, s2: String) {
+    private fun monthlyp(s: String, s1: String, s2: String, view: View) {
+        firebaseRefer3 = firebaseDatabase.getReference().child("User").child(uid).child("monthly")
         firebaseRefer1 = firebaseDatabase.getReference().child("User").child(uid).child("year").child("$s").child("month").child("$s1").child("date")
 
         firebaseRefer1.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -292,14 +338,207 @@ class updatelist : Fragment() {
                     totalrevenue+=totalre.toInt()
                     totalsaving+=totalsa.toInt()
 
+                    var year = currentDate.substring(6,10)
+                    var month = currentDate.substring(3,5)
+
+                    var monthvalue = ""
+                    var monthvalue1 = ""
+
+                    when(month){
+                        "01" ->{monthvalue = "Jan"
+                            monthvalue1 = "January"}
+                        "02" ->{monthvalue = "Feb"
+                            monthvalue1 = "Febrary"}
+                        "03" ->{monthvalue = "Mar"
+                            monthvalue1 = "March"}
+                        "04" ->{monthvalue = "Apr"
+                            monthvalue1 = "April"}
+                        "05" ->{monthvalue = "May"
+                            monthvalue1 = "May"}
+                        "06" ->{monthvalue = "Jun"
+                            monthvalue1 = "June"}
+                        "07" ->{monthvalue = "Jul"
+                            monthvalue1 = "July"}
+                        "08" ->{monthvalue = "Aug"
+                            monthvalue1 = "August"}
+                        "09" ->{monthvalue = "Sep"
+                            monthvalue1 = "September"}
+                        "10" ->{monthvalue = "Oct"
+                            monthvalue1 = "October"}
+                        "11" ->{monthvalue = "Nov"
+                            monthvalue1 = "November"}
+                        "12" ->{monthvalue = "Dec"
+                            monthvalue1 = "December"}
+
+                    }
+
                     val mysendtp: MutableMap<String, Any> = HashMap()
                     mysendtp["totalexpenses"] = "$totalexpenses1"
                     mysendtp["totalrevenue"] = "$totalrevenue"
                     mysendtp["totalsaving"] = "$totalsaving"
-                    mysendtp["currentmonth"] = "$s2"
-                    mysendtp["monthvalue"] = "$s1"
+                    mysendtp["currentmonth"] = "$monthvalue1"
+                    mysendtp["monthvalue"] = ("$monthvalue " + "$year")
 
+                    firebaseRefer3.child(valuefor1).setValue(mysendtp)
+                    firebaseReferfulldata1.child("$s").child("month1").child("$month").updateChildren(mysendtp)
                     firebaseReferfulldata1.child("$s").child("month").child("$s1").updateChildren(mysendtp)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "Data Send Successfully",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                requireContext(),
+                                "There Are Some Problem",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun fetchdataforview(){
+        var minidate = calendar.text.toString()
+        var yeardate = minidate.substring(6,10)
+        var monthdate = minidate.substring(3,5)
+        var datedate = minidate.substring(0,2)
+        var year = 2100 - yeardate.toInt()
+        var month = 13 - monthdate.toInt()
+        var date = 32 - datedate.toInt()
+        val formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val initiadate = LocalDate.parse(minidate, formatte)
+        var datevalue = initiadate.toEpochDay().toInt()
+        firebaseRefer100 = FirebaseDatabase.getInstance().getReference().child("User")
+            .child(uid).child("year").child("$year").child("month")
+            .child("$month").child("date1").child("$date").child("dater")
+
+        firebaseRefer200 = FirebaseDatabase.getInstance().getReference().child("User")
+            .child(uid).child("pie1").child("$datevalue").child("dateri")
+        var io = 0
+
+        firebaseRefer100.limitToFirst(1).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (i in snapshot.children) {
+                    var entry11 = i.child("entry").getValue().toString()
+
+                    entry.setText("$entry11")
+                    firebaseRefer200 =
+                        FirebaseDatabase.getInstance().getReference().child("User")
+                            .child(uid).child("pie1").child("$datevalue").child("dateri")
+                            .child("Myfirstdate$io").child("op")
+                    firebaseRefer200.addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (ip in snapshot.children) {
+
+                                var entry12 = ip.child("entry2").getValue().toString()
+                                var spinner1 = ip.child("Spinner").getValue().toString()
+                                var work1 = ip.child("work").getValue().toString()
+
+                                val view:View = layoutInflater.inflate(R.layout.add_list,null)
+                                val entry2: EditText = view.findViewById(R.id.entry2)
+                                val work: EditText = view.findViewById(R.id.work)
+                                val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
+                                layout_list.addView(view)
+                                spinnershow.setOnClickListener() {
+                                    val dialog = Dialog(requireContext())
+                                    dialog.setContentView(R.layout.home_spinner_show)
+
+                                    val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
+                                    val searchView: androidx.appcompat.widget.SearchView =
+                                        dialog.findViewById(R.id.home_searchView)
+                                    val adddata: TextView = dialog.findViewById(R.id.home_adddata)
+                                    adddata.setOnClickListener() {
+                                        addspinnerdata()
+                                    }
+
+                                    listOfMonth = ArrayList()
+                                    recyclerView.layoutManager =
+                                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                                    adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
+                                        spinnershow.setText(dattaspinner.text.toString())
+                                        dialog.dismiss()
+                                    }
+                                    recyclerView.adapter = adapter
+
+                                    searchView.clearFocus()
+                                    searchView.setOnQueryTextListener(object :
+                                        androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                                        override fun onQueryTextSubmit(query: String?): Boolean {
+                                            return false
+                                        }
+
+                                        override fun onQueryTextChange(newText: String?): Boolean {
+                                            filter(newText)
+                                            return true
+                                        }
+                                    })
+
+                                    spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            listOfMonth.clear()  // Clear existing data
+                                            for (ip in snapshot.children) {
+                                                val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                                                listOfMonth.add(home_spinner_model(yearSpinner))
+                                            }
+                                            adapter.notifyDataSetChanged()
+                                        }
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT)
+                                                .show()
+                                        }
+                                    })
+
+                                    dialog.show()
+                                }
+                                entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                                    if (!hasFocus) {
+                                        val mytkvl: Int = try {
+                                            entry2.text.toString().toInt()
+                                        } catch (e: NumberFormatException) {
+                                            0
+                                        }
+                                        totalMytkl += mytkvl
+                                        expences.text = totalMytkl.toString()
+
+                                        val entryValue: Int = try {
+                                            entry.text.toString().toInt()
+                                        } catch (e: NumberFormatException) {
+                                            0
+                                        }
+                                        val totalIncome = entryValue - totalMytkl
+                                        if (entryValue>totalIncome) income.setText("$totalIncome") else if(entryValue==totalIncome) income.setText("0") else income.setText("- $totalIncome")
+                                    }
+                                }
+                                view.findViewById<ImageButton>(R.id.delete).setOnClickListener(){
+                                    removeCard(view)
+                                }
+
+                                entry2.setText("$entry12")
+                                spinnershow.setText("$spinner1")
+                                work.setText("$work1")
+                                io += 1
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+
+
 
                 }
             }
@@ -311,22 +550,66 @@ class updatelist : Fragment() {
     }
 
     //DynamicView
-    private fun addcard(entry22: String, work2: String) {
+    private fun addcard() {
         val view:View = layoutInflater.inflate(R.layout.add_list,null)
+        val entry2: EditText = view.findViewById(R.id.entry2)
+        val work: EditText = view.findViewById(R.id.work)
+        val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
         layout_list.addView(view)
-        val entry2:EditText = view.findViewById(R.id.entry2)
-        val work:EditText = view.findViewById(R.id.entry)
-        val spinnershow:TextView= view.findViewById(R.id.home_spinnershow)
-        var category = arrayOf("None","Food","Study","Cloths","Vehicle","Other")
-        val arrayAdp = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,category)
+        spinnershow.setOnClickListener() {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.home_spinner_show)
 
+            val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
+            val searchView: androidx.appcompat.widget.SearchView =
+                dialog.findViewById(R.id.home_searchView)
+            val adddata: TextView = dialog.findViewById(R.id.home_adddata)
+            adddata.setOnClickListener() {
+                addspinnerdata()
+            }
 
-        entry2.setText("$entry22")
-        work.setText("$work2")
+            listOfMonth = ArrayList()
+            recyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
+                spinnershow.setText(dattaspinner.text.toString())
+                dialog.dismiss()
+            }
+            recyclerView.adapter = adapter
+
+            searchView.clearFocus()
+            searchView.setOnQueryTextListener(object :
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    filter(newText)
+                    return true
+                }
+            })
+
+            spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    listOfMonth.clear()  // Clear existing data
+                    for (ip in snapshot.children) {
+                        val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                        listOfMonth.add(home_spinner_model(yearSpinner))
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+
+            dialog.show()
+        }
 
         entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            entry2.setText("$entry22")
-            work.setText("$work2")
             if (!hasFocus) {
                 val mytkvl: Int = try {
                     entry2.text.toString().toInt()
@@ -365,7 +648,15 @@ class updatelist : Fragment() {
 
         layout_list.removeView(view)
     }
-
+    private fun filter(newText: String?) {
+        val filteredList = listOfMonth.filter {
+            it.text.toLowerCase(Locale.ROOT).contains(newText?.toLowerCase(Locale.ROOT) ?: "")
+        }
+        if (filteredList.isEmpty()) {
+            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show()
+        }
+        adapter.setAdapterList(ArrayList(filteredList))
+    }
 
     //Calender = Date
     override fun onDestroy() {

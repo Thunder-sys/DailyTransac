@@ -22,7 +22,6 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.example.dailytransac.Database.ModelClassformaiji
 import com.example.dailytransac.Database.ModelClassformainn
-import com.example.dailytransac.Database.piedata
 import com.example.dailytransac.R
 import com.example.dailytransac.databinding.FragmentGraphBinding
 import com.example.dailytransac.kuna.graph_spinner_adapter
@@ -603,7 +602,6 @@ class graph : Fragment() {
             val categoryMap = mutableMapOf<String, Float>()
             var small = fin.toInt()
             var big = fir.toInt()
-            var bi = fir.toInt() - 1
             var sumd = 0
             var sumex = 0
             var i = 0
