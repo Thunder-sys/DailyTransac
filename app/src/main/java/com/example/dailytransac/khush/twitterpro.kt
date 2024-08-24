@@ -9,7 +9,7 @@ import com.example.dailytransac.R
 import com.example.dailytransac.Saksh.loginpage2
 
 class twitterpro : AppCompatActivity() {
-    private var twitterpro = 3000
+    private var twitterpro = 4000
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

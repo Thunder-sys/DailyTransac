@@ -1,11 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/white" android:orientation="vertical" tools:context=".Saksh.loginpage">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+
         <ImageView
             android:layout_width="250dp"
-            android:layout_height="280dp"
+            android:layout_height="252dp"
             android:layout_gravity="center"
             android:layout_marginTop="45dp"
-            android:background="@drawable/arrt"/>
+            android:background="@drawable/arrt" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,9 +25,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:textColor="@color/black"
-            android:textSize="24dp"
+            android:textSize="20dp"
             android:text="Hi,There nice to see you again"
-            android:textStyle="bold"/>
+            android:textStyle="normal"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                 android:textStyle="bold"
                 app:hintTextColor="@color/green"
                 app:startIconDrawable="@drawable/baseline_email_24"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="350dp"
@@ -68,7 +69,7 @@
                 app:hintTextColor="@color/green"
                 app:endIconMode="password_toggle"
                 app:startIconDrawable="@drawable/lock"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:hint="Password">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -93,7 +94,7 @@
             android:layout_marginTop="20dp"
             android:textSize="15dp"
             android:layout_gravity="right"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="30dp"
             android:textColor="@color/light_blue"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -101,7 +102,7 @@
             android:layout_width="350dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:text="Sign In"
             android:textSize="30dp"
             android:elevation="20dp"
@@ -120,9 +121,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="I am new user?"
-                android:textSize="20dp"
+                android:textSize="17dp"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textStyle="normal"/>
 
             <TextView
                 android:id="@+id/create"

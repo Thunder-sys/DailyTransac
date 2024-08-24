@@ -10,11 +10,11 @@
     tools:context=".Saksh.loginpage">
 
     <ImageView
-        android:layout_width="160dp"
-        android:layout_height="150dp"
+        android:layout_width="175dp"
+        android:layout_height="128dp"
         android:background="@drawable/dailytransac"
         android:layout_gravity="center"
-        android:layout_marginTop="35dp"/>
+        android:layout_marginTop="45dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/indikaz"
             android:textSize="55dp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:textColor="@color/light_green"
             android:text="D"/>
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinregular"
             android:textSize="30dp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:textColor="@color/light_green"
             android:text="aily"/>
 
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinregular"
             android:textSize="30dp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:layout_marginLeft="10dp"
             android:textColor="@color/light_blue"
             android:text="Transac"/>
@@ -66,6 +66,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:layout_gravity="center"
         android:textSize="12dp"
         android:fontFamily="@font/popinregular"
@@ -98,6 +99,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
@@ -137,7 +139,6 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
@@ -161,12 +162,13 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:text="Sign In"
-        android:textSize="35dp"
+        android:textStyle="normal"
+        android:textSize="30dp"
         android:elevation="20dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/gradient_green"/>
+        android:layout_marginTop="30dp"
+        android:background="@drawable/gredient_light_green"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -179,16 +181,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Already have an account?"
-            android:textSize="20dp"
+            android:textSize="17dp"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="normal"/>
 
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign In"
-            android:textSize="20dp"
+            android:textSize="19dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/light_blue"
             android:textStyle="bold"/>

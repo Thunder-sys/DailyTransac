@@ -56,28 +56,35 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:scaleX="0"
-            android:scaleY="0" />
+            android:scaleY="0" motion:transitionEasing="cubic(0.21,0.2,0.8,0.8)"/>
         <Constraint
             android:id="@+id/bluetwitter"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="257dp"
+            android:layout_height="182dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:scaleX="1"
             android:scaleY="1"
             android:alpha="1"
-            motion:transitionEasing="cubic(1,0,1,0)" />
+            motion:transitionEasing="cubic(1,0,1,0)"
+            motion:layout_editor_absoluteY="320dp"
+            android:visibility="visible" />
         <Constraint
             android:id="@+id/whitetwitter"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="314dp"
+            android:layout_height="281dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:scaleX="0"
-            android:scaleY="0" />
+            android:scaleY="0"
+            motion:layout_editor_absoluteY="135dp" />
     </ConstraintSet>
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:autoTransition="animateToStart" />
 </MotionScene>

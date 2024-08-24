@@ -10,33 +10,37 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/background"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:background="@drawable/kk"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" >
 
+        <ImageView
+            android:id="@+id/whitetwitter"
+            android:layout_width="245dp"
+            android:layout_height="238dp"
+            android:background="@drawable/kk"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
         android:id="@+id/bluetwitter"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/twitter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/whitetwitter"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/whitetwitter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/logoblue"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="@+id/whitetwitter"
+        tools:layout_editor_absoluteY="316dp" />
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

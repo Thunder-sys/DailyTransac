@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replacefragement(home())
-
+ 
         binding.bottomNavi.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> replacefragement(home())

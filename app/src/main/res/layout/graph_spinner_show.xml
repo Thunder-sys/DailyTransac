@@ -32,11 +32,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/graph_recycle"
-            tools:listitem="@layout/graph_spinner_recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/graph_recycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/graph_spinner_recycleview" />
             </ScrollView>
 
         </LinearLayout>
