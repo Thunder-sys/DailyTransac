@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/yearly_less_than"
+                android:id="@+id/daily_less_than"
                 android:layout_width="50dp"
                 android:background="@drawable/less_than"
                 android:layout_height="40dp"/>
@@ -35,9 +35,9 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/year_value"
+                android:id="@+id/daily_value"
                 android:layout_width="wrap_content"
-                android:text="2024"
+                android:text="24-08-2024"
                 android:textSize="30dp"
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"/>
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/yearly_greater_than"
+                android:id="@+id/daily_greater_than"
                 android:layout_width="50dp"
                 android:background="@drawable/right_than"
                 android:layout_height="40dp"/>
@@ -60,6 +60,152 @@
         </LinearLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            android:background="@drawable/gredient_light_green"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="90dp"
+                    android:text="Revanue" />
+
+                <TextView
+                    android:id="@+id/daily_e1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:layout_marginRight="90dp"
+                    android:text="0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:text="Expence" />
+
+                <TextView
+                    android:id="@+id/daily_e2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:text="Income" />
+
+                <TextView
+                    android:id="@+id/daily_e3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:text="0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient_green"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Expence"
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:text="Description" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:text="Type" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/daily_recodetail"
+                        tools:listitem="@layout/recoitem"
+                        android:layout_width="match_parent"
+                        android:paddingBottom="20dp"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
 
 
 </LinearLayout>

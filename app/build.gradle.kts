@@ -14,7 +14,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -58,8 +58,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Line Chart
+    //Chart
     implementation("com.github.Philjay:MPAndroidChart:v3.0.3")
+    implementation("com.github.AnyChart:AnyChart-Android:1.1.2")
+    implementation("androidx.multidex:multidex:2.0.1")
+
 
     //sign in google
     implementation("com.google.firebase:firebase-bom:33.1.1")

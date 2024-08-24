@@ -88,10 +88,11 @@
         android:hint="Name">
 
         <com.google.android.material.textfield.TextInputEditText
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/entername"
             android:textStyle="bold"
-               android:maxLength="13">
+            android:maxLength="13">
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
