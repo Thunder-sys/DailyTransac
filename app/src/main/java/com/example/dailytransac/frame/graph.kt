@@ -77,8 +77,10 @@ class graph : Fragment() {
     private lateinit var adapter: graph_spinner_adapter
     private lateinit var barchart: BarChart
     private lateinit var linechart: LineChart
-    private lateinit var linechart2: LineChart
     private lateinit var piechart: PieChart
+
+    lateinit var text_rev :TextView
+    lateinit var text_exp :TextView
 
 
     val entries = mutableListOf<PieEntry>()
@@ -106,6 +108,9 @@ class graph : Fragment() {
         }
         // Start updating the TextView
         handler.post(updateTimeRunnable)
+
+        text_rev = view.findViewById(R.id.graph_revenue)
+        text_exp = view.findViewById(R.id.graph_expenses)
 
         spinnerReference = FirebaseDatabase.getInstance().getReference()
             .child("User").child(uid).child("yearspinner")
@@ -599,7 +604,10 @@ class graph : Fragment() {
         barlist_2.clear()
 
         if (fir != 0 && fin !=0){
-            val categoryMap = mutableMapOf<String, Float>()
+
+            var total_exp = 0
+            var total_rev = 0
+
             var small = fin.toInt()
             var big = fir.toInt()
             var sumd = 0
@@ -607,7 +615,7 @@ class graph : Fragment() {
             var i = 0
             val tasksCount = big - small + 1 // Number of tasks to complete
             var completedTasks = 0 // Counter for completed tasks
-
+            val categoryMap = mutableMapOf<String, Float>()
 
 
             while (small <= big) {
@@ -623,6 +631,13 @@ class graph : Fragment() {
                                 val myexper = myds.child("Expenses").value.toString()
                                 val mydatege = myds.child("mydateg").value.toString()
                                 val mydatev = myds.child("datevalue").value.toString()
+
+                                total_exp+=myexper.toInt()
+                                total_rev+=myteo.toInt()
+
+                                text_rev.setText("$total_rev")
+                                text_exp.setText("$total_exp")
+
                                 Log.d("mud", mydatege)
                                 val subdate = mydatev.toInt()
                                 val subdate2 = (subdate + i + 1) - subdate
@@ -706,9 +721,14 @@ class graph : Fragment() {
 
         }
         else {
+            var total_exp = 0
+            var total_rev = 0
 
             var small = fin.toInt()
             var big = fir.toInt()
+            val tasksCount = big - small + 1 // Number of tasks to complete
+            var completedTasks = 0 // Counter for completed tasks
+            val categoryMap = mutableMapOf<String, Float>()
             var sumd = 0
             var sumex = 0
             var i = 0
@@ -724,6 +744,13 @@ class graph : Fragment() {
                         val myexper = myds.child("Expenses").value.toString()
                         val mydatege = myds.child("mydateg").value.toString()
                         val mydatev = myds.child("datevalue").value.toString()
+
+                        total_exp+=myexper.toInt()
+                        total_rev+=myteo.toInt()
+
+                        text_rev.setText("$total_rev")
+                        text_exp.setText("$total_exp")
+
                         Log.d("mud", mydatege)
                         val subdate = mydatev.toInt()
                         val subdate2 = (subdate + i + 1) - subdate
@@ -765,6 +792,40 @@ class graph : Fragment() {
 
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
+                }
+            })
+            val pieReference = FirebaseDatabase.getInstance().getReference()
+                .child("User").child(uid)
+                .child("pie2")
+
+            pieReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (ipo in snapshot.children) {
+                        val spinner = ipo.child("Spinner").getValue(String::class.java) ?: ""
+                        val spinvalueStr = ipo.child("entry2").getValue(String::class.java) ?: ""
+
+                        if (spinvalueStr.isNotEmpty()) {
+                            try {
+                                val value = spinvalueStr.toFloat()
+                                categoryMap[spinner] =
+                                    categoryMap.getOrDefault(spinner, 0f) + value
+                            } catch (e: NumberFormatException) {
+                                Log.e("NumberFormatError", "Failed to parse value: $spinvalueStr", e)
+                            }
+                        }
+                    }
+
+                    // Increment completed tasks counter
+                    completedTasks++
+
+                    // If all tasks are completed, show the pie chart
+                    if (completedTasks == tasksCount) {
+                        showpiechart(view, categoryMap)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("FirebaseError", "Failed to fetch data", error.toException())
                 }
             })
         }
@@ -818,8 +879,6 @@ class graph : Fragment() {
 
     private fun showlinechart(view: View,linelist_1:ArrayList<Entry>,linelist_2: ArrayList<Entry>) {
         linechart = view.findViewById(R.id.linechart1)
-        linechart2 = view.findViewById(R.id.linechart2)
-
 
         val validColor = getColor("FF0000") // Tomato color
         val invalidColor = getColor("#03CFAD") // Defaults to black

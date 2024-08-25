@@ -107,6 +107,9 @@ class daily : Fragment() {
 
     }
     private fun fethdata(dateString:String,dateString1: String,dateString3: String){
+        textView1.setText("0")
+        textView2.setText("0")
+        textView3.setText("0")
         val listOfMonthData = ArrayList<datafetch_dailydata>()
         reco1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         val adapter = datafetch_dailydata_adapter(listOfMonthData)
