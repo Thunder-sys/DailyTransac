@@ -602,6 +602,7 @@ class graph : Fragment() {
         linelist_2.clear()
         barlist_1.clear()
         barlist_2.clear()
+        entries.clear()
 
         if (fir != 0 && fin !=0){
 

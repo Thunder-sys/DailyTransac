@@ -102,8 +102,8 @@ class monthly : Fragment() {
         yearPicker.value = calendar.get(Calendar.YEAR)
         monthPicker.value = calendar.get(Calendar.MONTH)
 
-        val cancel: Button = dialog.findViewById(R.id.month_cancel)
-        val ok: Button = dialog.findViewById(R.id.month_ok)
+        val cancel: TextView = dialog.findViewById(R.id.month_cancel)
+        val ok: TextView = dialog.findViewById(R.id.month_ok)
 
         ok.setOnClickListener {
             val selectedYear = yearPicker.value
