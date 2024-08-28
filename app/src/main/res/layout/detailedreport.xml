@@ -56,8 +56,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -106,42 +107,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
                 android:text="Expence"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="17dp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+               android:layout_marginLeft="50dp"
                 android:textColor="@color/white"
-                android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="17dp"
+                android:textStyle="bold"
                 android:text="Description" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:layout_marginLeft="50dp"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="17dp"
+                android:textStyle="bold"
                 android:text="Type" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            >
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recodetail"
