@@ -23,7 +23,7 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".khush.splashpro"
+            android:name=".Saksh.loginpage2"
             android:exported="false"
             android:screenOrientation="portrait"/>
 
@@ -42,7 +42,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".Saksh.loginpage2"
+            android:name=".khush.SplashPro"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
