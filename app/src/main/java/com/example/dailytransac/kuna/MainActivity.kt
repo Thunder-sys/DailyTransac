@@ -1,6 +1,7 @@
 package com.example.dailytransac.kuna
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity(){
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
         replacefragement(home())
  
         binding.bottomNavi.setOnItemSelectedListener {
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.transaction -> replacefragement(transaction())
                 R.id.graph -> replacefragement(graph())
                 else -> {
+
                 }
             }
             true

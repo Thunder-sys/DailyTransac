@@ -1,10 +1,13 @@
 package com.example.dailytransac.frame
 
+import MyViewModel
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -393,27 +396,6 @@ class home : Fragment() {
         val entry2: EditText = view.findViewById(R.id.entry2)
         val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
         layout_list.addView(view)
-
-        var currentyear = currentDate.substring(6,10)
-        var currentmonth = currentDate.substring(3,5)
-        var currentdate = currentDate.substring(0,2)
-
-        var year = 2100 - currentyear.toInt()
-        var month = 13 - currentmonth.toInt()
-        var date = 32 - currentdate.toInt()
-
-        fetchDataforview.child("$year").child("month").child("$month").child("date1").child("$date")
-        fetchDataforview.addListenerForSingleValueEvent(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(ip in snapshot.children){
-
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
 
         spinnershow.setOnClickListener(){
             val dialog = Dialog(requireContext())

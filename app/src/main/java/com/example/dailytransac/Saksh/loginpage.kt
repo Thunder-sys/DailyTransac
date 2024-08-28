@@ -1,13 +1,16 @@
 package com.example.dailytransac.Saksh
 
+import MyViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.dailytransac.Database.MyViewModelFactory
 import com.example.dailytransac.Database.User
 import com.example.dailytransac.R
 import com.example.dailytransac.databinding.ActivityLoginpage2Binding
@@ -21,6 +24,7 @@ class loginpage : AppCompatActivity() {
     lateinit var binding: ActivityLoginpageBinding
     lateinit var firebaseAuth:FirebaseAuth
     lateinit var Reference:DatabaseReference
+    private val myViewModel: MyViewModel by viewModels { MyViewModelFactory(this) }
     init {
         Reference = FirebaseDatabase.getInstance().getReference().child("User")
     }
@@ -39,6 +43,8 @@ class loginpage : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty() && confirmpass.isNotEmpty())  {
                 if (pass==confirmpass){
                     firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener{
+                        myViewModel.textValue = email
+                        myViewModel.passwork = pass
                         if (it.isSuccessful){
                             addUsertoDatabase(email,firebaseAuth.currentUser?.uid!!)
                             val intent = Intent(this, MainActivity::class.java)
