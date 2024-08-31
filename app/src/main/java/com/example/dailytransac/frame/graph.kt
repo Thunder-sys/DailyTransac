@@ -70,6 +70,7 @@ class graph : Fragment() {
     private lateinit var updateTimeRunnable: Runnable
 
     private lateinit var spinnerReference: DatabaseReference
+    private lateinit var spinnerReference1: DatabaseReference
     private lateinit var pieReference: DatabaseReference
     private lateinit var fetchdataReference: DatabaseReference
     private lateinit var showSpinner: TextView
@@ -617,6 +618,7 @@ class graph : Fragment() {
             val tasksCount = big - small + 1 // Number of tasks to complete
             var completedTasks = 0 // Counter for completed tasks
             val categoryMap = mutableMapOf<String, Float>()
+            val categoryMap1 = mutableMapOf<String, Float>()
 
 
             while (small <= big) {
@@ -698,6 +700,7 @@ class graph : Fragment() {
                                     val value = spinvalueStr.toFloat()
                                     categoryMap[spinner] =
                                         categoryMap.getOrDefault(spinner, 0f) + value
+                                    categoryMap1[spinner] = categoryMap.getOrDefault(spinner, 0f) + value
                                 } catch (e: NumberFormatException) {
                                     Log.e("NumberFormatError", "Failed to parse value: $spinvalueStr", e)
                                 }
@@ -710,6 +713,7 @@ class graph : Fragment() {
                         // If all tasks are completed, show the pie chart
                         if (completedTasks == tasksCount) {
                             showpiechart(view, categoryMap)
+                            showpiereco(view,categoryMap1)
                         }
                     }
 
@@ -878,11 +882,15 @@ class graph : Fragment() {
         }
     }
 
+    private fun showpiereco(View:View,fir:MutableMap<String,Float>){
+
+    }
+
     private fun showlinechart(view: View,linelist_1:ArrayList<Entry>,linelist_2: ArrayList<Entry>) {
         linechart = view.findViewById(R.id.linechart1)
 
         val validColor = getColor("FF0000") // Tomato color
-        val invalidColor = getColor("#03CFAD") // Defaults to black
+        val invalidColor = getColor("#FF0000") // Defaults to black
         val barDataset = LineDataSet(linelist_1, "Income")
         barDataset.color = validColor
         val barDataset1 = LineDataSet(linelist_2, "Expense")
@@ -901,8 +909,8 @@ class graph : Fragment() {
     private fun shorbarchart(view: View,barlist_1:ArrayList<BarEntry>,barlist_2: ArrayList<BarEntry>) {
         barchart = view.findViewById(R.id.barchart)
 
-        val validColor = getColor("FF0000") // Tomato color
-        val invalidColor = getColor("#03CFAD") // Defaults to black
+        val validColor = getColor("#FF0000") // Tomato color
+        val invalidColor = getColor("FF0000") // Defaults to black
 
         val barDataset = BarDataSet(barlist_1, "Income")
         barDataset.color = validColor

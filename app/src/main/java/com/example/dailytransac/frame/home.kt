@@ -4,7 +4,9 @@ import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -49,6 +51,7 @@ class home : Fragment() {
     lateinit var currentDate:String
     private lateinit var dateFormat: SimpleDateFormat
     private lateinit var spinnerReference: DatabaseReference
+    private lateinit var spinnerReference1: DatabaseReference
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseRefer: DatabaseReference
     private lateinit var firebaseRefer1: DatabaseReference
@@ -69,6 +72,7 @@ class home : Fragment() {
     var totalMytkl:Int = 0
     var addSpinnervalue:Int = 10000000
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
+    private val cardValuesMap = mutableMapOf<View, Int>()
 
     var uid = firebaseAuth.currentUser?.uid!!
 
@@ -390,26 +394,29 @@ class home : Fragment() {
 
     //DynamicView
     private fun addcard() {
-        val view:View = layoutInflater.inflate(R.layout.add_list,null)
+        val view: View = layoutInflater.inflate(R.layout.add_list, null)
         val entry2: EditText = view.findViewById(R.id.entry2)
         val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
         layout_list.addView(view)
 
-        spinnershow.setOnClickListener(){
+        // Initialize the old value for this new card
+        cardValuesMap[view] = 0
+
+        spinnershow.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.home_spinner_show)
 
             val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
-            val searchView:androidx.appcompat.widget.SearchView = dialog.findViewById(R.id.home_searchView)
-            val adddata :TextView = dialog.findViewById(R.id.home_adddata)
-            adddata.setOnClickListener(){
+            val searchView: androidx.appcompat.widget.SearchView = dialog.findViewById(R.id.home_searchView)
+            val adddata: TextView = dialog.findViewById(R.id.home_adddata)
+            adddata.setOnClickListener {
                 addspinnerdata()
             }
 
             listOfMonth = ArrayList()
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = home_spinner_adapter(listOfMonth){ dattaspinner->
-                spinnershow.setText(dattaspinner.text.toString())
+            adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
+                spinnershow.text = dattaspinner.text.toString()
                 dialog.dismiss()
             }
             recyclerView.adapter = adapter
@@ -444,17 +451,20 @@ class home : Fragment() {
             dialog.show()
         }
 
-
-
-
-        entry2.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                val mytkvl: Int = try {
-                    entry2.text.toString().toInt()
+        entry2.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val newValue: Int = try {
+                    s.toString().toInt()
                 } catch (e: NumberFormatException) {
                     0
                 }
-                totalMytkl += mytkvl
+
+                // Update the value for this specific card
+                val oldValue = cardValuesMap[view] ?: 0
+                cardValuesMap[view] = newValue
+
+                // Adjust total values
+                totalMytkl = totalMytkl - oldValue + newValue
                 expences.text = totalMytkl.toString()
 
                 val entryValue: Int = try {
@@ -463,28 +473,49 @@ class home : Fragment() {
                     0
                 }
                 val totalIncome = entryValue - totalMytkl
-                if (entryValue>totalIncome) income.setText("$totalIncome") else if(entryValue==totalIncome) income.setText("0") else income.setText("- $totalIncome")
+                when {
+                    entryValue > totalIncome -> income.text = "$totalIncome"
+                    entryValue == totalIncome -> income.text = "0"
+                    else -> income.text = "- $totalIncome"
+                }
             }
-        }
 
-        view.findViewById<ImageButton>(R.id.delete).setOnClickListener(){
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        view.findViewById<ImageButton>(R.id.delete).setOnClickListener {
             removeCard(view)
         }
     }
 
+    // Function to remove a card and update values
     private fun removeCard(view: View) {
-        // Safely remove view and update totals
-        val entry2: EditText = view.findViewById(R.id.entry2)
-        val mytkvl: Int = entry2.text.toString().toIntOrNull() ?: 0
-        totalMytkl -= mytkvl
+        // Get the old value for this card
+        val oldValue = cardValuesMap[view] ?: 0
+
+        // Remove the card view
+        layout_list.removeView(view)
+
+        // Remove the old value from the total
+        totalMytkl -= oldValue
         expences.text = totalMytkl.toString()
 
-        // Update income
-        val entryValue: Int = entry.text.toString().toIntOrNull() ?: 0
+        // Update the income value
+        val entryValue: Int = try {
+            entry.text.toString().toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
         val totalIncome = entryValue - totalMytkl
-        income.text = if (totalIncome >= 0) totalIncome.toString() else "-${-totalIncome}"
+        when {
+            entryValue > totalIncome -> income.text = "$totalIncome"
+            entryValue == totalIncome -> income.text = "0"
+            else -> income.text = "- $totalIncome"
+        }
 
-        layout_list.removeView(view)
+        // Remove the value from the map
+        cardValuesMap.remove(view)
     }
     private fun filter(newText: String?) {
         val filteredList = listOfMonth.filter {

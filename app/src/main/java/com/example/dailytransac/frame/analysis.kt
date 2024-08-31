@@ -24,6 +24,7 @@ class analysis : Fragment() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager
+    private lateinit var viewPager1: ViewPager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

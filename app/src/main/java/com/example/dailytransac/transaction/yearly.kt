@@ -38,6 +38,7 @@ class yearly : Fragment() {
     lateinit var textView1: TextView
     lateinit var textView2: TextView
     lateinit var textView3: TextView
+    lateinit var textView4: TextView
 
     lateinit var reco1: RecyclerView
 

@@ -36,7 +36,6 @@ class transaction : Fragment() {
     private lateinit var firebase_for_month: DatabaseReference
     private lateinit var firebase_for_dailyfull_data: DatabaseReference
     private lateinit var firebaseRefrence: DatabaseReference
-    private lateinit var firebaseRefrence1: DatabaseReference
 
     private lateinit var reco1: RecyclerView
     private lateinit var reco2: RecyclerView

@@ -37,6 +37,7 @@ class daily : Fragment() {
     lateinit var textView1: TextView
     lateinit var textView2: TextView
     lateinit var textView3: TextView
+    lateinit var textView4: TextView
 
     private lateinit var dateTextView: TextView
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
