@@ -293,6 +293,7 @@ class home : Fragment() {
 
         firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
         firebaseRefer.child("date1").child("$date").updateChildren(allstru)
+        firebaseRefer.child("date1").child("$date").child("dater").updateChildren(allstru)
         firebaseRefer2.child(valuefor).updateChildren(allstru)
 
 
