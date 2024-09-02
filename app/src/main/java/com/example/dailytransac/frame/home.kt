@@ -158,16 +158,10 @@ class home : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.home_add_spinner_data)
 
-        var recyclerView1:RecyclerView = dialog.findViewById(R.id.home_recent_recycle)
+
         var adddataop:EditText = dialog.findViewById(R.id.home_adddata_box)
         var add_button:TextView = dialog.findViewById(R.id.home_add)
         var sumbit:TextView = dialog.findViewById(R.id.home_submit)
-
-        listOfMonth1 = ArrayList()
-        var layourmanger:LinearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        recyclerView1.layoutManager = layourmanger
-        adapter1 = home_spinner_adapter_add(listOfMonth1)
-        recyclerView1.adapter = adapter
 
         add_button.setOnClickListener(){
             var dataForSpinner = adddataop.text.toString()
@@ -177,23 +171,6 @@ class home : Fragment() {
                 adddataop.setText("")
                 val mysendtipp: MutableMap<String, Any> = HashMap()
                 mysendtipp["homespin"] = dataForSpinner
-                addSpinnervalue+=-1
-                add_data_for_spinner.child("i$addSpinnervalue").setValue(mysendtipp)
-                Toast.makeText(requireContext(),"Add Data Successful",Toast.LENGTH_SHORT).show()
-                spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        listOfMonth.clear()  // Clear existing data
-                        for (ip in snapshot.children) {
-                            val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                            listOfMonth.add(home_spinner_model(yearSpinner))
-                        }
-                        adapter.notifyDataSetChanged()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
             }
         }
         spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
