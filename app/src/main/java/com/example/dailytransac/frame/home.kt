@@ -36,6 +36,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
+import java.util.UUID
 
 class home : Fragment() {
     lateinit var layout_list: LinearLayout
@@ -51,11 +52,12 @@ class home : Fragment() {
     lateinit var currentDate:String
     private lateinit var dateFormat: SimpleDateFormat
     private lateinit var spinnerReference: DatabaseReference
-    private lateinit var spinnerReference1: DatabaseReference
     private lateinit var updateTimeRunnable: Runnable
     private lateinit var firebaseRefer: DatabaseReference
     private lateinit var firebaseRefer1: DatabaseReference
     private lateinit var firebaseRefer2: DatabaseReference
+    private lateinit var firebaseRefer4: DatabaseReference
+    private lateinit var firebaseRefer5: DatabaseReference
     private lateinit var firebaseRefer3: DatabaseReference
     private lateinit var yearspinner: DatabaseReference
     private lateinit var fetchDataforview: DatabaseReference
@@ -65,6 +67,7 @@ class home : Fragment() {
     private lateinit var firebaseReferfulldata1: DatabaseReference
     private lateinit var valuefor:String
     private lateinit var valuefor1:String
+    private lateinit var valuefor2:String
     private lateinit var listOfMonth: ArrayList<home_spinner_model>
     private lateinit var listOfMonth1: ArrayList<home_spinner_model_add>
     private lateinit var adapter: home_spinner_adapter
@@ -105,7 +108,6 @@ class home : Fragment() {
 
         dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val formatte1 = DateTimeFormatter.ofPattern("MM/yyyy")
         val finalDate = "30/12/2100"
         val finalDate1 = 310012
 
@@ -128,6 +130,7 @@ class home : Fragment() {
                 val initda2 = initiadate2.toEpochDay().toInt()
                 Log.d("Mus", "" + initda)
                 valuefor = (initda - initda2).toString()
+                valuefor2 = initda2.toString()
 
 
                 // Schedule the next update in 1 second
@@ -158,10 +161,8 @@ class home : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.home_add_spinner_data)
 
-
         var adddataop:EditText = dialog.findViewById(R.id.home_adddata_box)
-        var add_button:TextView = dialog.findViewById(R.id.home_add)
-        var sumbit:TextView = dialog.findViewById(R.id.home_submit)
+        var add_button:TextView = dialog.findViewById(R.id.home_submit)
 
         add_button.setOnClickListener(){
             var dataForSpinner = adddataop.text.toString()
@@ -171,26 +172,12 @@ class home : Fragment() {
                 adddataop.setText("")
                 val mysendtipp: MutableMap<String, Any> = HashMap()
                 mysendtipp["homespin"] = dataForSpinner
+                val randomKey = UUID.randomUUID().toString()
+                add_data_for_spinner.child("$randomKey").setValue(mysendtipp)
+                Toast.makeText(requireContext(),"Add Data Successful",Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
             }
         }
-        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                listOfMonth1.clear()  // Clear existing data
-                for (ip in snapshot.children) {
-                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                    listOfMonth1.add(home_spinner_model_add(yearSpinner))
-                }
-                adapter1.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-        sumbit.setOnClickListener(){
-            dialog.dismiss()
-        }
-
         dialog.show()
 
     }
@@ -224,6 +211,8 @@ class home : Fragment() {
         firebaseRefer = firebaseDatabase.getReference().child("User").child(uid).child("year")
             .child("$year").child("month").child("$month")
         firebaseRefer2 = firebaseDatabase.getReference().child("User").child(uid).child("daily")
+        firebaseRefer4 = firebaseDatabase.getReference().child("User").child(uid).child("daily2")
+        firebaseRefer5 = firebaseDatabase.getReference().child("User").child(uid).child("pie1")
 
         var sum = 0
         for (i in 0 until layout_list.childCount) {
@@ -243,13 +232,17 @@ class home : Fragment() {
                 return
             } else {
                 sum += myvalie.toInt()
+                val mysendtipp1: MutableMap<String, Any> = HashMap()
+                mysendtipp1["valueno"] = "$i"
                 val mysendtipp: MutableMap<String, Any> = HashMap()
                 mysendtipp["entry2"] = myvalie
                 mysendtipp["work"] = mycat
                 mysendtipp["Spinner"] = myspin
                 firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                 firebaseRefer.child("date").child("$currentdate").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                 firebaseRefer.child("date1").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer.child("date1").child("$date").child("dater").updateChildren(mysendtipp1)
                     .addOnSuccessListener {
                         Log.d("Firebase", "Data saved successfully for item $i")
                     }
@@ -266,6 +259,8 @@ class home : Fragment() {
 
         val allexper = sum.toString()
         val allstru: MutableMap<String, Any> = HashMap()
+        val allstru1: MutableMap<String, Any> = HashMap()
+        allstru1["entry"] = myallsum
         allstru["entry"] = myallsum
         allstru["Expenses"] = allexper
         allstru["income"] = myallsav.toString()
@@ -274,8 +269,10 @@ class home : Fragment() {
 
         firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
         firebaseRefer.child("date1").child("$date").updateChildren(allstru)
-        firebaseRefer.child("date1").child("$date").child("dater").updateChildren(allstru)
+        firebaseRefer.child("date1").child("$date").child("dater").child("op").updateChildren(allstru)
         firebaseRefer2.child(valuefor).updateChildren(allstru)
+        firebaseRefer4.child(valuefor2).child("date1").child("date").updateChildren(allstru)
+        firebaseRefer4.child(valuefor2).updateChildren(allstru)
 
 
         monthlyp("$year","$month","$currentmonth",view)
@@ -373,6 +370,7 @@ class home : Fragment() {
     private fun addcard() {
         val view: View = layoutInflater.inflate(R.layout.add_list, null)
         val entry2: EditText = view.findViewById(R.id.entry2)
+        val work: EditText = view.findViewById(R.id.work)
         val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
         layout_list.addView(view)
 
@@ -466,7 +464,6 @@ class home : Fragment() {
         }
     }
 
-    // Function to remove a card and update values
     private fun removeCard(view: View) {
         // Get the old value for this card
         val oldValue = cardValuesMap[view] ?: 0
@@ -494,6 +491,7 @@ class home : Fragment() {
         // Remove the value from the map
         cardValuesMap.remove(view)
     }
+
     private fun filter(newText: String?) {
         val filteredList = listOfMonth.filter {
             it.text.toLowerCase(Locale.ROOT).contains(newText?.toLowerCase(Locale.ROOT) ?: "")

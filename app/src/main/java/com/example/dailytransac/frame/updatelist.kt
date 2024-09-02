@@ -209,18 +209,8 @@ class updatelist : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.home_add_spinner_data)
 
-        var recyclerView1:RecyclerView = dialog.findViewById(R.id.home_recent_recycle)
         var adddataop:EditText = dialog.findViewById(R.id.home_adddata_box)
-        var add_button:TextView = dialog.findViewById(R.id.home_add)
-        var sumbit:TextView = dialog.findViewById(R.id.home_submit)
-
-        listOfMonth1 = ArrayList()
-        var layourmanger:LinearLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        layourmanger.reverseLayout = true
-        layourmanger.stackFromEnd = true
-        recyclerView1.layoutManager = layourmanger
-        adapter1 = home_spinner_adapter_add(listOfMonth1)
-        recyclerView1.adapter = adapter
+        var add_button:TextView = dialog.findViewById(R.id.home_submit)
 
         add_button.setOnClickListener(){
             var dataForSpinner = adddataop.text.toString()
@@ -230,43 +220,12 @@ class updatelist : Fragment() {
                 adddataop.setText("")
                 val mysendtipp: MutableMap<String, Any> = HashMap()
                 mysendtipp["homespin"] = dataForSpinner
-                addSpinnervalue+=-1
-                add_data_for_spinner.child("i$addSpinnervalue").setValue(mysendtipp)
+                val randomKey = UUID.randomUUID().toString()
+                add_data_for_spinner.child("$randomKey").setValue(mysendtipp)
                 Toast.makeText(requireContext(),"Add Data Successful",Toast.LENGTH_SHORT).show()
-                spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        listOfMonth.clear()  // Clear existing data
-                        for (ip in snapshot.children) {
-                            val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                            listOfMonth.add(home_spinner_model(yearSpinner))
-                        }
-                        adapter.notifyDataSetChanged()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                dialog.dismiss()
             }
         }
-        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                listOfMonth1.clear()  // Clear existing data
-                for (ip in snapshot.children) {
-                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                    listOfMonth1.add(home_spinner_model_add(yearSpinner))
-                }
-                adapter1.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-        sumbit.setOnClickListener(){
-            dialog.dismiss()
-        }
-
         dialog.show()
 
     }
@@ -507,7 +466,9 @@ class updatelist : Fragment() {
                 for (i in snapshot.children) {
                     var entry11 = i.child("entry").getValue().toString()
 
-                    entry.setText("$entry11")
+                    var op = entry11.toString()
+
+                    entry.setText("$op")
                     firebaseRefer200.addListenerForSingleValueEvent(object :
                         ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -517,7 +478,7 @@ class updatelist : Fragment() {
                                 var spinner1 = ip.child("Spinner").getValue().toString()
                                 var work1 = ip.child("work").getValue().toString()
 
-                                addcard(entry12,spinner1,work1)
+                                addcard(entry12,work1,spinner1)
 
 
 
@@ -698,6 +659,7 @@ class updatelist : Fragment() {
         // Remove the value from the map
         cardValuesMap.remove(view)
     }
+
     private fun filter(newText: String?) {
         val filteredList = listOfMonth.filter {
             it.text.toLowerCase(Locale.ROOT).contains(newText?.toLowerCase(Locale.ROOT) ?: "")

@@ -19,7 +19,6 @@
             android:layout_height="40dp"
             android:hint="Add Data"
             android:textAlignment="center"
-            android:paddingLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"/>
@@ -31,29 +30,17 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
-            android:gravity="end">
-
-            <TextView
-                android:id="@+id/home_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="90dp"
-                android:paddingLeft="50dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:textAlignment="center"
-                android:text="ADD"
-                android:textColor="#5328A0"
-                android:textSize="20dp" />
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/home_submit"
-                android:layout_width="85dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textAlignment="center"
                 android:text="SUBMIT"
-                android:textColor="#542B9E"
+                android:textColor="#5328A0"
                 android:textSize="20dp" />
 
         </LinearLayout>
