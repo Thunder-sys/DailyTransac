@@ -168,7 +168,7 @@
                         android:layout_height="match_parent"
                        android:textStyle="bold"
                         android:layout_marginLeft="15dp"
-                        android:text="Expence"
+                        android:text="Expe"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -177,24 +177,25 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:layout_marginLeft="50dp"
+                        android:layout_marginLeft="82dp"
                         android:textSize="20dp"
-                        android:text="Description" />
+                        android:text="Desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="50dp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
+                        android:layout_marginLeft="77dp"
                         android:textSize="20dp"
                         android:text="Type" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="300dp"
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="2dp"
                     android:layout_marginTop="10dp">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -202,7 +203,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="20dp"
-                        tools:listitem="@layout/recoitem" />
+                        tools:listitem="@layout/daily_reco" />
                 </LinearLayout>
             </LinearLayout>
 
