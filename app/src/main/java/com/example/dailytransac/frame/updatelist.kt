@@ -206,28 +206,55 @@ class updatelist : Fragment() {
     }
 
     private fun addspinnerdata() {
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.home_add_spinner_data)
+        val dialog = Dialog(requireContext()).apply {
+            setContentView(R.layout.home_add_spinner_data)
+            setCancelable(true)
+        }
 
-        var adddataop:EditText = dialog.findViewById(R.id.home_adddata_box)
-        var add_button:TextView = dialog.findViewById(R.id.home_submit)
+        val addDataOp: EditText = dialog.findViewById(R.id.home_adddata_box)
+        val addButton: TextView = dialog.findViewById(R.id.home_submit)
 
-        add_button.setOnClickListener(){
-            var dataForSpinner = adddataop.text.toString()
-            if (dataForSpinner.isEmpty()){
-                adddataop.setError("Enter the value")
-            }else{
-                adddataop.setText("")
-                val mysendtipp: MutableMap<String, Any> = HashMap()
-                mysendtipp["homespin"] = dataForSpinner
-                val randomKey = UUID.randomUUID().toString()
-                add_data_for_spinner.child("$randomKey").setValue(mysendtipp)
-                Toast.makeText(requireContext(),"Add Data Successful",Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
+        addButton.setOnClickListener {
+            val dataForSpinner = addDataOp.text.toString().trim()
+            if (dataForSpinner.isEmpty()) {
+                addDataOp.error = "Enter a value"
+            } else {
+                checkIfValueExists(dataForSpinner) { exists ->
+                    if (exists) {
+                        Toast.makeText(requireContext(), "Value already exists", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val mySendTip: MutableMap<String, Any> = HashMap()
+                        mySendTip["homespin"] = dataForSpinner
+                        val randomKey = UUID.randomUUID().toString()
+
+                        add_data_for_spinner.child(randomKey).setValue(mySendTip)
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(), "Add Data Successful", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+
+                        dialog.dismiss()
+                    }
+                }
             }
         }
-        dialog.show()
 
+        dialog.show()
+    }
+
+    private fun checkIfValueExists(value: String, callback: (Boolean) -> Unit) {
+        add_data_for_spinner.orderByChild("homespin").equalTo(value).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot.exists())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle possible errors.
+                callback(false)
+            }
+        })
     }
 
     private fun servedForTheServer(view: View) {
