@@ -130,8 +130,24 @@ class monthly : Fragment() {
         cancel = dialog.findViewById(R.id.monthpicker_cancel)
         ok = dialog.findViewById(R.id.monthpicker_ok)
 
-        calendar.get(Calendar.MONTH)
+        var op = calendar.get(Calendar.MONTH).toString()
         calendar.get(Calendar.YEAR)
+        updatedateDisplay()
+        when(op){
+            "1" -> setcolor("1")
+            "2" -> setcolor("2")
+            "3" -> setcolor("3")
+            "4" -> setcolor("4")
+            "5" -> setcolor("5")
+            "6" -> setcolor("6")
+            "7" -> setcolor("7")
+            "8" -> setcolor("8")
+            "9" -> setcolor("9")
+            "10" -> setcolor("10")
+            "11" -> setcolor("11")
+            "12" -> setcolor("12")
+        }
+
 
         a1.setOnClickListener(){
             setcolor("1")
