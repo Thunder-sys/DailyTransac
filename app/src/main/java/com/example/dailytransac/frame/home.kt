@@ -58,6 +58,7 @@ class home : Fragment() {
     private lateinit var firebaseRefer2: DatabaseReference
     private lateinit var firebaseRefer4: DatabaseReference
     private lateinit var firebaseRefer5: DatabaseReference
+    private lateinit var firebaseRefer6: DatabaseReference
     private lateinit var firebaseRefer3: DatabaseReference
     private lateinit var yearspinner: DatabaseReference
     private lateinit var fetchDataforview: DatabaseReference
@@ -241,6 +242,7 @@ class home : Fragment() {
         firebaseRefer2 = firebaseDatabase.getReference().child("User").child(uid).child("daily")
         firebaseRefer4 = firebaseDatabase.getReference().child("User").child(uid).child("daily2")
         firebaseRefer5 = firebaseDatabase.getReference().child("User").child(uid).child("pie1")
+        firebaseRefer6 = firebaseDatabase.getReference().child("User").child(uid).child("pie2")
 
         var sum = 0
         for (i in 0 until layout_list.childCount) {
@@ -268,6 +270,7 @@ class home : Fragment() {
                 mysendtipp["Spinner"] = myspin
                 firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                 firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
+                firebaseRefer5.child("$year"+"$month"+"$date"+"$i").setValue(mysendtipp)
                 firebaseRefer.child("date").child("$currentdate").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                 firebaseRefer.child("date1").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
                 firebaseRefer.child("date1").child("$date").child("dater").updateChildren(mysendtipp1)

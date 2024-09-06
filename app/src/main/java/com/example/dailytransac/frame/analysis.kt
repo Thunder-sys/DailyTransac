@@ -1,24 +1,17 @@
 package com.example.dailytransac.frame
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.FrameLayout
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.dailytransac.R
 import com.example.dailytransac.kuna.ViewPagerAdapter
-import com.example.dailytransac.transaction.daily
-import com.example.dailytransac.transaction.monthly
-import com.example.dailytransac.transaction.yearly
+import com.example.dailytransac.analysis.daily
+import com.example.dailytransac.analysis.monthly
+import com.example.dailytransac.analysis.yearly
 import com.google.android.material.tabs.TabLayout
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class analysis : Fragment() {
 

@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".transaction.yearly">
+    tools:context=".analysis.yearly">
 
     <LinearLayout
         android:layout_width="match_parent"

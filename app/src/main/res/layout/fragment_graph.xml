@@ -51,42 +51,50 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/lineartext"
             android:gravity="center">
 
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/appCompatSpinner"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="-120dp"
+                android:background="@color/white" />
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="17dp"
+                android:layout_alignStart="@+id/appCompatSpinner"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/spinner_downarror" />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:textSize="20dp"
-                android:background="@color/sea"
-                android:textStyle="bold"
-                android:paddingRight="10dp"
-                android:paddingTop="3dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="3dp"
-                android:textColor="@color/dark_green"
-                android:layout_height="wrap_content"
-                android:text="Monthly Budget" />
+                android:layout_width="0dp"
+                android:id="@+id/graph_select_catergory_item"
+                android:layout_height="0dp"/>
 
             <TextView
                 android:id="@+id/shorspinner"
                 android:layout_width="120dp"
-                android:text="OverAll"
-                android:gravity="center"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="@color/dark_green"
-                android:background="@color/sea"
+                android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
-                android:layout_height="32dp"/>
+                android:background="@color/sea"
+                android:gravity="center"
+                android:text="OverAll"
+                android:textColor="@color/dark_green"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
 
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -236,13 +244,57 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout5"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="6dp"
             android:layout_marginTop="-90dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:background="@drawable/gradient_white_black_outline"
             android:layout_marginBottom="150dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Catergory"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/dark_green"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/dark_green"
+                        android:text="Spend"
+                        android:layout_marginRight="30dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:id="@+id/graph_reco"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                tools:listitem="@layout/graph_for_reco"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>

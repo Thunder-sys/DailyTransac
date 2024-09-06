@@ -1,4 +1,4 @@
-package com.example.dailytransac.transaction
+package com.example.dailytransac.analysis
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
 import com.example.dailytransac.kuna.datafetch_dailydata
 import com.example.dailytransac.kuna.datafetch_dailydata_adapter
-import com.example.dailytransac.kuna.datafetch_montlydata
-import com.example.dailytransac.kuna.datafetch_montlydata_adapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

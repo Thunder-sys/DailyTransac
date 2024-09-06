@@ -1,5 +1,6 @@
 package com.example.dailytransac.frame
 
+import android.app.AppComponentFactory
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +11,10 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SearchView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -23,7 +27,10 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.example.dailytransac.Database.ModelClassformaiji
 import com.example.dailytransac.Database.ModelClassformainn
 import com.example.dailytransac.R
+import com.example.dailytransac.Saksh.Adapter_mainpage
+import com.example.dailytransac.Saksh.Model_mainpage
 import com.example.dailytransac.databinding.FragmentGraphBinding
+import com.example.dailytransac.kuna.graph_reco_model
 import com.example.dailytransac.kuna.graph_spinner_adapter
 import com.example.dailytransac.kuna.graph_spinner_model
 import com.github.mikephil.charting.animation.Easing
@@ -55,6 +62,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import graph_reco_adapter
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -79,9 +87,12 @@ class graph : Fragment() {
     private lateinit var barchart: BarChart
     private lateinit var linechart: LineChart
     private lateinit var piechart: PieChart
+    lateinit var reco:RecyclerView
+    lateinit var spinner:Spinner
 
     lateinit var text_rev :TextView
     lateinit var text_exp :TextView
+    lateinit var spinnershowq :TextView
 
 
     val entries = mutableListOf<PieEntry>()
@@ -91,16 +102,41 @@ class graph : Fragment() {
     var linelist_1=  ArrayList<Entry>()
     var linelist_2=  ArrayList<Entry>()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_graph, container, false)
+        reco = view.findViewById(R.id.graph_reco)
+        spinner = view.findViewById(R.id.appCompatSpinner)
+        spinnershowq = view.findViewById(R.id.graph_select_catergory_item)
         showSpinner = view.findViewById(R.id.shorspinner)
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.spinner_items,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        // Handle selection
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position) as String
+                Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Handle case where no item is selected if necessary
+            }
+        }
+
         showSpinner.setOnClickListener {
             showdateslector(view)
         }
-
         handler = Handler(Looper.getMainLooper())
         updateTimeRunnable = object : Runnable {
             override fun run() {
@@ -700,7 +736,6 @@ class graph : Fragment() {
                                     val value = spinvalueStr.toFloat()
                                     categoryMap[spinner] =
                                         categoryMap.getOrDefault(spinner, 0f) + value
-                                    categoryMap1[spinner] = categoryMap.getOrDefault(spinner, 0f) + value
                                 } catch (e: NumberFormatException) {
                                     Log.e("NumberFormatError", "Failed to parse value: $spinvalueStr", e)
                                 }
@@ -713,7 +748,7 @@ class graph : Fragment() {
                         // If all tasks are completed, show the pie chart
                         if (completedTasks == tasksCount) {
                             showpiechart(view, categoryMap)
-                            showpiereco(view,categoryMap1)
+                            showpiereco(view, categoryMap)
                         }
                     }
 
@@ -826,6 +861,7 @@ class graph : Fragment() {
                     // If all tasks are completed, show the pie chart
                     if (completedTasks == tasksCount) {
                         showpiechart(view, categoryMap)
+                        showpiereco(view, categoryMap)
                     }
                 }
 
@@ -835,31 +871,57 @@ class graph : Fragment() {
             })
         }
     }
-
+    // perfect
     private fun showpiechart(view: View, fir: MutableMap<String, Float>) {
         piechart = view.findViewById(R.id.piechart)
-        for ((category, totalValue) in fir) {
-            entries.add(PieEntry(totalValue, category))
+
+        // Clear previous entries
+        entries.clear()
+
+        // Calculate the total value
+        val totalValue = fir.values.sum()
+
+        // Define the 8% threshold
+        val threshold = totalValue * 0.08f
+
+        // Sort entries by value in descending order
+        val sortedEntries = fir.entries.sortedByDescending { it.value }
+
+        // Find the largest value that meets the 8% threshold
+        val opq = sortedEntries.find { it.value >= threshold }?.value ?: 0f
+
+        // Take entries that are equal to or greater than this threshold
+        val topEntries = sortedEntries.filter { it.value >= threshold }.map { PieEntry(it.value, it.key) }
+
+        // Calculate total of remaining values
+        val remainingTotal = sortedEntries.filter { it.value < threshold }.sumByDouble { it.value.toDouble() }.toFloat()
+
+        // Add top entries to the list
+        entries.addAll(topEntries)
+
+        // Add the "Others" entry for remaining values if any
+        if (remainingTotal > 0) {
+            entries.add(PieEntry(remainingTotal, "Others"))
         }
 
         // Log entries for debugging
         Log.d("PieChartData", entries.toString())
 
-        val piedataset: PieDataSet
+        val pieDataSet: PieDataSet
         if (piechart.data != null && piechart.data.dataSetCount > 0) {
-            piedataset = piechart.data.getDataSetByIndex(0) as PieDataSet
-            piedataset.values = entries
+            pieDataSet = piechart.data.getDataSetByIndex(0) as PieDataSet
+            pieDataSet.values = entries
             piechart.data.notifyDataChanged()
             piechart.notifyDataSetChanged()
         } else {
-            piedataset = PieDataSet(entries, "Pie Data Set")
-            piedataset.setColors(*ColorTemplate.VORDIPLOM_COLORS)
-            piedataset.setDrawValues(true)
-            piedataset.sliceSpace = 3f
-            piedataset.iconsOffset = MPPointF(10f, 10f)
-            piedataset.selectionShift = 10f
+            pieDataSet = PieDataSet(entries, "Pie Data Set")
+            pieDataSet.setColors(*ColorTemplate.VORDIPLOM_COLORS)
+            pieDataSet.setDrawValues(true)
+            pieDataSet.sliceSpace = 3f
+            pieDataSet.iconsOffset = MPPointF(10f, 10f)
+            pieDataSet.selectionShift = 10f
 
-            val data = PieData(piedataset)
+            val data = PieData(pieDataSet)
             piechart.data = data
             piechart.invalidate()
             piechart.description.isEnabled = false
@@ -881,10 +943,25 @@ class graph : Fragment() {
             piechart.isDrawHoleEnabled = false
         }
     }
+    // perfect
+    private fun showpiereco(view: View, fir: MutableMap<String, Float>) {
+        // Initialize list to hold graph data
+        val listofdata: ArrayList<graph_reco_model> = ArrayList()
 
-    private fun showpiereco(View:View,fir:MutableMap<String,Float>){
+        // Convert the MutableMap<String, Float> to a list of graph_reco_model
+        for ((category, value) in fir) {
+            listofdata.add(graph_reco_model(category, value.toInt()))
+        }
 
+        // Sort the list by value in descending order
+        listofdata.sortByDescending { it.value }
+
+        // Initialize RecyclerView and Adapter // Make sure to replace `recyclerView` with the actual ID
+        reco.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        val adaptt = graph_reco_adapter(listofdata)
+        reco.adapter = adaptt
     }
+
 
     private fun showlinechart(view: View,linelist_1:ArrayList<Entry>,linelist_2: ArrayList<Entry>) {
         linechart = view.findViewById(R.id.linechart1)
