@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //Chart
-    implementation("com.github.Philjay:MPAndroidChart:v3.0.3")
+    implementation("com.github.Philjay:MPAndroidChart:v3.1.0")
     implementation("com.github.AnyChart:AnyChart-Android:1.1.2")
     implementation("androidx.multidex:multidex:2.0.1")
 

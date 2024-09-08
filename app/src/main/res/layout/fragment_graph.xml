@@ -17,8 +17,9 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:background="@color/dark_green"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="80dp">
             <RelativeLayout
                 android:id="@+id/relative"
                 android:layout_width="wrap_content"
@@ -49,18 +50,164 @@
                 android:layout_height="0dp"/>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/shorspinner"
-                android:layout_width="120dp"
-                android:layout_height="32dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="20dp"
-                android:background="@color/sea"
-                android:gravity="center"
-                android:text="OverAll"
-                android:textColor="@color/dark_green"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:visibility="gone"
+                android:gravity="end"
+                android:id="@+id/Linear_for_date"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="01/12/2024"
+                    android:id="@+id/Linear_first_date"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:text="To"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/white"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_marginTop="40dp"
+                            android:layout_width="wrap_content"
+                            android:text="31/12/2024"
+                            android:id="@+id/Linear_last_date"
+                            android:textColor="@color/white"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/Linear_month_and_year"
+                android:visibility="gone"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_dark_green"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/graph_month_and_year_less_than"
+                        android:layout_width="40dp"
+                        android:background="@drawable/less_than"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/graph_month_and_year_value"
+                        android:layout_width="wrap_content"
+                        android:text="Sep 2024"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:gravity="end"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/graph_month_and_year_greater_than"
+                        android:layout_width="40dp"
+                        android:background="@drawable/right_than"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/Linear_year"
+                android:visibility="gone"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_dark_green"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/graph_year_less_than"
+                        android:layout_width="40dp"
+                        android:background="@drawable/less_than"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/graph_year_value"
+                        android:layout_width="wrap_content"
+                        android:text="2024"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:gravity="end"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/graph_year_greater_than"
+                        android:layout_width="40dp"
+                        android:background="@drawable/right_than"
+                        android:layout_height="30dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -95,7 +242,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="778783242"
+                    android:text="0"
                     android:textColor="@color/black" />
 
 
@@ -124,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="7787824235"
+                    android:text="0"
                     android:textColor="@color/black" />
 
 

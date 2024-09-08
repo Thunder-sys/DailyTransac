@@ -368,7 +368,8 @@ class home : Fragment() {
                     mysendtp["currentmonth"] = "$monthvalue1"
                     mysendtp["monthvalue"] = ("$monthvalue " + "$year")
 
-                    firebaseRefer3.child(valuefor1).setValue(mysendtp)
+                    firebaseRefer3.child(valuefor1).updateChildren(mysendtp)
+                    firebaseRefer3.child(valuefor1).child("op1").child("op").updateChildren(mysendtp)
                     firebaseReferfulldata1.child("$s").child("month1").child("$month").updateChildren(mysendtp)
                     firebaseReferfulldata1.child("$s").child("month").child("$s1").updateChildren(mysendtp)
                         .addOnSuccessListener {

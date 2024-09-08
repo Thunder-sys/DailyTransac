@@ -1,7 +1,8 @@
 package com.example.dailytransac.frame
 
-import android.app.AppComponentFactory
 import android.app.Dialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,31 +10,25 @@ import android.view.View
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.security.identity.CredentialDataResult.Entries
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SearchView
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.anychart.AnyChart
-import com.anychart.AnyChartView
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.example.dailytransac.Database.ModelClassformaiji
 import com.example.dailytransac.Database.ModelClassformainn
 import com.example.dailytransac.R
-import com.example.dailytransac.Saksh.Adapter_mainpage
-import com.example.dailytransac.Saksh.Model_mainpage
-import com.example.dailytransac.databinding.FragmentGraphBinding
 import com.example.dailytransac.kuna.graph_reco_model
 import com.example.dailytransac.kuna.graph_spinner_adapter
 import com.example.dailytransac.kuna.graph_spinner_model
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
@@ -48,14 +43,12 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
-import com.google.android.material.transition.MaterialSharedAxis.Axis
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,14 +56,38 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import graph_reco_adapter
-import kotlinx.coroutines.flow.combine
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
+import java.util.Calendar
 import java.util.Locale
-import kotlin.math.log
 
 class graph : Fragment() {
+
+    private val calendar: Calendar = Calendar.getInstance()
+    private val calendar1: Calendar = Calendar.getInstance()
+
+
+    lateinit var a1: TextView
+    lateinit var a2: TextView
+    lateinit var a3: TextView
+    lateinit var a4: TextView
+    lateinit var a5: TextView
+    lateinit var a6: TextView
+    lateinit var a7: TextView
+    lateinit var a8: TextView
+    lateinit var a9: TextView
+    lateinit var a10: TextView
+    lateinit var a11: TextView
+    lateinit var a12: TextView
+    lateinit var show_month: TextView
+    lateinit var show_year: TextView
+    lateinit var less: ImageView
+    lateinit var greater: ImageView
+    lateinit var yearvalue: TextView
+
+    lateinit var cancel: TextView
+    lateinit var ok: TextView
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val uid: String = firebaseAuth.currentUser?.uid ?: ""
@@ -87,20 +104,35 @@ class graph : Fragment() {
     private lateinit var barchart: BarChart
     private lateinit var linechart: LineChart
     private lateinit var piechart: PieChart
-    lateinit var reco:RecyclerView
-    lateinit var spinner:Spinner
+    lateinit var reco: RecyclerView
+    lateinit var spinner: Spinner
 
-    lateinit var text_rev :TextView
-    lateinit var text_exp :TextView
-    lateinit var spinnershowq :TextView
+    lateinit var text_rev: TextView
+    lateinit var text_exp: TextView
+    lateinit var spinnershowq: TextView
+
+    lateinit var monthyear_less: ImageView
+    lateinit var monthyear_great: ImageView
+    lateinit var monthyear_valueshow: TextView
+    lateinit var monthyear_Linear: LinearLayout
+    lateinit var year_less: ImageView
+    lateinit var year_great: ImageView
+    lateinit var year_valueshow: TextView
+    lateinit var year_Linear: LinearLayout
+
+    lateinit var firstdateShow: TextView
+    lateinit var lastdateshow: TextView
+    lateinit var dateshowLinear: LinearLayout
 
 
     val entries = mutableListOf<PieEntry>()
     val categoryMap = mutableMapOf<String, Float>()
     var barlist_1 = ArrayList<BarEntry>()
     var barlist_2 = ArrayList<BarEntry>()
-    var linelist_1=  ArrayList<Entry>()
-    var linelist_2=  ArrayList<Entry>()
+    var linelist_1 = ArrayList<Entry>()
+    var linelist_2 = ArrayList<Entry>()
+
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreateView(
@@ -108,10 +140,22 @@ class graph : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_graph, container, false)
+        sharedPreferences = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         reco = view.findViewById(R.id.graph_reco)
         spinner = view.findViewById(R.id.appCompatSpinner)
         spinnershowq = view.findViewById(R.id.graph_select_catergory_item)
-        showSpinner = view.findViewById(R.id.shorspinner)
+        monthyear_less = view.findViewById(R.id.graph_month_and_year_less_than)
+        monthyear_great = view.findViewById(R.id.graph_month_and_year_greater_than)
+        monthyear_Linear = view.findViewById(R.id.Linear_month_and_year)
+        monthyear_valueshow = view.findViewById(R.id.graph_month_and_year_value)
+        year_less = view.findViewById(R.id.graph_year_less_than)
+        year_great = view.findViewById(R.id.graph_year_greater_than)
+        year_Linear = view.findViewById(R.id.Linear_year)
+        year_valueshow = view.findViewById(R.id.graph_year_value)
+
+        firstdateShow = view.findViewById(R.id.Linear_first_date)
+        lastdateshow = view.findViewById(R.id.Linear_last_date)
+        dateshowLinear = view.findViewById(R.id.Linear_for_date)
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -124,9 +168,14 @@ class graph : Fragment() {
 
         // Handle selection
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedItem = parent.getItemAtPosition(position) as String
-                Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
+                spinnershowq.setText("$selectedItem")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -134,13 +183,70 @@ class graph : Fragment() {
             }
         }
 
-        showSpinner.setOnClickListener {
-            showdateslector(view)
+        dateshowLinear.setOnClickListener {
+            showDateRangePicker(view)
+        }
+        monthyear_Linear.setOnClickListener {
+            monthPicker(view, calendar)
+        }
+        monthyear_great.setOnClickListener {
+            calendar.add(Calendar.MONTH, 1)
+            updateDateDisplay(view)
+        }
+        monthyear_less.setOnClickListener {
+            calendar.add(Calendar.MONTH, -1)
+            updateDateDisplay(view)
+        }
+        year_great.setOnClickListener {
+            calendar.add(Calendar.YEAR, 1)
+            updateDatedisplay(view)
+        }
+        year_less.setOnClickListener {
+            calendar.add(Calendar.YEAR, -1)
+            updateDatedisplay(view)
         }
         handler = Handler(Looper.getMainLooper())
         updateTimeRunnable = object : Runnable {
             override fun run() {
-                fetchfulldataValueset(view)
+                val storedValue = sharedPreferences.getString("key", "default").toString()
+                var editop = spinnershowq.text.toString()
+                if ("$editop" != "$storedValue") {
+                    val editor = sharedPreferences.edit()
+                    editor.putString("key", "$editop")
+                    editor.apply()
+                    when ("$editop") {
+                        "Month" -> {
+                            monthyear_Linear.visibility = View.VISIBLE
+                            dateshowLinear.visibility = View.GONE
+                            year_Linear.visibility = View.GONE
+                            updateDateDisplay(view)
+                        }
+
+                        "Custom" -> {
+                            monthyear_Linear.visibility = View.GONE
+                            dateshowLinear.visibility = View.VISIBLE
+                            year_Linear.visibility = View.GONE
+                        }
+
+                        "Year" -> {
+                            monthyear_Linear.visibility = View.GONE
+                            dateshowLinear.visibility = View.GONE
+                            year_Linear.visibility = View.VISIBLE
+                            calendar.add(Calendar.YEAR, -0)
+                            updateDatedisplay(view)
+                        }
+
+                        "OverAll" -> {
+                            monthyear_Linear.visibility = View.GONE
+                            dateshowLinear.visibility = View.GONE
+                            year_Linear.visibility = View.GONE
+
+                            fetchfulldataValueset(view, "0", "0")
+                        }
+                    }
+                }
+                // Schedule the next update in 1 second
+                handler.postDelayed(this, 1000)
             }
         }
         // Start updating the TextView
@@ -149,431 +255,368 @@ class graph : Fragment() {
         text_rev = view.findViewById(R.id.graph_revenue)
         text_exp = view.findViewById(R.id.graph_expenses)
 
-        spinnerReference = FirebaseDatabase.getInstance().getReference()
-            .child("User").child(uid).child("yearspinner")
+        spinnerReference = FirebaseDatabase.getInstance().getReference().child("User")
+            .child(uid).child("yearspinner")
 
         return view
     }
 
-    private fun showdateslector(view: View) {
-        var dailog = Dialog(requireContext())
-        dailog.setContentView(R.layout.graph_date_selector)
-        dailog.show()
+    private fun updateDatedisplay(view: View) {
+        val dateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+        val dateString = dateFormat.format(calendar.time)
 
-        var yearstart: TextView = dailog.findViewById(R.id.graph_yearstart)
-        var yearend: TextView = dailog.findViewById(R.id.graph_yearend)
-        var monthstart: TextView = dailog.findViewById(R.id.graph_monthstart)
-        var monthend: TextView = dailog.findViewById(R.id.graph_monthend)
-        var datestart: TextView = dailog.findViewById(R.id.graph_datestart)
-        var datteend: TextView = dailog.findViewById(R.id.graph_dateend)
+        year_valueshow.text = "$dateString"
 
-        var cancel: TextView = dailog.findViewById(R.id.graph_cancel)
-        var ok: TextView = dailog.findViewById(R.id.graph_ok)
+        var op = year_valueshow.text.toString()
 
-        yearstart.setOnClickListener() {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.graph_spinner_show)
+        var a1 = "01/01/$op"
+        var a2 = "31/12/$op"
+        Log.d("year","$a1")
+        Log.d("year","$a2")
 
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.graph_recycle)
-            val searchView: androidx.appcompat.widget.SearchView =
-                dialog.findViewById(R.id.graph_searchView)
+        fetchfulldataValueset(view, a1, a2)
 
-            listOfMonth = ArrayList()
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = graph_spinner_adapter(listOfMonth) { dattaspinner ->
-                yearstart.setText(dattaspinner.text)
-                dialog.dismiss()
-            }
-            recyclerView.adapter = adapter
-
-            searchView.clearFocus()
-            searchView.setOnQueryTextListener(object :
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filter(newText)
-                    return true
-                }
-            })
-
-            spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    listOfMonth.clear()  // Clear existing data
-                    for (ip in snapshot.children) {
-                        val yearSpinner = ip.child("yearspinner").getValue(String::class.java) ?: ""
-                        listOfMonth.add(graph_spinner_model("All"))
-                        listOfMonth.add(graph_spinner_model(yearSpinner))
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-
-            dialog.show()
-
-        }
-        yearend.setOnClickListener() {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.graph_spinner_show)
-
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.graph_recycle)
-            val searchView: androidx.appcompat.widget.SearchView =
-                dialog.findViewById(R.id.graph_searchView)
-
-            listOfMonth = ArrayList()
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = graph_spinner_adapter(listOfMonth) { dattaspinner ->
-                yearend.setText(dattaspinner.text)
-                dialog.dismiss()
-            }
-            recyclerView.adapter = adapter
-
-
-            searchView.clearFocus()
-            searchView.setOnQueryTextListener(object :
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filter(newText)
-                    return true
-                }
-            })
-
-            spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    listOfMonth.clear()  // Clear existing data
-                    for (ip in snapshot.children) {
-                        val yearSpinner = ip.child("yearspinner").getValue(String::class.java) ?: ""
-                        listOfMonth.add(graph_spinner_model("All"))
-                        listOfMonth.add(graph_spinner_model(yearSpinner))
-                    }
-                    adapter.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-
-            dialog.show()
-
-        }
-        monthstart.setOnClickListener() {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.graph_spinner_show)
-
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.graph_recycle)
-            val searchView: androidx.appcompat.widget.SearchView =
-                dialog.findViewById(R.id.graph_searchView)
-
-            listOfMonth = ArrayList()
-            listOfMonth.add(graph_spinner_model("All"))
-            listOfMonth.add(graph_spinner_model("January"))
-            listOfMonth.add(graph_spinner_model("Febrary"))
-            listOfMonth.add(graph_spinner_model("March"))
-            listOfMonth.add(graph_spinner_model("April"))
-            listOfMonth.add(graph_spinner_model("May"))
-            listOfMonth.add(graph_spinner_model("June"))
-            listOfMonth.add(graph_spinner_model("July"))
-            listOfMonth.add(graph_spinner_model("August"))
-            listOfMonth.add(graph_spinner_model("September"))
-            listOfMonth.add(graph_spinner_model("October"))
-            listOfMonth.add(graph_spinner_model("November"))
-            listOfMonth.add(graph_spinner_model("December"))
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = graph_spinner_adapter(listOfMonth) { dattaspinner ->
-                monthstart.setText(dattaspinner.text)
-                dialog.dismiss()
-            }
-            recyclerView.adapter = adapter
-
-            searchView.clearFocus()
-            searchView.setOnQueryTextListener(object :
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filter(newText)
-                    return true
-                }
-            })
-
-            dialog.show()
-
-        }
-        monthend.setOnClickListener() {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.graph_spinner_show)
-
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.graph_recycle)
-            val searchView: androidx.appcompat.widget.SearchView =
-                dialog.findViewById(R.id.graph_searchView)
-
-            listOfMonth = ArrayList()
-            listOfMonth.add(graph_spinner_model("All"))
-            listOfMonth.add(graph_spinner_model("January"))
-            listOfMonth.add(graph_spinner_model("Febrary"))
-            listOfMonth.add(graph_spinner_model("March"))
-            listOfMonth.add(graph_spinner_model("April"))
-            listOfMonth.add(graph_spinner_model("May"))
-            listOfMonth.add(graph_spinner_model("June"))
-            listOfMonth.add(graph_spinner_model("July"))
-            listOfMonth.add(graph_spinner_model("August"))
-            listOfMonth.add(graph_spinner_model("September"))
-            listOfMonth.add(graph_spinner_model("October"))
-            listOfMonth.add(graph_spinner_model("November"))
-            listOfMonth.add(graph_spinner_model("December"))
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = graph_spinner_adapter(listOfMonth) { dattaspinner ->
-                monthend.setText(dattaspinner.text)
-                dialog.dismiss()
-            }
-            recyclerView.adapter = adapter
-
-            searchView.clearFocus()
-            searchView.setOnQueryTextListener(object :
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filter(newText)
-                    return true
-                }
-            })
-
-            dialog.show()
-
-        }
-        datestart.setOnClickListener() {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.graph_spinner_show)
-
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.graph_recycle)
-            val searchView: androidx.appcompat.widget.SearchView =
-                dialog.findViewById(R.id.graph_searchView)
-
-            listOfMonth = ArrayList()
-            listOfMonth.add(graph_spinner_model("All"))
-            listOfMonth.add(graph_spinner_model("01"))
-            listOfMonth.add(graph_spinner_model("02"))
-            listOfMonth.add(graph_spinner_model("03"))
-            listOfMonth.add(graph_spinner_model("04"))
-            listOfMonth.add(graph_spinner_model("05"))
-            listOfMonth.add(graph_spinner_model("06"))
-            listOfMonth.add(graph_spinner_model("07"))
-            listOfMonth.add(graph_spinner_model("08"))
-            listOfMonth.add(graph_spinner_model("09"))
-            listOfMonth.add(graph_spinner_model("10"))
-            listOfMonth.add(graph_spinner_model("11"))
-            listOfMonth.add(graph_spinner_model("12"))
-            listOfMonth.add(graph_spinner_model("13"))
-            listOfMonth.add(graph_spinner_model("14"))
-            listOfMonth.add(graph_spinner_model("15"))
-            listOfMonth.add(graph_spinner_model("16"))
-            listOfMonth.add(graph_spinner_model("17"))
-            listOfMonth.add(graph_spinner_model("18"))
-            listOfMonth.add(graph_spinner_model("19"))
-            listOfMonth.add(graph_spinner_model("20"))
-            listOfMonth.add(graph_spinner_model("21"))
-            listOfMonth.add(graph_spinner_model("22"))
-            listOfMonth.add(graph_spinner_model("23"))
-            listOfMonth.add(graph_spinner_model("24"))
-            listOfMonth.add(graph_spinner_model("25"))
-            listOfMonth.add(graph_spinner_model("26"))
-            listOfMonth.add(graph_spinner_model("27"))
-            listOfMonth.add(graph_spinner_model("28"))
-            listOfMonth.add(graph_spinner_model("29"))
-            listOfMonth.add(graph_spinner_model("30"))
-            listOfMonth.add(graph_spinner_model("31"))
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = graph_spinner_adapter(listOfMonth) { dattaspinner ->
-                datestart.setText(dattaspinner.text)
-                dialog.dismiss()
-            }
-            recyclerView.adapter = adapter
-
-            searchView.clearFocus()
-            searchView.setOnQueryTextListener(object :
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filter(newText)
-                    return true
-                }
-            })
-            dialog.show()
-
-        }
-        datteend.setOnClickListener() {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.graph_spinner_show)
-
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.graph_recycle)
-            val searchView: androidx.appcompat.widget.SearchView =
-                dialog.findViewById(R.id.graph_searchView)
-
-            listOfMonth = ArrayList()
-            listOfMonth.add(graph_spinner_model("All"))
-            listOfMonth.add(graph_spinner_model("01"))
-            listOfMonth.add(graph_spinner_model("02"))
-            listOfMonth.add(graph_spinner_model("03"))
-            listOfMonth.add(graph_spinner_model("04"))
-            listOfMonth.add(graph_spinner_model("05"))
-            listOfMonth.add(graph_spinner_model("06"))
-            listOfMonth.add(graph_spinner_model("07"))
-            listOfMonth.add(graph_spinner_model("08"))
-            listOfMonth.add(graph_spinner_model("09"))
-            listOfMonth.add(graph_spinner_model("10"))
-            listOfMonth.add(graph_spinner_model("11"))
-            listOfMonth.add(graph_spinner_model("12"))
-            listOfMonth.add(graph_spinner_model("13"))
-            listOfMonth.add(graph_spinner_model("14"))
-            listOfMonth.add(graph_spinner_model("15"))
-            listOfMonth.add(graph_spinner_model("16"))
-            listOfMonth.add(graph_spinner_model("17"))
-            listOfMonth.add(graph_spinner_model("18"))
-            listOfMonth.add(graph_spinner_model("19"))
-            listOfMonth.add(graph_spinner_model("20"))
-            listOfMonth.add(graph_spinner_model("21"))
-            listOfMonth.add(graph_spinner_model("22"))
-            listOfMonth.add(graph_spinner_model("23"))
-            listOfMonth.add(graph_spinner_model("24"))
-            listOfMonth.add(graph_spinner_model("25"))
-            listOfMonth.add(graph_spinner_model("26"))
-            listOfMonth.add(graph_spinner_model("27"))
-            listOfMonth.add(graph_spinner_model("28"))
-            listOfMonth.add(graph_spinner_model("29"))
-            listOfMonth.add(graph_spinner_model("30"))
-            listOfMonth.add(graph_spinner_model("31"))
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = graph_spinner_adapter(listOfMonth) { dattaspinner ->
-                datteend.setText(dattaspinner.text)
-                dialog.dismiss()
-            }
-            recyclerView.adapter = adapter
-
-            searchView.clearFocus()
-            searchView.setOnQueryTextListener(object :
-                androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    filter(newText)
-                    return true
-                }
-            })
-
-            dialog.show()
-
-        }
-
-        cancel.setOnClickListener() {
-            dailog.dismiss()
-        }
-        ok.setOnClickListener() {
-            var  yearst = yearstart.text.toString()
-            var  yearen = yearend.text.toString()
-            var  monthst = monthstart.text.toString()
-            var  monthen = monthend.text.toString()
-            var  datest = datestart.text.toString()
-            var  dateen = datteend.text.toString()
-            var op1 = ""
-            var op2 = ""
-            when(monthst){
-                "All" -> op1="All"
-                "January" -> op1="01"
-                "Febrary" -> op1="02"
-                "March" -> op1="03"
-                "April" -> op1="04"
-                "May" -> op1="05"
-                "June" -> op1="06"
-                "July" -> op1="07"
-                "August" -> op1="08"
-                "September" -> op1="09"
-                "October" -> op1="10"
-                "November" -> op1="11"
-                "December" -> op1="12"
-            }
-            when(monthen){
-                "All" -> op2="All"
-                "January" -> op2="01"
-                "Febrary" -> op2="02"
-                "March" -> op2="03"
-                "April" -> op2="04"
-                "May" -> op2="05"
-                "June" -> op2="06"
-                "July" -> op2="07"
-                "August" -> op2="08"
-                "September" -> op2="09"
-                "October" -> op2="10"
-                "November" -> op2="11"
-                "December" -> op2="12"
-            }
-
-            if (yearst == "All" && yearen == "All") {
-                showSpinner.setText("OverAll")
-                dailog.dismiss()
-                fetchfulldataValueset(view)
-            }
-            else {
-                if (monthst == "All" && monthen == "All") {
-                    showSpinner.setText("$yearst to $yearen")
-                    dailog.dismiss()
-                    fetchfulldataValueset(view)
-                } else {
-                    if (datest == "All" && dateen == "All") {
-                        showSpinner.setText("$op1/$yearst to $op2/$yearen")
-                        dailog.dismiss()
-                        fetchfulldataValueset(view)
-                    }
-                    else {
-                        showSpinner.setText("$datest/$op1/$yearst to $dateen/$op2/$yearen")
-                        dailog.dismiss()
-                        fetchfulldataValueset(view)
-                    }
-                }
-            }
-        }
     }
 
-    private fun fetchfulldataValueset(view:View){
-        var show = showSpinner.text.toString()
+    private fun monthPicker(view: View, calendar: Calendar) {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.monthpicker_data)
+
+        a1 = dialog.findViewById(R.id.monthpicker_jan)
+        a2 = dialog.findViewById(R.id.monthpicker_feb)
+        a3 = dialog.findViewById(R.id.monthpicker_mar)
+        a4 = dialog.findViewById(R.id.monthpicker_apr)
+        a5 = dialog.findViewById(R.id.monthpicker_may)
+        a6 = dialog.findViewById(R.id.monthpicker_jun)
+        a7 = dialog.findViewById(R.id.monthpicker_jul)
+        a8 = dialog.findViewById(R.id.monthpicker_aug)
+        a9 = dialog.findViewById(R.id.monthpicker_sep)
+        a10 = dialog.findViewById(R.id.monthpicker_oct)
+        a11 = dialog.findViewById(R.id.monthpicker_nov)
+        a12 = dialog.findViewById(R.id.monthpicker_dec)
+
+        show_month = dialog.findViewById(R.id.monthpicker_show_month)
+        show_year = dialog.findViewById(R.id.monthpicker_show_year)
+
+        less = dialog.findViewById(R.id.monthpicker_yearly_less_than)
+        greater = dialog.findViewById(R.id.monthpicker_yearly_greater_than)
+        yearvalue = dialog.findViewById(R.id.monthpicker_year_value)
+
+        cancel = dialog.findViewById(R.id.monthpicker_cancel)
+        ok = dialog.findViewById(R.id.monthpicker_ok)
+
+        var op = calendar.get(Calendar.MONTH).toString()
+        calendar.get(Calendar.YEAR)
+        updatedateDisplay()
+        when (op) {
+            "1" -> setcolor("2")
+            "2" -> setcolor("3")
+            "3" -> setcolor("4")
+            "4" -> setcolor("5")
+            "5" -> setcolor("6")
+            "6" -> setcolor("7")
+            "7" -> setcolor("8")
+            "8" -> setcolor("9")
+            "9" -> setcolor("10")
+            "10" -> setcolor("11")
+            "11" -> setcolor("12")
+            "12" -> setcolor("13")
+        }
+
+
+        a1.setOnClickListener() {
+            setcolor("1")
+        }
+        a2.setOnClickListener() {
+            setcolor("2")
+        }
+        a3.setOnClickListener() {
+            setcolor("3")
+        }
+        a4.setOnClickListener() {
+            setcolor("4")
+        }
+        a5.setOnClickListener() {
+            setcolor("5")
+        }
+        a6.setOnClickListener() {
+            setcolor("6")
+        }
+        a7.setOnClickListener() {
+            setcolor("7")
+        }
+        a8.setOnClickListener() {
+            setcolor("8")
+        }
+        a9.setOnClickListener() {
+            setcolor("9")
+        }
+        a10.setOnClickListener() {
+            setcolor("10")
+        }
+        a11.setOnClickListener() {
+            setcolor("11")
+        }
+        a12.setOnClickListener() {
+            setcolor("12")
+        }
+
+        greater.setOnClickListener {
+            calendar.add(Calendar.YEAR, 1)
+            updatedateDisplay()
+        }
+
+        less.setOnClickListener {
+            calendar.add(Calendar.YEAR, -1)
+            updatedateDisplay()
+        }
+
+        ok.setOnClickListener() {
+            var op1 = show_month.text.toString()
+            var op2 = show_year.text.toString()
+            var yearvalue = op2.toInt()
+
+            when (op1) {
+                "January" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 0)
+                }
+
+                "February" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 1)
+                }
+
+                "March" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 2)
+                }
+
+                "April" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 3)
+                }
+
+                "May" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 4)
+                }
+
+                "June" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 5)
+                }
+
+                "July" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 6)
+                }
+
+                "August" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 7)
+                }
+
+                "September" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 8)
+                }
+
+                "October" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 9)
+                }
+
+                "November" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 10)
+                }
+
+                "December" -> {
+                    calendar.set(Calendar.YEAR, yearvalue)
+                    calendar.set(Calendar.MONTH, 11)
+                }
+            }
+            updateDateDisplay(view)
+
+            dialog.dismiss()
+
+        }
+        cancel.setOnClickListener() {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    private fun updatedateDisplay() {
+        val dateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+        val dateString = dateFormat.format(calendar.time)
+        show_year.text = "$dateString"
+        yearvalue.text = "$dateString"
+
+
+    }
+
+    private fun setcolor(s: String) {
+
+        a1.setBackgroundResource(R.drawable.curve_white)
+        a2.setBackgroundResource(R.drawable.curve_white)
+        a3.setBackgroundResource(R.drawable.curve_white)
+        a4.setBackgroundResource(R.drawable.curve_white)
+        a5.setBackgroundResource(R.drawable.curve_white)
+        a6.setBackgroundResource(R.drawable.curve_white)
+        a7.setBackgroundResource(R.drawable.curve_white)
+        a8.setBackgroundResource(R.drawable.curve_white)
+        a9.setBackgroundResource(R.drawable.curve_white)
+        a10.setBackgroundResource(R.drawable.curve_white)
+        a11.setBackgroundResource(R.drawable.curve_white)
+        a12.setBackgroundResource(R.drawable.curve_white)
+
+        when (s) {
+            "1" -> {
+                a1.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("January")
+            }
+
+            "2" -> {
+                a2.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("February")
+            }
+
+            "3" -> {
+                a3.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("March")
+            }
+
+            "4" -> {
+                a4.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("April")
+            }
+
+            "5" -> {
+                a5.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("May")
+            }
+
+            "6" -> {
+                a6.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("June")
+            }
+
+            "7" -> {
+                a7.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("July")
+            }
+
+            "8" -> {
+                a8.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("August")
+            }
+
+            "9" -> {
+                a9.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("September")
+            }
+
+            "10" -> {
+                a10.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("October")
+            }
+
+            "11" -> {
+                a11.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("November")
+            }
+
+            "12" -> {
+                a12.setBackgroundResource(R.drawable.light_green)
+                setdatavalue("December")
+            }
+        }
+
+    }
+
+    private fun setdatavalue(s: String) {
+        show_month.setText("$s")
+    }
+
+    private fun updateDateDisplay(view: View) {
+        val dateFormat = SimpleDateFormat("MM", Locale.getDefault())
+        val dateFormat1 = SimpleDateFormat("yyyy", Locale.getDefault())
+        val dateString = dateFormat.format(calendar.time).toString().toInt()
+        val dateString1 = dateFormat1.format(calendar.time).toString()
+
+        val monthNames = arrayOf(
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+        )
+        val monthvalue = monthNames[dateString.toInt() - 1]
+
+        monthyear_valueshow.text = "$monthvalue $dateString1"
+
+        var a1 = "01/0$dateString/$dateString1"
+        var a2 = "31/0$dateString/$dateString1"
+        Log.d("month","$a1")
+        Log.d("month","$a2")
+
+        fetchfulldataValueset(view, a1, a2)
+
+    }
+
+    private fun showDateRangePicker(view: View) {
+        // Create a MaterialDatePicker instance for date range selection
+        val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTitleText("Select Date Range")
+            .build()
+
+        // Set up listener for when the user selects a date range
+        dateRangePicker.addOnPositiveButtonClickListener { selection ->
+            val startDate = selection.first
+            val endDate = selection.second
+
+            // Convert and display the selected date range
+            firstdateShow.text = formatDate(startDate)
+            lastdateshow.text = formatDate(endDate)
+
+            var a1 = formatDate(startDate).toString()
+            var a2 = formatDate(endDate).toString()
+            Log.d("range","$a1")
+            Log.d("range","$a2")
+
+            fetchfulldataValueset(view, a1, a2)
+        }
+
+        // Show the date range picker
+        dateRangePicker.show(parentFragmentManager, "date_range_picker")
+    }
+
+    private fun formatDate(millis: Long?): String {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return millis?.let { dateFormat.format(it) } ?: "Not selected"
+    }
+
+    private fun fetchfulldataValueset(view: View, fino: String, firo: String) {
         val formatte1 = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val finalDate = "30/12/2100"
         val initiadate = LocalDate.parse(finalDate, formatte1)
         val main = initiadate.toEpochDay().toInt()
+        var iop = spinnershowq.text.toString()
 
-        if (show.length == 12){
-            var first = show.substring(0,4)
-            var end = show.substring(8,12)
-            var inaidate = "01/01/$first"
-            var final = "31/12/$end"
+        if (iop == "Month") {
+            var first = fino.substring(0, 10)
+            var end = firo.substring(0, 10)
+            var inaidate = "$first"
+            var final = "$end"
 
             val initiadate1 = LocalDate.parse(inaidate, formatte1)
             val dfirst = initiadate1.toEpochDay().toInt()
@@ -582,58 +625,183 @@ class graph : Fragment() {
 
             var fin = dfirst
             var fir = dend
-
-            Log.d("miop","$fir")
-            Log.d("miop","$fin")
-
-            fetchdataformfirebase(view,fir,fin)
+            Log.d("miop", "$fir")
+            Log.d("miop", "$fin")
+            fetchdataformfirebase(view, fir, fin)
         }
-        else{
-            if (show.length == 18){
-                var first = show.substring(0,7)
-                var end = show.substring(11,18)
-                var inaidate = "01/$first"
-                var final = "31/$end"
+        else if (iop=="Year"){
 
-                val initiadate1 = LocalDate.parse(inaidate, formatte1)
-                val dfirst = initiadate1.toEpochDay().toInt()
-                val initiadat2 = LocalDate.parse(final, formatte1)
-                val dend = initiadat2.toEpochDay().toInt()
+            var first = fino.substring(0, 10)
+            var end = firo.substring(0, 10)
+            var firstmo = fino.substring(3, 5).toInt()
+            var endmo = firo.substring(3, 5).toInt()
+            var firstmon = fino.substring(6,10).toInt()
+            var endmon = firo.substring(6, 10).toInt()
+            var inaidate = "$first"
+            var final = "$end"
 
-                var fin = dfirst
-                var fir = dend
-                Log.d("miop","$fir")
-                Log.d("miop","$fin")
-                fetchdataformfirebase(view,fir,fin)
-            }
-            else{
-                if (show.length == 24){
-                    var first = show.substring(0,10)
-                    var end = show.substring(14,24)
-                    var inaidate = "$first"
-                    var final = "$end"
+            val initiadate1 = LocalDate.parse(inaidate, formatte1)
+            val dfirst = initiadate1.toEpochDay().toInt()
+            val initiadat2 = LocalDate.parse(final, formatte1)
+            val dend = initiadat2.toEpochDay().toInt()
 
-                    val initiadate1 = LocalDate.parse(inaidate, formatte1)
-                    val dfirst = initiadate1.toEpochDay().toInt()
-                    val initiadat2 = LocalDate.parse(final, formatte1)
-                    val dend = initiadat2.toEpochDay().toInt()
+            var lastmo = ("$endmon"+"$endmo").toInt()
+            var startmo = ("$firstmon"+"0$firstmo").toInt()
 
-                    var fin = dfirst
-                    var fir = dend
-                    Log.d("miop","$fir")
-                    Log.d("miop","$fin")
-                    fetchdataformfirebase(view,fir,fin)
+            var fin = dfirst
+            var fir = dend
+            Log.d("miop", "$fir")
+            Log.d("miop", "$fin")
+            fetchdataformonth(view,fir,fin,startmo,lastmo)
+        }
+        else {
+            var fin = 0
+            var fir = 0
+            fetchdataformfirebase(view, fir, fin)
+        }
+
+    }
+
+    private fun fetchdataformonth(view: View, fir: Int, fin: Int, month: Int, lastmo: Int) {
+        linelist_1.clear()
+        linelist_2.clear()
+        barlist_1.clear()
+        barlist_2.clear()
+        entries.clear()
+        var total_exp = 0
+        var total_rev = 0
+
+        var opw = 310012
+
+        var opq = month.toInt()
+        var opq1 = lastmo.toInt()
+
+        var small = fin.toInt()
+        var big = fir.toInt()
+        val tasksCount = big - small + 1 // Number of tasks to complete
+        var completedTasks = 0 // Counter for completed tasks
+        val categoryMap = mutableMapOf<String, Float>()
+        var sumd = 0
+        var sumex = 0
+        var i = 0
+        var opw1 = (opw - opq).toInt()
+        var opw2 = (opw - opq1).toInt()
+        Log.d("month1","$opw1")
+        Log.d("month1","$opq")
+        Log.d("month1","$opq1")
+
+        while (opw2 <= opw1) {
+
+            fetchdataReference =
+                FirebaseDatabase.getInstance().getReference().child("User").child(uid)
+                    .child("monthly").child("$opw2").child("op1")
+            fetchdataReference.addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (myds in snapshot.children) {
+                        val myteo = myds.child("totalrevenue").value.toString()
+                        val myexper = myds.child("totalexpenses").value.toString()
+                        val mydatev = myds.child("monthvalue").value.toString()
+
+                        total_exp += myexper.toInt()
+                        total_rev += myteo.toInt()
+
+                        text_rev.setText("$total_rev")
+                        text_exp.setText("$total_exp")
+
+                        var op = mydatev.substring(4, 8)
+
+                        val subdate = op.toInt()
+                        val subdate2 = (subdate + i + 1) - subdate
+                        val sumd2 = myteo.toInt()
+                        val myconvertdate2 = myexper.toInt()
+                        val mymodl = ModelClassformainn(subdate2, sumd2)
+                        val myjd = ModelClassformaiji(subdate2, myconvertdate2)
+                        barlist_1.add(
+                            BarEntry(
+                                mymodl.datevalue.toFloat(),
+                                mymodl.expenses.toFloat()
+                            )
+                        )
+                        barlist_2.add(
+                            BarEntry(
+                                myjd.datevalue.toFloat(),
+                                myjd.expenses.toFloat()
+                            )
+                        )
+                        linelist_1.add(
+                            Entry(
+                                mymodl.datevalue.toFloat(),
+                                mymodl.expenses.toFloat()
+                            )
+                        )
+                        linelist_2.add(
+                            Entry(
+                                myjd.datevalue.toFloat(),
+                                myjd.expenses.toFloat()
+                            )
+                        )
+                        sumd = sumd2
+                        sumex = myconvertdate2
+                        i++
+                    }
+                    showlinechart(view, linelist_1, linelist_2)
+                    showbarchart(view, barlist_1, barlist_2)
                 }
-                else{
-                    var fin =0
-                    var fir =0
-                    fetchdataformfirebase(view,fir,fin)
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
                 }
-            }
+            })
+            opw2 += 1
+        }
+        while (small<=big){
+            val pieReference = FirebaseDatabase.getInstance().getReference()
+                .child("User").child(uid)
+                .child("pie1").child("$small").child("dateri")
+
+            pieReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (ipo in snapshot.children) {
+                        val spinner = ipo.child("Spinner").getValue(String::class.java) ?: ""
+                        val spinvalueStr =
+                            ipo.child("entry2").getValue(String::class.java) ?: ""
+
+                        if (spinvalueStr.isNotEmpty()) {
+                            try {
+                                val value = spinvalueStr.toFloat()
+                                categoryMap[spinner] =
+                                    categoryMap.getOrDefault(spinner, 0f) + value
+                            } catch (e: NumberFormatException) {
+                                Log.e(
+                                    "NumberFormatError",
+                                    "Failed to parse value: $spinvalueStr",
+                                    e
+                                )
+                            }
+                        }
+                    }
+
+                    // Increment completed tasks counter
+                    completedTasks++
+
+                    // If all tasks are completed, show the pie chart
+                    if (completedTasks == tasksCount) {
+                        showpiechart(view, categoryMap)
+                        showpiereco(view, categoryMap)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("FirebaseError", "Failed to fetch data", error.toException())
+                }
+            })
+            small += 1
+
         }
     }
 
-    private fun fetchdataformfirebase(view:View,fir:Int,fin:Int){
+    private fun fetchdataformfirebase(view: View, fir: Int, fin: Int) {
 
         linelist_1.clear()
         linelist_2.clear()
@@ -641,7 +809,7 @@ class graph : Fragment() {
         barlist_2.clear()
         entries.clear()
 
-        if (fir != 0 && fin !=0){
+        if (fir != 0 && fin != 0) {
 
             var total_exp = 0
             var total_rev = 0
@@ -671,8 +839,8 @@ class graph : Fragment() {
                                 val mydatege = myds.child("mydateg").value.toString()
                                 val mydatev = myds.child("datevalue").value.toString()
 
-                                total_exp+=myexper.toInt()
-                                total_rev+=myteo.toInt()
+                                total_exp += myexper.toInt()
+                                total_rev += myteo.toInt()
 
                                 text_rev.setText("$total_rev")
                                 text_exp.setText("$total_exp")
@@ -713,7 +881,7 @@ class graph : Fragment() {
                                 i++
                             }
                             showlinechart(view, linelist_1, linelist_2)
-                            shorbarchart(view, barlist_1, barlist_2)
+                            showbarchart(view, barlist_1, barlist_2)
                         }
                     }
 
@@ -729,7 +897,8 @@ class graph : Fragment() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         for (ipo in snapshot.children) {
                             val spinner = ipo.child("Spinner").getValue(String::class.java) ?: ""
-                            val spinvalueStr = ipo.child("entry2").getValue(String::class.java) ?: ""
+                            val spinvalueStr =
+                                ipo.child("entry2").getValue(String::class.java) ?: ""
 
                             if (spinvalueStr.isNotEmpty()) {
                                 try {
@@ -737,7 +906,11 @@ class graph : Fragment() {
                                     categoryMap[spinner] =
                                         categoryMap.getOrDefault(spinner, 0f) + value
                                 } catch (e: NumberFormatException) {
-                                    Log.e("NumberFormatError", "Failed to parse value: $spinvalueStr", e)
+                                    Log.e(
+                                        "NumberFormatError",
+                                        "Failed to parse value: $spinvalueStr",
+                                        e
+                                    )
                                 }
                             }
                         }
@@ -785,8 +958,8 @@ class graph : Fragment() {
                         val mydatege = myds.child("mydateg").value.toString()
                         val mydatev = myds.child("datevalue").value.toString()
 
-                        total_exp+=myexper.toInt()
-                        total_rev+=myteo.toInt()
+                        total_exp += myexper.toInt()
+                        total_rev += myteo.toInt()
 
                         text_rev.setText("$total_rev")
                         text_exp.setText("$total_exp")
@@ -827,7 +1000,7 @@ class graph : Fragment() {
                         i++
                     }
                     showlinechart(view, linelist_1, linelist_2)
-                    shorbarchart(view, barlist_1, barlist_2)
+                    showbarchart(view, barlist_1, barlist_2)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -850,7 +1023,11 @@ class graph : Fragment() {
                                 categoryMap[spinner] =
                                     categoryMap.getOrDefault(spinner, 0f) + value
                             } catch (e: NumberFormatException) {
-                                Log.e("NumberFormatError", "Failed to parse value: $spinvalueStr", e)
+                                Log.e(
+                                    "NumberFormatError",
+                                    "Failed to parse value: $spinvalueStr",
+                                    e
+                                )
                             }
                         }
                     }
@@ -871,6 +1048,7 @@ class graph : Fragment() {
             })
         }
     }
+
     // perfect
     private fun showpiechart(view: View, fir: MutableMap<String, Float>) {
         piechart = view.findViewById(R.id.piechart)
@@ -891,10 +1069,13 @@ class graph : Fragment() {
         val opq = sortedEntries.find { it.value >= threshold }?.value ?: 0f
 
         // Take entries that are equal to or greater than this threshold
-        val topEntries = sortedEntries.filter { it.value >= threshold }.map { PieEntry(it.value, it.key) }
+        val topEntries =
+            sortedEntries.filter { it.value >= threshold }.map { PieEntry(it.value, it.key) }
 
         // Calculate total of remaining values
-        val remainingTotal = sortedEntries.filter { it.value < threshold }.sumByDouble { it.value.toDouble() }.toFloat()
+        val remainingTotal =
+            sortedEntries.filter { it.value < threshold }.sumByDouble { it.value.toDouble() }
+                .toFloat()
 
         // Add top entries to the list
         entries.addAll(topEntries)
@@ -942,7 +1123,27 @@ class graph : Fragment() {
             )
             piechart.isDrawHoleEnabled = false
         }
+
+        // Add value selection listener
+        piechart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                e?.let {
+                    val label = (e as? PieEntry)?.label ?: "Unknown"
+                    val value = e.y
+                    Toast.makeText(
+                        view.context,
+                        "Category: $label\nValue: $value",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onNothingSelected() {
+                // Handle the event when no value is selected
+            }
+        })
     }
+
     // perfect
     private fun showpiereco(view: View, fir: MutableMap<String, Float>) {
         // Initialize list to hold graph data
@@ -957,13 +1158,13 @@ class graph : Fragment() {
         listofdata.sortByDescending { it.value }
 
         // Initialize RecyclerView and Adapter // Make sure to replace `recyclerView` with the actual ID
-        reco.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        reco.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         val adaptt = graph_reco_adapter(listofdata)
         reco.adapter = adaptt
     }
 
-
-    private fun showlinechart(view: View,linelist_1:ArrayList<Entry>,linelist_2: ArrayList<Entry>) {
+    private fun showlinechart(view: View, linelist_1: ArrayList<Entry>, linelist_2: ArrayList<Entry>) {
         linechart = view.findViewById(R.id.linechart1)
 
         val validColor = getColor("FF0000") // Tomato color
@@ -983,51 +1184,153 @@ class graph : Fragment() {
 
     }
 
-    private fun shorbarchart(view: View,barlist_1:ArrayList<BarEntry>,barlist_2: ArrayList<BarEntry>) {
-        barchart = view.findViewById(R.id.barchart)
 
-        val validColor = getColor("#FF0000") // Tomato color
-        val invalidColor = getColor("FF0000") // Defaults to black
+    private fun preprocessData(barEntries: ArrayList<BarEntry>): ArrayList<BarEntry> {
+        val aggregatedDate = mutableMapOf<Float, Float>()
 
-        val barDataset = BarDataSet(barlist_1, "Income")
-        barDataset.color = validColor
-        val barDataset1 = BarDataSet(barlist_2, "Expense")
-        barDataset1.color = invalidColor
+        for (entry in barEntries) {
+            val month = entry.x
+            val value = entry.y
+            if (aggregatedDate.containsKey(month)) {
+                aggregatedDate[month] = aggregatedDate[month]!! + value
+            } else {
+                aggregatedDate[month] = value
+            }
+        }
+        return ArrayList(aggregatedDate.map { BarEntry(it.key, it.value) })
+    }
+    private fun showbarchart(view: View, barList1: ArrayList<BarEntry>, barList2: ArrayList<BarEntry>) {
 
-        var months = arrayOf("First month", "Second month")
+        var op = spinnershowq.text.toString()
+        val barChart = view.findViewById<BarChart>(R.id.barchart)
 
-        var bardata = BarData(barDataset, barDataset1)
-        barchart.data = bardata
+        // Define colors
+        val incomeColor = Color.parseColor("#FF0000") // Red color
+        val expenseColor = Color.parseColor("#0000FF") // Blue color
 
-        val xAxis = barchart.xAxis
+        // Create datasets
+        val processedBarList1 = preprocessData(barList1)
+        val processedBarList2 = preprocessData(barList2)
 
-        xAxis.setValueFormatter(IndexAxisValueFormatter(months))
-        xAxis.setCenterAxisLabels(true)
+        val incomeDataSet = BarDataSet(processedBarList1, "Income").apply {
+            color = incomeColor
+            valueTextColor = Color.WHITE
+            valueTextSize = 10f
+        }
+        val expenseDataSet = BarDataSet(processedBarList2, "Expense").apply {
+            color = expenseColor
+            valueTextColor = Color.WHITE
+            valueTextSize = 10f
+        }
+
+
+        // Combine datasets into BarData
+        val barData = BarData(incomeDataSet, expenseDataSet)
+        barData.barWidth = 0.15f // Set the width of the bars
+
+        // Set data to chart
+        barChart.data = barData
+
+        // Configure X-Axis
+        val xAxis = barChart.xAxis
+
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.granularity
+        xAxis.setCenterAxisLabels(true)
+        xAxis.granularity = 1f
         xAxis.isGranularityEnabled = true
 
-        var barSpace = 0.1f
-        var grop_space = 0.5f
-        var grouCount = 6
-        barchart.isDragEnabled = true
-        bardata.barWidth = 0.15f
-        barchart.xAxis.axisMinimum = 0f
-        barchart.xAxis.axisMaximum =
-            0 + barchart.barData.getGroupWidth(grop_space, barSpace) * grouCount
-        barchart.groupBars(0f, grop_space, barSpace)
-        barchart.invalidate()
+        // Adjust X-Axis to fit the number of months
+        val groupSpace = 0.4f // Space between groups
+        val barSpace = 0.5f // Space between bars in a group
+        xAxis.axisMinimum = -0.5f
+
+
+        // Group bars and set the width
+        barChart.groupBars(0f, groupSpace, barSpace) // Adjust to fit full width starting from 0
+        if (op=="Year"){
+            val months = arrayOf(
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            )
+            val groupCount = months.size
+            xAxis.valueFormatter = IndexAxisValueFormatter(months)
+            xAxis.axisMaximum = barData.getGroupWidth(groupSpace, barSpace) * groupCount + 0.5f
+        }
+        else if (op=="Month"){
+            val months = arrayOf(
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31"
+
+            )
+            val groupCount = months.size
+            xAxis.valueFormatter = IndexAxisValueFormatter(months)
+            xAxis.axisMaximum = barData.getGroupWidth(groupSpace, barSpace) * groupCount + 0.5f
+        }
+
+        // Configure the chart
+        barChart.isDragEnabled = true
+        barChart.setFitBars(true) // Make the chart fit the bars
+
+        barChart.description.isEnabled = false
+        barChart.legend.isEnabled = true
+
+        // Set up auto zoom and fixed ratio
+        barChart.setScaleEnabled(true)
+        barChart.isScaleXEnabled = true
+        barChart.isScaleYEnabled = true
+        barChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                // Optionally handle value selection
+            }
+
+            override fun onNothingSelected() {
+                // Optionally handle when nothing is selected
+            }
+        })
+
+        barChart.invalidate() // Refresh the chart
     }
 
-    private fun filter(newText: String?) {
-        val filteredList = listOfMonth.filter {
-            it.text.toLowerCase(Locale.ROOT).contains(newText?.toLowerCase(Locale.ROOT) ?: "")
-        }
-        if (filteredList.isEmpty()) {
-            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show()
-        }
-        adapter.setAdapterList(ArrayList(filteredList))
-    }
+
 
     fun getColor(colorString: String): Int {
         return try {
