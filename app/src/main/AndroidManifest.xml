@@ -17,7 +17,6 @@
             android:name=".kuna.full_data"
             android:exported="false"
             android:screenOrientation="portrait"/>
-
         <activity
             android:name=".khush.MainActivity12"
             android:exported="false"
@@ -26,8 +25,6 @@
             android:name=".Saksh.loginpage2"
             android:exported="false"
             android:screenOrientation="portrait"/>
-
-
         <activity
             android:name=".khush.Budgetscreen"
             android:exported="false"

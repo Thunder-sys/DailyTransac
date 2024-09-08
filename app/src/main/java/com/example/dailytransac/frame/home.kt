@@ -426,6 +426,7 @@ class home : Fragment() {
                 spinnershow.text = dattaspinner.text.toString()
                 dialog.dismiss()
             }
+            adapter.notifyDataSetChanged()
             recyclerView.adapter = adapter
 
             searchView.clearFocus()
