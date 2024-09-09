@@ -1184,7 +1184,6 @@ class graph : Fragment() {
 
     }
 
-
     private fun preprocessData(barEntries: ArrayList<BarEntry>): ArrayList<BarEntry> {
         val aggregatedDate = mutableMapOf<Float, Float>()
 
@@ -1199,6 +1198,7 @@ class graph : Fragment() {
         }
         return ArrayList(aggregatedDate.map { BarEntry(it.key, it.value) })
     }
+
     private fun showbarchart(view: View, barList1: ArrayList<BarEntry>, barList2: ArrayList<BarEntry>) {
 
         var op = spinnershowq.text.toString()
@@ -1329,8 +1329,6 @@ class graph : Fragment() {
 
         barChart.invalidate() // Refresh the chart
     }
-
-
 
     fun getColor(colorString: String): Int {
         return try {
