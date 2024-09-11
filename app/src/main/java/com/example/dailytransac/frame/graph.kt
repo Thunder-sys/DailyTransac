@@ -68,6 +68,7 @@ class graph : Fragment() {
     private val calendar1: Calendar = Calendar.getInstance()
 
 
+    val dately = mutableListOf<String>()
     lateinit var a1: TextView
     lateinit var a2: TextView
     lateinit var a3: TextView
@@ -612,7 +613,7 @@ class graph : Fragment() {
         val main = initiadate.toEpochDay().toInt()
         var iop = spinnershowq.text.toString()
 
-        if (iop == "Month") {
+        if (iop == "Month" || iop == "Custom") {
             var first = fino.substring(0, 10)
             var end = firo.substring(0, 10)
             var inaidate = "$first"
@@ -684,20 +685,20 @@ class graph : Fragment() {
         var sumd = 0
         var sumex = 0
         var i = 0
-        var opw1 = (opw - opq).toInt()
-        var opw2 = (opw - opq1).toInt()
+        var opw1 = (opq).toInt()
+        var opw2 = (opq1).toInt()
         Log.d("month1","$opw1")
         Log.d("month1","$opq")
         Log.d("month1","$opq1")
 
-        while (opw2 <= opw1) {
+        while (opw1 <= opw2) {
 
             fetchdataReference =
                 FirebaseDatabase.getInstance().getReference().child("User").child(uid)
-                    .child("monthly").child("$opw2").child("op1")
+                    .child("monthly").child("$opw1").child("op1")
             fetchdataReference.addListenerForSingleValueEvent(object : ValueEventListener {
-
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    var ismonth = true
                     for (myds in snapshot.children) {
                         val myteo = myds.child("totalrevenue").value.toString()
                         val myexper = myds.child("totalexpenses").value.toString()
@@ -710,6 +711,10 @@ class graph : Fragment() {
                         text_exp.setText("$total_exp")
 
                         var op = mydatev.substring(4, 8)
+                        var month = mydatev.substring(0, 3)//month show in three words
+                        if(month.isNotEmpty()){
+                            ismonth = false
+                        }
 
                         val subdate = op.toInt()
                         val subdate2 = (subdate + i + 1) - subdate
@@ -745,6 +750,11 @@ class graph : Fragment() {
                         sumex = myconvertdate2
                         i++
                     }
+                    if(ismonth){
+                        barlist_1.add(BarEntry(0f,0f))
+                        barlist_2.add(BarEntry(0f,0f))
+                    }
+
                     showlinechart(view, linelist_1, linelist_2)
                     showbarchart(view, barlist_1, barlist_2)
                 }
@@ -753,7 +763,7 @@ class graph : Fragment() {
                     TODO("Not yet implemented")
                 }
             })
-            opw2 += 1
+            opw1 += 1
         }
         while (small<=big){
             val pieReference = FirebaseDatabase.getInstance().getReference()
@@ -808,6 +818,7 @@ class graph : Fragment() {
         barlist_1.clear()
         barlist_2.clear()
         entries.clear()
+        dately.clear()
 
         if (fir != 0 && fin != 0) {
 
@@ -830,59 +841,89 @@ class graph : Fragment() {
                     FirebaseDatabase.getInstance().getReference().child("User").child(uid)
                         .child("daily2").child("$small").child("date1")
                 fetchdataReference.addListenerForSingleValueEvent(object : ValueEventListener {
-
                     override fun onDataChange(snapshot: DataSnapshot) {
+                        var ismonth = true
                         for (myds in snapshot.children) {
-                            for (myds in snapshot.children) {
-                                val myteo = myds.child("entry").value.toString()
-                                val myexper = myds.child("Expenses").value.toString()
-                                val mydatege = myds.child("mydateg").value.toString()
-                                val mydatev = myds.child("datevalue").value.toString()
+                            val myteo = myds.child("entry").value.toString()
+                            val myexper = myds.child("Expenses").value.toString()
+                            val mydatev = myds.child("datevalue").value.toString()
+                            val mydate = myds.child("mydateg").value.toString()
 
-                                total_exp += myexper.toInt()
-                                total_rev += myteo.toInt()
+                            total_exp += myexper.toInt()
+                            total_rev += myteo.toInt()
 
-                                text_rev.setText("$total_rev")
-                                text_exp.setText("$total_exp")
+                            text_rev.setText("$total_rev")
+                            text_exp.setText("$total_exp")
 
-                                Log.d("mud", mydatege)
-                                val subdate = mydatev.toInt()
-                                val subdate2 = (subdate + i + 1) - subdate
-                                val sumd2 = myteo.toInt()
-                                val myconvertdate2 = myexper.toInt()
-                                val mymodl = ModelClassformainn(subdate2, sumd2)
-                                val myjd = ModelClassformaiji(subdate2, myconvertdate2)
-                                barlist_1.add(
-                                    BarEntry(
-                                        mymodl.datevalue.toFloat(),
-                                        mymodl.expenses.toFloat()
-                                    )
-                                )
-                                barlist_2.add(
-                                    BarEntry(
-                                        myjd.datevalue.toFloat(),
-                                        myjd.expenses.toFloat()
-                                    )
-                                )
-                                linelist_1.add(
-                                    Entry(
-                                        mymodl.datevalue.toFloat(),
-                                        mymodl.expenses.toFloat()
-                                    )
-                                )
-                                linelist_2.add(
-                                    Entry(
-                                        myjd.datevalue.toFloat(),
-                                        myjd.expenses.toFloat()
-                                    )
-                                )
-                                sumd = sumd2
-                                sumex = myconvertdate2
-                                i++
+                            var op = mydatev.toInt()
+                            var month = mydatev.toString()//month show in three words
+                            if(month.isNotEmpty()){
+                                ismonth = false
                             }
-                            showlinechart(view, linelist_1, linelist_2)
-                            showbarchart(view, barlist_1, barlist_2)
+
+                            val subdate = op.toInt()
+                            val subdate2 = (subdate + i + 1) - subdate
+                            val sumd2 = myteo.toInt()
+                            val myconvertdate2 = myexper.toInt()
+                            val mymodl = ModelClassformainn(subdate2, sumd2)
+                            val myjd = ModelClassformaiji(subdate2, myconvertdate2)
+
+                            var oipu = mydate.substring(3,5).toString()
+                            var day = mydate.substring(0,2).toString()
+                            val monthName = when (oipu) {
+                                "01" -> "Jan"
+                                "02" -> "Feb"
+                                "03" -> "Mar"
+                                "04" -> "Apr"
+                                "05" -> "May"
+                                "06" -> "Jun"
+                                "07" -> "Jul"
+                                "08" -> "Aug"
+                                "09" -> "Sep"
+                                "10" -> "Oct"
+                                "11" -> "Nov"
+                                "12" -> "Dec"
+                                else -> ""
+                            }
+                            if (monthName.isNotEmpty()) {
+                                dately.add("$day $monthName")
+                            }
+
+                            barlist_1.add(
+                                BarEntry(
+                                    mymodl.datevalue.toFloat(),
+                                    mymodl.expenses.toFloat()
+                                )
+                            )
+                            barlist_2.add(
+                                BarEntry(
+                                    myjd.datevalue.toFloat(),
+                                    myjd.expenses.toFloat()
+                                )
+                            )
+                            linelist_1.add(
+                                Entry(
+                                    mymodl.datevalue.toFloat(),
+                                    mymodl.expenses.toFloat()
+                                )
+                            )
+                            linelist_2.add(
+                                Entry(
+                                    myjd.datevalue.toFloat(),
+                                    myjd.expenses.toFloat()
+                                )
+                            )
+                            sumd = sumd2
+                            sumex = myconvertdate2
+                            i++
                         }
+                        if(ismonth){
+                            barlist_1.add(BarEntry(0f,0f))
+                            barlist_2.add(BarEntry(0f,0f))
+                        }
+
+                        showlinechart(view, linelist_1, linelist_2)
+                        showbarchart(view, barlist_1, barlist_2)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -950,13 +991,13 @@ class graph : Fragment() {
                 FirebaseDatabase.getInstance().getReference().child("User").child(uid)
                     .child("daily2")
             fetchdataReference.addListenerForSingleValueEvent(object : ValueEventListener {
-
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    var ismonth = true
                     for (myds in snapshot.children) {
                         val myteo = myds.child("entry").value.toString()
                         val myexper = myds.child("Expenses").value.toString()
-                        val mydatege = myds.child("mydateg").value.toString()
                         val mydatev = myds.child("datevalue").value.toString()
+                        val mydate = myds.child("mydateg").value.toString()
 
                         total_exp += myexper.toInt()
                         total_rev += myteo.toInt()
@@ -964,13 +1005,38 @@ class graph : Fragment() {
                         text_rev.setText("$total_rev")
                         text_exp.setText("$total_exp")
 
-                        Log.d("mud", mydatege)
-                        val subdate = mydatev.toInt()
+                        var op = mydatev.toInt()
+                        var month = mydatev.toString()//month show in three words
+                        if(month.isNotEmpty()){
+                            ismonth = false
+                        }
+
+                        val subdate = op.toInt()
                         val subdate2 = (subdate + i + 1) - subdate
                         val sumd2 = myteo.toInt()
                         val myconvertdate2 = myexper.toInt()
                         val mymodl = ModelClassformainn(subdate2, sumd2)
+                        var oipu = mydate.substring(3,5).toString()
+                        var day = mydate.substring(0,2).toString()
                         val myjd = ModelClassformaiji(subdate2, myconvertdate2)
+                        val monthName = when (oipu) {
+                            "01" -> "Jan"
+                            "02" -> "Feb"
+                            "03" -> "Mar"
+                            "04" -> "Apr"
+                            "05" -> "May"
+                            "06" -> "Jun"
+                            "07" -> "Jul"
+                            "08" -> "Aug"
+                            "09" -> "Sep"
+                            "10" -> "Oct"
+                            "11" -> "Nov"
+                            "12" -> "Dec"
+                            else -> ""
+                        }
+                        if (monthName.isNotEmpty()) {
+                            dately.add("$day $monthName")
+                        }
                         barlist_1.add(
                             BarEntry(
                                 mymodl.datevalue.toFloat(),
@@ -999,6 +1065,11 @@ class graph : Fragment() {
                         sumex = myconvertdate2
                         i++
                     }
+                    if(ismonth){
+                        barlist_1.add(BarEntry(0f,0f))
+                        barlist_2.add(BarEntry(0f,0f))
+                    }
+
                     showlinechart(view, linelist_1, linelist_2)
                     showbarchart(view, barlist_1, barlist_2)
                 }
@@ -1047,6 +1118,94 @@ class graph : Fragment() {
                 }
             })
         }
+    }
+
+    private fun showbarchart(view: View, barList1: ArrayList<BarEntry>, barList2: ArrayList<BarEntry>) {
+
+        var op = spinnershowq.text.toString()
+        val barChart = view.findViewById<BarChart>(R.id.barchart)
+
+        // Define colors
+        val incomeColor = Color.parseColor("#FF0000") // Red color
+        val expenseColor = Color.parseColor("#0000FF") // Blue color
+
+        val incomeDataSet = BarDataSet(barList1, "Income").apply {
+            color = incomeColor
+            valueTextColor = Color.WHITE
+            valueTextSize = 10f
+        }
+        val expenseDataSet = BarDataSet(barList2, "Expense").apply {
+            color = expenseColor
+            valueTextColor = Color.WHITE
+            valueTextSize = 10f
+        }
+
+
+        // Combine datasets into BarData
+        val barData = BarData(incomeDataSet, expenseDataSet)
+        barData.barWidth = 0.2f // Set the width of the bars
+
+        // Set data to chart
+        barChart.data = barData
+
+        // Configure X-Axis
+        val xAxis = barChart.xAxis
+
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setCenterAxisLabels(true)
+        xAxis.granularity = 1f
+        xAxis.isGranularityEnabled = true
+
+        // Adjust X-Axis to fit the number of months
+        val groupSpace = 0.4f // Space between groups
+        val barSpace = 0.1f // Space between bars in a group
+        xAxis.axisMinimum = -0.5f
+
+        barChart.setVisibleXRangeMaximum(4F)
+
+
+        // Group bars and set the width
+        barChart.groupBars(0f, groupSpace, barSpace) // Adjust to fit full width starting from 0
+        when (op) {
+            "Year" -> {
+                val months = arrayOf(
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                )
+                xAxis.valueFormatter = IndexAxisValueFormatter(months)
+                xAxis.axisMaximum = barData.getGroupWidth(0.4f, 0.1f) * months.size + 0.5f
+            }
+            "Month" -> {
+                val days = Array(31) { (it + 1).toString().padStart(2, '0') }
+                xAxis.valueFormatter = IndexAxisValueFormatter(days)
+                xAxis.axisMaximum = barData.getGroupWidth(0.4f, 0.1f) * days.size + 0.5f
+            }
+            "Custom", "OverAll" -> {
+                xAxis.valueFormatter = IndexAxisValueFormatter(dately)
+                xAxis.axisMaximum = barData.getGroupWidth(0.4f, 0.1f) * dately.size + 0.5f
+            }
+            else -> {
+                Log.w("ChartConfig", "Unsupported chart type: $op")
+            }
+        }
+
+        // Configure the chart
+        barChart.isDragEnabled = true
+        barChart.setFitBars(true) // Make the chart fit the bars
+
+        barChart.description.isEnabled = false
+        barChart.legend.isEnabled = true
+
+        // Set up auto zoom and fixed ratio
+        barChart.setScaleEnabled(true)
+        barChart.isScaleXEnabled = true
+        barChart.isScaleYEnabled = true
+        barChart.isHighlightPerTapEnabled = true
+        barChart.isHighlightPerDragEnabled = true
+
+        barChart.setDrawValueAboveBar(true)
+
+        barChart.invalidate() // Refresh the chart
     }
 
     // perfect
@@ -1143,7 +1302,6 @@ class graph : Fragment() {
             }
         })
     }
-
     // perfect
     private fun showpiereco(view: View, fir: MutableMap<String, Float>) {
         // Initialize list to hold graph data
@@ -1159,175 +1317,38 @@ class graph : Fragment() {
 
         // Initialize RecyclerView and Adapter // Make sure to replace `recyclerView` with the actual ID
         reco.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val adaptt = graph_reco_adapter(listofdata)
         reco.adapter = adaptt
     }
 
-    private fun showlinechart(view: View, linelist_1: ArrayList<Entry>, linelist_2: ArrayList<Entry>) {
-        linechart = view.findViewById(R.id.linechart1)
-
-        val validColor = getColor("FF0000") // Tomato color
-        val invalidColor = getColor("#FF0000") // Defaults to black
-        val barDataset = LineDataSet(linelist_1, "Income")
-        barDataset.color = validColor
-        val barDataset1 = LineDataSet(linelist_2, "Expense")
-        barDataset1.color = invalidColor
-
-        var datset = ArrayList<ILineDataSet>()
-        datset.add(barDataset)
-        datset.add(barDataset1)
-
-        var data = LineData(datset)
-        linechart.data = data
-        linechart.invalidate()
-
-    }
-
-    private fun preprocessData(barEntries: ArrayList<BarEntry>): ArrayList<BarEntry> {
-        val aggregatedDate = mutableMapOf<Float, Float>()
-
-        for (entry in barEntries) {
-            val month = entry.x
-            val value = entry.y
-            if (aggregatedDate.containsKey(month)) {
-                aggregatedDate[month] = aggregatedDate[month]!! + value
-            } else {
-                aggregatedDate[month] = value
-            }
-        }
-        return ArrayList(aggregatedDate.map { BarEntry(it.key, it.value) })
-    }
-
-    private fun showbarchart(view: View, barList1: ArrayList<BarEntry>, barList2: ArrayList<BarEntry>) {
-
-        var op = spinnershowq.text.toString()
-        val barChart = view.findViewById<BarChart>(R.id.barchart)
+    private fun showlinechart(view: View, incomeList: ArrayList<Entry>, expenseList: ArrayList<Entry>) {
+        val lineChart = view.findViewById<LineChart>(R.id.linechart1)
 
         // Define colors
-        val incomeColor = Color.parseColor("#FF0000") // Red color
-        val expenseColor = Color.parseColor("#0000FF") // Blue color
+        val incomeColor = Color.parseColor("#FF0000") // Red for income
+        val expenseColor = Color.parseColor("#0000FF") // Blue for expense
 
         // Create datasets
-        val processedBarList1 = preprocessData(barList1)
-        val processedBarList2 = preprocessData(barList2)
-
-        val incomeDataSet = BarDataSet(processedBarList1, "Income").apply {
+        val incomeDataSet = LineDataSet(incomeList, "Income").apply {
             color = incomeColor
-            valueTextColor = Color.WHITE
-            valueTextSize = 10f
+            valueTextColor = incomeColor // Optional: set color for text values
         }
-        val expenseDataSet = BarDataSet(processedBarList2, "Expense").apply {
+        val expenseDataSet = LineDataSet(expenseList, "Expense").apply {
             color = expenseColor
-            valueTextColor = Color.WHITE
-            valueTextSize = 10f
+            valueTextColor = expenseColor // Optional: set color for text values
         }
 
-
-        // Combine datasets into BarData
-        val barData = BarData(incomeDataSet, expenseDataSet)
-        barData.barWidth = 0.15f // Set the width of the bars
+        // Create line data
+        val lineDataSets = ArrayList<ILineDataSet>().apply {
+            add(incomeDataSet)
+            add(expenseDataSet)
+        }
+        val lineData = LineData(lineDataSets)
 
         // Set data to chart
-        barChart.data = barData
-
-        // Configure X-Axis
-        val xAxis = barChart.xAxis
-
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setCenterAxisLabels(true)
-        xAxis.granularity = 1f
-        xAxis.isGranularityEnabled = true
-
-        // Adjust X-Axis to fit the number of months
-        val groupSpace = 0.4f // Space between groups
-        val barSpace = 0.5f // Space between bars in a group
-        xAxis.axisMinimum = -0.5f
-
-
-        // Group bars and set the width
-        barChart.groupBars(0f, groupSpace, barSpace) // Adjust to fit full width starting from 0
-        if (op=="Year"){
-            val months = arrayOf(
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec"
-            )
-            val groupCount = months.size
-            xAxis.valueFormatter = IndexAxisValueFormatter(months)
-            xAxis.axisMaximum = barData.getGroupWidth(groupSpace, barSpace) * groupCount + 0.5f
-        }
-        else if (op=="Month"){
-            val months = arrayOf(
-                "01",
-                "02",
-                "03",
-                "04",
-                "05",
-                "06",
-                "07",
-                "08",
-                "09",
-                "10",
-                "11",
-                "12",
-                "13",
-                "14",
-                "15",
-                "16",
-                "17",
-                "18",
-                "19",
-                "20",
-                "21",
-                "22",
-                "23",
-                "24",
-                "25",
-                "26",
-                "27",
-                "28",
-                "29",
-                "30",
-                "31"
-
-            )
-            val groupCount = months.size
-            xAxis.valueFormatter = IndexAxisValueFormatter(months)
-            xAxis.axisMaximum = barData.getGroupWidth(groupSpace, barSpace) * groupCount + 0.5f
-        }
-
-        // Configure the chart
-        barChart.isDragEnabled = true
-        barChart.setFitBars(true) // Make the chart fit the bars
-
-        barChart.description.isEnabled = false
-        barChart.legend.isEnabled = true
-
-        // Set up auto zoom and fixed ratio
-        barChart.setScaleEnabled(true)
-        barChart.isScaleXEnabled = true
-        barChart.isScaleYEnabled = true
-        barChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-            override fun onValueSelected(e: Entry?, h: Highlight?) {
-                // Optionally handle value selection
-            }
-
-            override fun onNothingSelected() {
-                // Optionally handle when nothing is selected
-            }
-        })
-
-        barChart.invalidate() // Refresh the chart
+        lineChart.data = lineData
+        lineChart.invalidate() // Refresh the chart
     }
 
     fun getColor(colorString: String): Int {

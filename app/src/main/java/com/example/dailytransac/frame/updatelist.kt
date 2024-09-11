@@ -85,9 +85,7 @@ class updatelist : Fragment() {
 
     val formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     val finalDate = "30/12/2100"
-    val finalDate1 = 310012
     var totalMytkl:Int = 0
-    var addSpinnervalue:Int = 10000000
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
 
     var uid = firebaseAuth.currentUser?.uid!!
@@ -135,7 +133,7 @@ class updatelist : Fragment() {
                 var dataStringm3 = currentDate.substring(6,10)
                 var reversedate = ("$dataStringm3" + "$dataStringm2").toInt()
 
-                valuefor1 = (finalDate1 - reversedate).toString()
+                valuefor1 = (reversedate).toString()
 
                 val initiadate = LocalDate.parse(finalDate, formatte)
                 val initda = initiadate.toEpochDay().toInt()
@@ -181,7 +179,7 @@ class updatelist : Fragment() {
             var dataStringm3 = currentDate.substring(6,10)
             var reversedate = ("$dataStringm3" + "$dataStringm2").toInt()
 
-            valuefor1 = (finalDate1 - reversedate).toString()
+            valuefor1 = (reversedate).toString()
 
             val initiadate = LocalDate.parse(finalDate, formatte)
             val initda = initiadate.toEpochDay().toInt()
