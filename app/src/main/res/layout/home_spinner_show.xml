@@ -12,16 +12,35 @@
         android:background="@drawable/gradient_white_black_outline"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:textSize="25dp"
-            android:text="Select item">
+            android:textSize="25dp">
 
-        </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:text="Select item"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="end"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="34dp"
+                    android:id="@+id/home_spinner_refresh"
+                    android:background="@drawable/refresh"
+                    android:layout_height="34dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/home_searchView"

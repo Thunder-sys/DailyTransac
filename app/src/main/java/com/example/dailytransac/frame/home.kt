@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -413,8 +414,10 @@ class home : Fragment() {
             dialog.setContentView(R.layout.home_spinner_show)
 
             val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
+            val refresh: ImageView = dialog.findViewById(R.id.home_spinner_refresh)
             val searchView: androidx.appcompat.widget.SearchView = dialog.findViewById(R.id.home_searchView)
             val adddata: TextView = dialog.findViewById(R.id.home_adddata)
+
             adddata.setOnClickListener {
                 addspinnerdata()
             }
@@ -439,20 +442,18 @@ class home : Fragment() {
                 }
             })
 
-            spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    listOfMonth.clear()  // Clear existing data
-                    for (ip in snapshot.children) {
-                        val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                        listOfMonth.add(home_spinner_model(yearSpinner))
-                    }
-                    adapter.notifyDataSetChanged()
-                }
+            refresh.setOnClickListener {
+                fetchDataAndUpdateRecyclerView()
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            // Initialize the handler and runnable
+            handler = Handler(Looper.getMainLooper())
+            updateTimeRunnable = object : Runnable {
+                override fun run() {
+                    fetchDataAndUpdateRecyclerView()
                 }
-            })
+            }
+            handler.post(updateTimeRunnable) // Start the periodic updates
 
             dialog.show()
         }
@@ -479,10 +480,10 @@ class home : Fragment() {
                     0
                 }
                 val totalIncome = entryValue - totalMytkl
-                when {
-                    entryValue > totalIncome -> income.text = "$totalIncome"
-                    entryValue == totalIncome -> income.text = "0"
-                    else -> income.text = "- $totalIncome"
+                income.text = when {
+                    entryValue > totalIncome -> "$totalIncome"
+                    entryValue == totalIncome -> "0"
+                    else -> "- $totalIncome"
                 }
             }
 
@@ -493,6 +494,25 @@ class home : Fragment() {
         view.findViewById<ImageButton>(R.id.delete).setOnClickListener {
             removeCard(view)
         }
+    }
+
+    private fun fetchDataAndUpdateRecyclerView() {
+        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                listOfMonth.clear() // Clear existing data
+                for (ip in snapshot.children) {
+                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                    listOfMonth.add(home_spinner_model(yearSpinner))
+                }
+                // Sort list alphabetically
+                listOfMonth.sortBy { it.text }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun removeCard(view: View) {
@@ -532,7 +552,6 @@ class home : Fragment() {
         }
         adapter.setAdapterList(ArrayList(filteredList))
     }
-
 
     //Calender = Date
     override fun onDestroy() {

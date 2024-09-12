@@ -19,7 +19,7 @@
             android:background="@color/dark_green"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="110dp">
             <RelativeLayout
                 android:id="@+id/relative"
                 android:layout_width="wrap_content"
@@ -100,7 +100,6 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:id="@+id/Linear_month_and_year"
-                android:visibility="gone"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/gradient_dark_green"
@@ -114,9 +113,9 @@
 
                     <ImageView
                         android:id="@+id/graph_month_and_year_less_than"
-                        android:layout_width="40dp"
+                        android:layout_width="45dp"
                         android:background="@drawable/less_than"
-                        android:layout_height="30dp"/>
+                        android:layout_height="35dp"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -129,7 +128,7 @@
                         android:id="@+id/graph_month_and_year_value"
                         android:layout_width="wrap_content"
                         android:text="Sep 2024"
-                        android:textSize="20dp"
+                        android:textSize="25dp"
                         android:textColor="@color/white"
                         android:layout_height="wrap_content"/>
 
@@ -144,9 +143,9 @@
 
                     <ImageView
                         android:id="@+id/graph_month_and_year_greater_than"
-                        android:layout_width="40dp"
+                        android:layout_width="45dp"
                         android:background="@drawable/right_than"
-                        android:layout_height="30dp"/>
+                        android:layout_height="35dp"/>
 
                 </LinearLayout>
 

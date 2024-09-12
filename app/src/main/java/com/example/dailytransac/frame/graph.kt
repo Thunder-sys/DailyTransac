@@ -171,12 +171,42 @@ class graph : Fragment() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View?,
+                view1: View?,
                 position: Int,
                 id: Long
             ) {
                 val selectedItem = parent.getItemAtPosition(position) as String
                 spinnershowq.setText("$selectedItem")
+                when ("$selectedItem") {
+                    "Month" -> {
+                        monthyear_Linear.visibility = View.VISIBLE
+                        dateshowLinear.visibility = View.GONE
+                        year_Linear.visibility = View.GONE
+                        updateDateDisplay(view)
+                    }
+
+                    "Custom" -> {
+                        monthyear_Linear.visibility = View.GONE
+                        dateshowLinear.visibility = View.VISIBLE
+                        year_Linear.visibility = View.GONE
+                    }
+
+                    "Year" -> {
+                        monthyear_Linear.visibility = View.GONE
+                        dateshowLinear.visibility = View.GONE
+                        year_Linear.visibility = View.VISIBLE
+                        calendar.add(Calendar.YEAR, -0)
+                        updateDatedisplay(view)
+                    }
+
+                    "OverAll" -> {
+                        monthyear_Linear.visibility = View.GONE
+                        dateshowLinear.visibility = View.GONE
+                        year_Linear.visibility = View.GONE
+
+                        fetchfulldataValueset(view, "0", "0")
+                    }
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -206,53 +236,6 @@ class graph : Fragment() {
             calendar.add(Calendar.YEAR, -1)
             updateDatedisplay(view)
         }
-        handler = Handler(Looper.getMainLooper())
-        updateTimeRunnable = object : Runnable {
-            override fun run() {
-                val storedValue = sharedPreferences.getString("key", "default").toString()
-                var editop = spinnershowq.text.toString()
-                if ("$editop" != "$storedValue") {
-                    val editor = sharedPreferences.edit()
-                    editor.putString("key", "$editop")
-                    editor.apply()
-                    when ("$editop") {
-                        "Month" -> {
-                            monthyear_Linear.visibility = View.VISIBLE
-                            dateshowLinear.visibility = View.GONE
-                            year_Linear.visibility = View.GONE
-                            updateDateDisplay(view)
-                        }
-
-                        "Custom" -> {
-                            monthyear_Linear.visibility = View.GONE
-                            dateshowLinear.visibility = View.VISIBLE
-                            year_Linear.visibility = View.GONE
-                        }
-
-                        "Year" -> {
-                            monthyear_Linear.visibility = View.GONE
-                            dateshowLinear.visibility = View.GONE
-                            year_Linear.visibility = View.VISIBLE
-                            calendar.add(Calendar.YEAR, -0)
-                            updateDatedisplay(view)
-                        }
-
-                        "OverAll" -> {
-                            monthyear_Linear.visibility = View.GONE
-                            dateshowLinear.visibility = View.GONE
-                            year_Linear.visibility = View.GONE
-
-                            fetchfulldataValueset(view, "0", "0")
-                        }
-                    }
-                }
-                // Schedule the next update in 1 second
-                handler.postDelayed(this, 1000)
-            }
-        }
-        // Start updating the TextView
-        handler.post(updateTimeRunnable)
-
         text_rev = view.findViewById(R.id.graph_revenue)
         text_exp = view.findViewById(R.id.graph_expenses)
 
@@ -856,7 +839,7 @@ class graph : Fragment() {
                             text_exp.setText("$total_exp")
 
                             var op = mydatev.toInt()
-                            var month = mydatev.toString()//month show in three words
+                            var month = myteo.toString()//month show in three words
                             if(month.isNotEmpty()){
                                 ismonth = false
                             }
