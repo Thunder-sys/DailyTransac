@@ -192,7 +192,11 @@ class updatelist : Fragment() {
             var p = calendar.text.toString()
             if (p.isNotEmpty()){
                 entry.setText("")
+                expences.setText("0")
+                totalMytkl= 0
                 fetchdataforview()
+                layout_list.removeAllViews()
+                cardValuesMap.clear()
             }
         },
             datepicker.get(Calendar.YEAR),

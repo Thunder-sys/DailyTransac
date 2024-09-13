@@ -802,6 +802,7 @@ class graph : Fragment() {
         barlist_2.clear()
         entries.clear()
         dately.clear()
+        var opq = spinnershowq.text.toString()
 
         if (fir != 0 && fin != 0) {
 
@@ -840,7 +841,7 @@ class graph : Fragment() {
 
                             var op = mydatev.toInt()
                             var month = myteo.toString()//month show in three words
-                            if(month.isNotEmpty()){
+                            if (month.isNotEmpty()) {
                                 ismonth = false
                             }
 
@@ -851,8 +852,8 @@ class graph : Fragment() {
                             val mymodl = ModelClassformainn(subdate2, sumd2)
                             val myjd = ModelClassformaiji(subdate2, myconvertdate2)
 
-                            var oipu = mydate.substring(3,5).toString()
-                            var day = mydate.substring(0,2).toString()
+                            var oipu = mydate.substring(3, 5).toString()
+                            var day = mydate.substring(0, 2).toString()
                             val monthName = when (oipu) {
                                 "01" -> "Jan"
                                 "02" -> "Feb"
@@ -900,9 +901,11 @@ class graph : Fragment() {
                             sumex = myconvertdate2
                             i++
                         }
-                        if(ismonth){
-                            barlist_1.add(BarEntry(0f,0f))
-                            barlist_2.add(BarEntry(0f,0f))
+                        if (opq == "Month") {
+                            if (ismonth) {
+                                barlist_1.add(BarEntry(0f, 0f))
+                                barlist_2.add(BarEntry(0f, 0f))
+                            }
                         }
 
                         showlinechart(view, linelist_1, linelist_2)
@@ -1202,7 +1205,7 @@ class graph : Fragment() {
         val totalValue = fir.values.sum()
 
         // Define the 8% threshold
-        val threshold = totalValue * 0.08f
+        val threshold = totalValue * 0.06f
 
         // Sort entries by value in descending order
         val sortedEntries = fir.entries.sortedByDescending { it.value }
@@ -1246,8 +1249,6 @@ class graph : Fragment() {
 
             val data = PieData(pieDataSet)
             piechart.data = data
-            piechart.invalidate()
-            piechart.description.isEnabled = false
             data.setValueTextSize(12f)
             data.setValueTextColor(
                 ContextCompat.getColor(
@@ -1255,16 +1256,14 @@ class graph : Fragment() {
                     R.color.red
                 )
             )
-
-            piechart.holeRadius = 0f
-            piechart.setEntryLabelColor(
-                ContextCompat.getColor(
-                    view.context,
-                    R.color.black
-                )
-            )
-            piechart.isDrawHoleEnabled = false
         }
+        // Update PieChart appearance
+        piechart.invalidate() // Refreshes the chart
+        piechart.description.isEnabled = false
+        piechart.holeRadius = 0f
+        piechart.setEntryLabelColor(ContextCompat.getColor(view.context, R.color.black))
+        piechart.isDrawHoleEnabled = false
+
 
         // Add value selection listener
         piechart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {

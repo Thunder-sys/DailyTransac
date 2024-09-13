@@ -78,6 +78,9 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
     implementation ("androidx.viewpager:viewpager:1.0.0")
     implementation ("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1") // Check for the latest version
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1") // Optional, if you're using LiveData
+
 
     //simmer effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")

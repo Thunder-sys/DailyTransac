@@ -189,6 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:visibility="gone"
+                    android:scrollbarAlwaysDrawVerticalTrack="false"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical" />
             </LinearLayout>
