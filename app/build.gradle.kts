@@ -80,6 +80,9 @@ dependencies {
     implementation ("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1") // Check for the latest version
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1") // Optional, if you're using LiveData
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+
 
 
     //simmer effect

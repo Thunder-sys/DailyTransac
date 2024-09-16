@@ -1,5 +1,6 @@
 package com.example.dailytransac.frame
 
+import CardManager
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
@@ -40,6 +41,11 @@ import java.util.Locale
 import java.util.UUID
 
 class home : Fragment() {
+
+    private lateinit var cardManager: CardManager
+    private lateinit var layoutList: ViewGroup
+
+
     lateinit var layout_list: LinearLayout
     lateinit var add_button: Button
     lateinit var entry:EditText
@@ -75,7 +81,6 @@ class home : Fragment() {
     private lateinit var adapter: home_spinner_adapter
     private lateinit var adapter1: home_spinner_adapter_add
     var totalMytkl:Int = 0
-    var addSpinnervalue:Int = 10000000
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private val cardValuesMap = mutableMapOf<View, Int>()
 
@@ -145,17 +150,30 @@ class home : Fragment() {
             navigateToFragmentB()
         }
 
+        // Initialize layoutList
+        layoutList = view.findViewById(R.id.Layout_list)
+
+        // Initialize cardManager
+        cardManager = CardManager(requireContext())
+
+        // Load existing card values
+        loadExistingCards()
 
         //DynamicView
-        addcard()
+
         add_button.setOnClickListener() {
-            addcard()
+            addCard()
         }
         sumbit.setOnClickListener() {
             servedForTheServer(view)
         }
 
+        addCard()
         return view
+    }
+    private fun loadExistingCards() {
+        // Load all card data and initialize views
+        cardManager.loadCardValues(layoutList)
     }
 
     private fun addspinnerdata() {
@@ -398,13 +416,23 @@ class home : Fragment() {
         })
     }
 
-    //DynamicView
-    private fun addcard() {
+    private fun addCard() {
+
+
         val view: View = layoutInflater.inflate(R.layout.add_list, null)
         val entry2: EditText = view.findViewById(R.id.entry2)
         val work: EditText = view.findViewById(R.id.work)
         val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
-        layout_list.addView(view)
+        layoutList.addView(view)
+        val uniqueId = view.toString()
+
+
+        view.findViewById<ImageButton>(R.id.delete).setOnClickListener {
+            layoutList.removeView(view)
+        }
+
+        cardManager.setupTextWatchers(uniqueId, entry2, work, spinnershow)
+
 
         // Initialize the old value for this new card
         cardValuesMap[view] = 0
@@ -520,7 +548,7 @@ class home : Fragment() {
         val oldValue = cardValuesMap[view] ?: 0
 
         // Remove the card view
-        layout_list.removeView(view)
+        layoutList.removeView(view)
 
         // Remove the old value from the total
         totalMytkl -= oldValue
