@@ -41,6 +41,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
+import kotlin.properties.Delegates
 
 class home : Fragment() {
 
@@ -89,6 +90,7 @@ class home : Fragment() {
     private lateinit var adapter: home_spinner_adapter
     private lateinit var adapter1: home_spinner_adapter_add
     var totalMytkl:Int = 0
+    private var date_extry_clear by Delegates.notNull<Int>()
     var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private val cardValuesMap = mutableMapOf<View, Int>()
 
@@ -139,7 +141,7 @@ class home : Fragment() {
         updateTimeRunnable = object : Runnable {
             override fun run() {
                 // Update TextView with current date
-                currentDate = "09/09/2024"
+                currentDate = dateFormat.format(Date())
                 calendarTextView.text = currentDate
                 var dataStringm = currentDate.toString()
                 var dataStringm2 = currentDate.substring(3,5)
@@ -170,9 +172,8 @@ class home : Fragment() {
         var cureentdate = dateFormat.format(Date())
         val date = prefs_for_date.getString("date", "") ?: ""
         if (date != cureentdate.toString()) {
-            entry.setText("")
             editor_for_date.putString("date", cureentdate.toString()).apply()
-            editor_for_entry.putString("entry",entry.text.toString()).apply()
+            editor_for_entry.clear().apply()
             editor.clear().apply()
         }
 
@@ -190,32 +191,37 @@ class home : Fragment() {
         }
         entry.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                editor_for_entry.putString("entry",entry.text.toString())
-                editor_for_entry.apply()
+               calculationChamber(0,0)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        var op = layoutList.childCount.toString()
         //DynamicView
-        if (op == "0"){
+        if (layoutList.childCount.toString() == "0"){
             addCard("","","None")
         }
         add_button.setOnClickListener() {
             addCard("", "", "None")
         }
 
-
         return view
     }
 
     override fun onPause() {
         super.onPause()
-        saveAllCardData()  // Save data when the fragment is paused
+        saveAllCardData()
+        forentry()// Save data when the fragment is paused
+    }
+
+    private fun forentry() {
+        var entry3 = entry.text.toString()
+        saveentry(entry3)
     }
 
     private fun saveAllCardData() {
+
+
         // Iterate over all card views and save their data
         for (i in 0 until layoutList.childCount) {
             val view = layoutList.getChildAt(i)
@@ -226,6 +232,12 @@ class home : Fragment() {
 
             saveCardData(uniqueId, entry2, work, spinnershow)
         }
+
+    }
+
+    private fun saveentry(entry3: String) {
+        editor_for_entry.putString("entry", entry3)
+        editor_for_entry.apply()
     }
 
     private fun loadExistingCards() {
@@ -255,6 +267,7 @@ class home : Fragment() {
     // Remove card data
     private fun clearExistingCards() {
         editor.clear().apply()
+        editor_for_entry.clear().apply()
     }
 
     // Save card data
@@ -331,23 +344,14 @@ class home : Fragment() {
         // Set up TextWatcher for entry2
         entry2.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+
                 val newValue = s.toString().toIntOrNull() ?: 0
 
                 // Update the card's value
                 val oldValue = cardValuesMap[view] ?: 0
                 cardValuesMap[view] = newValue
 
-                // Adjust totals
-                totalMytkl = totalMytkl - oldValue + newValue
-                expences.text = totalMytkl.toString()
-
-                val entryValue = entry.text.toString().toIntOrNull() ?: 0
-                val totalIncome = entryValue - totalMytkl
-                income.text = when {
-                    entryValue > totalIncome -> "$totalIncome"
-                    entryValue == totalIncome -> "0"
-                    else -> "- $totalIncome"
-                }
+                calculationChamber(oldValue,newValue)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -476,6 +480,20 @@ class home : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun calculationChamber(oldValue: Int, newValue: Int) {
+        totalMytkl = totalMytkl - oldValue + newValue
+
+        expences.text = totalMytkl.toString()
+
+        val entryValue = entry.text.toString().toIntOrNull() ?: 0
+        val totalIncome = entryValue - totalMytkl
+        income.text = when {
+            entryValue > totalIncome -> "$totalIncome"
+            entryValue == totalIncome -> "$totalIncome"
+            else -> "- $totalIncome"
+        }
     }
 
     private fun checkIfValueExists(value: String, callback: (Boolean) -> Unit) {
