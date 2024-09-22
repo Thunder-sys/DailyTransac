@@ -345,7 +345,6 @@ class home : Fragment() {
             }
             dialog.show()
         }
-        // Set up spinner click listener
 
         // Set up TextWatcher for entry2
         entry2.addTextChangedListener(object : TextWatcher {
@@ -374,21 +373,7 @@ class home : Fragment() {
             val oldValue = cardValuesMap[view] ?: 0
             cardValuesMap[view] = newValue
 
-            // Adjust total values
-            totalMytkl = totalMytkl - oldValue + newValue
-            expences.text = totalMytkl.toString()
-
-            val entryValue: Int = try {
-                entry.text.toString().toInt()
-            } catch (e: NumberFormatException) {
-                0
-            }
-            val totalIncome = entryValue - totalMytkl
-            when {
-                entryValue > totalIncome -> income.text = "$totalIncome"
-                entryValue == totalIncome -> income.text = "0"
-                else -> income.text = "- $totalIncome"
-            }
+            calculationChamber(oldValue,newValue)
         }
     }
 
@@ -398,7 +383,8 @@ class home : Fragment() {
                 listOfMonth.clear() // Clear existing data
                 for (ip in snapshot.children) {
                     val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                    listOfMonth.add(home_spinner_model(yearSpinner))
+                    val id = ip.child("spinid").getValue(String::class.java) ?: ""
+                    listOfMonth.add(home_spinner_model(id,yearSpinner))
                 }
                 // Sort list alphabetically
                 listOfMonth.sortBy { it.text }
@@ -467,9 +453,11 @@ class home : Fragment() {
                     if (exists) {
                         Toast.makeText(requireContext(), "Value already exists", Toast.LENGTH_SHORT).show()
                     } else {
+                        val randomKey = UUID.randomUUID().toString()
                         val mySendTip: MutableMap<String, Any> = HashMap()
                         mySendTip["homespin"] = dataForSpinner
-                        val randomKey = UUID.randomUUID().toString()
+                        mySendTip["spinid"] = randomKey
+
 
                         add_data_for_spinner.child(randomKey).setValue(mySendTip)
                             .addOnSuccessListener {

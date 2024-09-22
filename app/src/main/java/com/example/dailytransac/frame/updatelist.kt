@@ -588,7 +588,8 @@ class updatelist : Fragment() {
                     listOfMonth.clear()  // Clear existing data
                     for (ip in snapshot.children) {
                         val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                        listOfMonth.add(home_spinner_model(yearSpinner))
+                        val id = ip.child("spinid").getValue(String::class.java) ?: ""
+                        listOfMonth.add(home_spinner_model(id,yearSpinner))
                     }
                     adapter.notifyDataSetChanged()
                 }
