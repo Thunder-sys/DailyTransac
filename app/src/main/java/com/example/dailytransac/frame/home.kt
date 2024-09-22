@@ -2,8 +2,6 @@ package com.example.dailytransac.frame
 
 import CardManager
 import android.app.Dialog
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -47,12 +45,6 @@ class home : Fragment() {
     private lateinit var cardManager: CardManager
     private lateinit var layoutList: ViewGroup
 
-    private lateinit var prefs: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
-    private lateinit var prefs_for_date: SharedPreferences
-    private lateinit var editor_for_date: SharedPreferences.Editor
-    private lateinit var prefs_for_entry: SharedPreferences
-    private lateinit var editor_for_entry: SharedPreferences.Editor
 
     lateinit var layout_list: LinearLayout
     lateinit var add_button: Button
@@ -120,12 +112,6 @@ class home : Fragment() {
         layout_list = view.findViewById(R.id.Layout_list)
         add_button = view.findViewById(R.id.add)
         updatebotton = view.findViewById(R.id.updatebutton)
-        prefs = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        editor = prefs.edit()
-        prefs_for_date = requireActivity().getSharedPreferences("app_prefs1", Context.MODE_PRIVATE)
-        editor_for_date = prefs_for_date.edit()
-        prefs_for_entry = requireActivity().getSharedPreferences("app_prefs2", Context.MODE_PRIVATE)
-        editor_for_entry = prefs_for_entry.edit()
 
         dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -152,13 +138,7 @@ class home : Fragment() {
                 valuefor = (initda - initda2).toString()
                 valuefor2 = initda2.toString()
 
-                val date = prefs_for_date.getString("date", "") ?: ""
-                if (date != currentDate.toString()) {
-                    editor_for_date.putString("date", currentDate.toString())
-                    editor_for_date.apply()
-                    editor.clear()
-                    editor_for_entry.clear()
-                }
+
                 // Schedule the next update in 1 second
                 handler.postDelayed(this, 1000)
             }
@@ -182,71 +162,18 @@ class home : Fragment() {
         //DynamicView
 
         add_button.setOnClickListener() {
-            addCard("", "", "None")
+            addCard()
         }
         sumbit.setOnClickListener() {
             servedForTheServer(view)
         }
-        entry.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                editor_for_entry.putString("entry",entry.text.toString())
-                editor_for_entry.apply()
-            }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
+        addCard()
         return view
     }
-
-    override fun onPause() {
-        super.onPause()
-        saveAllCardData()  // Save data when the fragment is paused
-    }
-
-    private fun saveAllCardData() {
-        // Iterate over all card views and save their data
-        for (i in 0 until layoutList.childCount) {
-            val view = layoutList.getChildAt(i)
-            val uniqueId = i.toString()
-            val entry2 = view.findViewById<EditText>(R.id.entry2).text.toString()
-            val work = view.findViewById<EditText>(R.id.work).text.toString()
-            val spinnershow = view.findViewById<TextView>(R.id.home_spinnershow).text.toString()
-
-            saveCardData(uniqueId, entry2, work, spinnershow)
-        }
-    }
-
     private fun loadExistingCards() {
-        var entry1 = prefs_for_entry.getString("entry","") ?:""
-        entry.setText(entry1)
-        val allEntries = prefs.all
-        val cardIds = allEntries.keys.filter { it.endsWith("_entry2") }
-            .map { it.substringBefore("_entry2") }
-            .distinct()
-
-        cardIds.forEach { uniqueId ->
-            val entry2 = prefs.getString("${uniqueId}_entry2", "") ?: ""
-            val work = prefs.getString("${uniqueId}_work", "") ?: ""
-            val spinnershow = prefs.getString("${uniqueId}_spinnershow", "") ?: ""
-
-            addCard(entry2,work,spinnershow)
-        }
-    }
-    // Save card data
-    fun saveCardData(uniqueId: String, entry2: String, work: String, spinnershow: String) {
-        editor.putString("${uniqueId}_entry2", entry2)
-        editor.putString("${uniqueId}_work", work)
-        editor.putString("${uniqueId}_spinnershow", spinnershow)
-        editor.apply()
-    }
-    // Remove card data
-    fun removeCard1(uniqueId: String) {
-        editor.remove("${uniqueId}_entry2")
-        editor.remove("${uniqueId}_work")
-        editor.remove("${uniqueId}_spinnershow")
-        editor.apply()
+        // Load all card data and initialize views
+        cardManager.loadCardValues(layoutList)
     }
 
     private fun addspinnerdata() {
@@ -301,6 +228,7 @@ class home : Fragment() {
         })
     }
 
+
     private fun navigateToFragmentB() {
         val fragmentB = updatelist()
         parentFragmentManager.beginTransaction()
@@ -308,7 +236,6 @@ class home : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-
     private fun servedForTheServer(view: View) {
         val currentyear = currentDate.substring(6, 10)
         val year = 2100 - currentyear.toInt()
@@ -336,8 +263,8 @@ class home : Fragment() {
         firebaseRefer6 = firebaseDatabase.getReference().child("User").child(uid).child("pie2")
 
         var sum = 0
-        for (i in 0 until layoutList.childCount) {
-            val view1: View = layoutList.getChildAt(i)
+        for (i in 0 until layout_list.childCount) {
+            val view1: View = layout_list.getChildAt(i)
             val entry2: EditText = view1.findViewById(R.id.entry2)
             val work: EditText = view1.findViewById(R.id.work)
             val spinnershow: TextView = view1.findViewById(R.id.home_spinnershow)
@@ -428,7 +355,7 @@ class home : Fragment() {
                         "01" ->{monthvalue = "Jan"
                             monthvalue1 = "January"}
                         "02" ->{monthvalue = "Feb"
-                            monthvalue1 = "February"}
+                            monthvalue1 = "Febrary"}
                         "03" ->{monthvalue = "Mar"
                             monthvalue1 = "March"}
                         "04" ->{monthvalue = "Apr"
@@ -459,7 +386,10 @@ class home : Fragment() {
                     mysendtp["currentmonth"] = "$monthvalue1"
                     mysendtp["monthvalue"] = ("$monthvalue " + "$year")
 
-                     firebaseReferfulldata1.child("$s").child("month").child("$s1").updateChildren(mysendtp)
+                    firebaseRefer3.child(valuefor1).updateChildren(mysendtp)
+                    firebaseRefer3.child(valuefor1).child("op1").child("op").updateChildren(mysendtp)
+                    firebaseReferfulldata1.child("$s").child("month1").child("$month").updateChildren(mysendtp)
+                    firebaseReferfulldata1.child("$s").child("month").child("$s1").updateChildren(mysendtp)
                         .addOnSuccessListener {
                             Toast.makeText(
                                 requireContext(),
@@ -476,9 +406,7 @@ class home : Fragment() {
                             )
                                 .show()
                         }
-                    firebaseRefer3.child(valuefor1).updateChildren(mysendtp)
-                    firebaseRefer3.child(valuefor1).child("op1").child("op").updateChildren(mysendtp)
-                    firebaseReferfulldata1.child("$s").child("month1").child("$month").updateChildren(mysendtp)
+
                 }
             }
 
@@ -488,88 +416,97 @@ class home : Fragment() {
         })
     }
 
-    private fun addCard(s: String, s1: String, s2: String) {
-        // Inflate the view
+    private fun addCard() {
+
+
         val view: View = layoutInflater.inflate(R.layout.add_list, null)
         val entry2: EditText = view.findViewById(R.id.entry2)
         val work: EditText = view.findViewById(R.id.work)
         val spinnershow: TextView = view.findViewById(R.id.home_spinnershow)
-        val deleteButton: ImageButton = view.findViewById(R.id.delete)
-
-        // Add the view to the layout
         layoutList.addView(view)
+        val uniqueId = view.toString()
 
-        // Generate a unique ID (UUID is more reliable than toString())
-        val uniqueId = layoutList.childCount.toString()
 
-        // Set initial values
-        entry2.setText(s)
-        work.setText(s1)
-        spinnershow.text = s2
-
-        // Set up delete button listener
-        deleteButton.setOnClickListener {
-            removeCard(view)
-            removeCard1(uniqueId)// Clean up the map
+        view.findViewById<ImageButton>(R.id.delete).setOnClickListener {
+            layoutList.removeView(view)
         }
+
+        cardManager.setupTextWatchers(uniqueId, entry2, work, spinnershow)
+
+
+        // Initialize the old value for this new card
+        cardValuesMap[view] = 0
+
         spinnershow.setOnClickListener {
-            val dialog = Dialog(requireContext()).apply {
-                setContentView(R.layout.home_spinner_show)
-                val recyclerView: RecyclerView = findViewById(R.id.home_recycle)
-                val refresh: ImageView = findViewById(R.id.home_spinner_refresh)
-                val searchView: androidx.appcompat.widget.SearchView = findViewById(R.id.home_searchView)
-                val adddata: TextView = findViewById(R.id.home_adddata)
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.home_spinner_show)
 
-                adddata.setOnClickListener { addspinnerdata() }
+            val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
+            val refresh: ImageView = dialog.findViewById(R.id.home_spinner_refresh)
+            val searchView: androidx.appcompat.widget.SearchView = dialog.findViewById(R.id.home_searchView)
+            val adddata: TextView = dialog.findViewById(R.id.home_adddata)
 
-                listOfMonth = ArrayList()
-                recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
-                    spinnershow.text = dattaspinner.text.toString()
-                    saveCardData(uniqueId,entry2.text.toString(),work.text.toString(),dattaspinner.text.toString())
-                    dismiss()
-                }
-                recyclerView.adapter = adapter
-
-                searchView.clearFocus()
-                searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean = false
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        filter(newText)
-                        return true
-                    }
-                })
-
-                refresh.setOnClickListener { fetchDataAndUpdateRecyclerView() }
-
-                // Initialize periodic updates
-                handler = Handler(Looper.getMainLooper())
-                updateTimeRunnable = object : Runnable {
-                    override fun run() {
-                        fetchDataAndUpdateRecyclerView()
-                    }
-                }
-                handler.post(updateTimeRunnable) // Start periodic updates
+            adddata.setOnClickListener {
+                addspinnerdata()
             }
+
+            listOfMonth = ArrayList()
+            recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
+                spinnershow.text = dattaspinner.text.toString()
+                dialog.dismiss()
+            }
+            recyclerView.adapter = adapter
+
+            searchView.clearFocus()
+            searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    filter(newText)
+                    return true
+                }
+            })
+
+            refresh.setOnClickListener {
+                fetchDataAndUpdateRecyclerView()
+            }
+
+            // Initialize the handler and runnable
+            handler = Handler(Looper.getMainLooper())
+            updateTimeRunnable = object : Runnable {
+                override fun run() {
+                    fetchDataAndUpdateRecyclerView()
+                }
+            }
+            handler.post(updateTimeRunnable) // Start the periodic updates
+
             dialog.show()
         }
-        // Set up spinner click listener
 
-        // Set up TextWatcher for entry2
         entry2.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val newValue = s.toString().toIntOrNull() ?: 0
+                val newValue: Int = try {
+                    s.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
 
-                // Update the card's value
+                // Update the value for this specific card
                 val oldValue = cardValuesMap[view] ?: 0
                 cardValuesMap[view] = newValue
 
-                // Adjust totals
+                // Adjust total values
                 totalMytkl = totalMytkl - oldValue + newValue
                 expences.text = totalMytkl.toString()
 
-                val entryValue = entry.text.toString().toIntOrNull() ?: 0
+                val entryValue: Int = try {
+                    entry.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
                 val totalIncome = entryValue - totalMytkl
                 income.text = when {
                     entryValue > totalIncome -> "$totalIncome"
@@ -581,32 +518,9 @@ class home : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        if(s.isNotEmpty()) {
-            val newValue: Int = try {
-                s.toString().toInt()
-            } catch (e: NumberFormatException) {
-                0
-            }
 
-            // Update the value for this specific card
-            val oldValue = cardValuesMap[view] ?: 0
-            cardValuesMap[view] = newValue
-
-            // Adjust total values
-            totalMytkl = totalMytkl - oldValue + newValue
-            expences.text = totalMytkl.toString()
-
-            val entryValue: Int = try {
-                entry.text.toString().toInt()
-            } catch (e: NumberFormatException) {
-                0
-            }
-            val totalIncome = entryValue - totalMytkl
-            when {
-                entryValue > totalIncome -> income.text = "$totalIncome"
-                entryValue == totalIncome -> income.text = "0"
-                else -> income.text = "- $totalIncome"
-            }
+        view.findViewById<ImageButton>(R.id.delete).setOnClickListener {
+            removeCard(view)
         }
     }
 
