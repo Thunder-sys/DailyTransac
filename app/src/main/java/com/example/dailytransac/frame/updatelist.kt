@@ -160,7 +160,12 @@ class updatelist : Fragment() {
             addcard("", "", "")
         }
         sumbit.setOnClickListener(){
-            servedForTheServer(view)
+            if (layout_list.childCount.toString()=="0"){
+                Toast.makeText(requireContext(),"Please Add Data",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                servedForTheServer(view)
+            }
         }
 
 

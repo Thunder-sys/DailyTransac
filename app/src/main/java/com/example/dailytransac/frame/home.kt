@@ -186,8 +186,14 @@ class home : Fragment() {
         // Load existing card values
         loadExistingCards()
 
-        sumbit.setOnClickListener() {
-            servedForTheServer(view)
+        sumbit.setOnClickListener(){
+            if (layout_list.childCount.toString()=="0"){
+                Toast.makeText(requireContext(),"Please Add Data",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                servedForTheServer(view)
+            }
+
         }
         entry.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
