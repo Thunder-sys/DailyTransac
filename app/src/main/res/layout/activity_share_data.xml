@@ -37,6 +37,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/setting_reco"
+        tools:listitem="@layout/setting_view"
         android:layout_height="wrap_content"/>
 
 

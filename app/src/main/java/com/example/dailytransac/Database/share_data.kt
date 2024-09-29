@@ -36,7 +36,7 @@ class share_data : AppCompatActivity() {
         setContentView(binding.root)
         reco1 = findViewById(R.id.setting_reco)
 
-        val myman = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val myman = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         reco1.layoutManager = myman
         mythisn = ArrayList()
         myadap = setting_adapter(mythisn) { jj ->
