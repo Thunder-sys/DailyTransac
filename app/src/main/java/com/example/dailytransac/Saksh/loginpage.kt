@@ -3,17 +3,11 @@ package com.example.dailytransac.Saksh
 import MyViewModel
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.dailytransac.Database.MyViewModelFactory
-import com.example.dailytransac.Database.User
-import com.example.dailytransac.R
-import com.example.dailytransac.databinding.ActivityLoginpage2Binding
 import com.example.dailytransac.databinding.ActivityLoginpageBinding
 import com.example.dailytransac.kuna.MainActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -24,9 +18,11 @@ class loginpage : AppCompatActivity() {
     lateinit var binding: ActivityLoginpageBinding
     lateinit var firebaseAuth:FirebaseAuth
     lateinit var Reference:DatabaseReference
+    lateinit var Reference1:DatabaseReference
     private val myViewModel: MyViewModel by viewModels { MyViewModelFactory(this) }
     init {
         Reference = FirebaseDatabase.getInstance().getReference().child("User")
+        Reference1 = FirebaseDatabase.getInstance().getReference().child("User")
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +32,7 @@ class loginpage : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.sign.setOnClickListener(){
+            val name = binding.entername.text.toString()
             val email = binding.emailEt.text.toString()
             val pass = binding.createPasswordEt.text.toString()
             val confirmpass = binding.confirmPasswordEt.text.toString()
@@ -46,7 +43,7 @@ class loginpage : AppCompatActivity() {
                         myViewModel.textValue = email
                         myViewModel.passwork = pass
                         if (it.isSuccessful){
-                            addUsertoDatabase(email,firebaseAuth.currentUser?.uid!!)
+                            addUsertoDatabase(name,email,firebaseAuth.currentUser?.uid!!)
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         }else{
@@ -63,10 +60,12 @@ class loginpage : AppCompatActivity() {
             }
         }
     }
-    private fun addUsertoDatabase(email: String, uid: String) {
+    private fun addUsertoDatabase(name:String,email: String, uid: String) {
         val mysendt: MutableMap<String, Any> = HashMap()
+        mysendt["name"] = name
         mysendt["email"] = email
         mysendt["uid"] = uid
         Reference.child(uid).setValue(mysendt)
+        Reference1.child(uid).child("moredata").child("op").setValue(mysendt)
     }
 }

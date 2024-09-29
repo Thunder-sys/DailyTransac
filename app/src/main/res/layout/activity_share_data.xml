@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Database.share_data">
+    <LinearLayout
+        android:id="@+id/share_linearLayout"
+        android:background="@color/dark_green"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:id="@+id/left_key_for_main"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/left_arrow"
+            android:layout_height="40dp"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Setting"
+            android:textSize="40dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="11dp"
+            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content"/>
+
+
+
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/setting_reco"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

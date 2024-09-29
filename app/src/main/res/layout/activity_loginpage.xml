@@ -81,7 +81,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         app:counterEnabled="true"
-        app:counterMaxLength="12"
+        app:counterMaxLength="18"
         app:helperTextTextColor="@color/red"
         app:endIconMode="clear_text"
         app:hintTextColor="@color/green"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/entername"
             android:textStyle="bold"
-            android:maxLength="13">
+            android:maxLength="18">
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 

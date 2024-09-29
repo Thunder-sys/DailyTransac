@@ -85,8 +85,11 @@ dependencies {
 
 
 
-    //simmer effect
+    //Simmer Effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    //Circular Image
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 
 }
