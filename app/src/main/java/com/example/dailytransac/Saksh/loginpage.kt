@@ -8,11 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dailytransac.Database.MyViewModelFactory
+import com.example.dailytransac.Database.opt_verification
 import com.example.dailytransac.databinding.ActivityLoginpageBinding
 import com.example.dailytransac.kuna.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlin.random.Random
 
 class loginpage : AppCompatActivity() {
     lateinit var binding: ActivityLoginpageBinding
@@ -37,35 +39,31 @@ class loginpage : AppCompatActivity() {
             val pass = binding.createPasswordEt.text.toString()
             val confirmpass = binding.confirmPasswordEt.text.toString()
 
-            if (email.isNotEmpty() && pass.isNotEmpty() && confirmpass.isNotEmpty())  {
-                if (pass==confirmpass){
-                    firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener{
-                        myViewModel.textValue = email
-                        myViewModel.passwork = pass
-                        if (it.isSuccessful){
-                            addUsertoDatabase(name,email,firebaseAuth.currentUser?.uid!!)
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                        }else{
-                            Toast.makeText(this,it.exception.toString(),Toast.LENGTH_LONG).show()
-                        }
-                    }
+            if (name.isNotEmpty() && email.isNotEmpty() && pass.isNotEmpty() && confirmpass.isNotEmpty())  {
+                if (pass.length < 8){
+                    binding.createPasswordEt.error = "Password must be at least 8 Characters"
+                    binding.createPasswordEt.requestFocus()
+                    return@setOnClickListener
+                }
+                if (confirmpass.length < 8){
+                    binding.confirmPasswordEt.error = "Password must be at least 8 Characters"
+                    binding.confirmPasswordEt.requestFocus()
+                    return@setOnClickListener
+                }
+                if (pass==confirmpass) {
+                    val intent = Intent(this, opt_verification::class.java)
+                    intent.putExtra("name","$name")
+                    intent.putExtra("email","$email")
+                    intent.putExtra("pass","$pass")
+                    startActivity(intent)
                 }
                 else{
-                    Toast.makeText(this,"Password is not mataching",Toast.LENGTH_LONG).show()
+                    binding.confirmPasswordEt.error = "Password is not mataching"
                 }
             }
             else{
                 Toast.makeText(this,"Empty Fields Are not Allowed !!",Toast.LENGTH_LONG).show()
             }
         }
-    }
-    private fun addUsertoDatabase(name:String,email: String, uid: String) {
-        val mysendt: MutableMap<String, Any> = HashMap()
-        mysendt["name"] = name
-        mysendt["email"] = email
-        mysendt["uid"] = uid
-        Reference.child(uid).setValue(mysendt)
-        Reference1.child(uid).child("moredata").child("op").setValue(mysendt)
     }
 }

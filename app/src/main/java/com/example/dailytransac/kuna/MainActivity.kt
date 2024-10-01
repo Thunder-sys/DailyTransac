@@ -1,6 +1,7 @@
 package com.example.dailytransac.kuna
 
 import MyViewModel
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -43,7 +44,6 @@ class MainActivity : AppCompatActivity(){
 
     lateinit var binding: ActivityMainBinding
     lateinit var toggle: ActionBarDrawerToggle
-    private val myViewModel: MyViewModel by viewModels { MyViewModelFactory(this) }
     var auth = FirebaseAuth.getInstance()
     var uid = auth.currentUser?.uid!!
     lateinit var firebasedatabase : FirebaseDatabase
@@ -66,17 +66,34 @@ class MainActivity : AppCompatActivity(){
         toggle.syncState()
 
         var headerview: View = navView.getHeaderView(0)
-        var imageview:ImageView = headerview.findViewById(R.id.user_image)
+        var imageview:TextView = headerview.findViewById(R.id.user_image)
         var user_name:TextView = headerview.findViewById(R.id.user_name)
         var user_email:TextView = headerview.findViewById(R.id.user_email)
         firebaseRefer.limitToFirst(1).addListenerForSingleValueEvent(object :ValueEventListener{
+            @SuppressLint("ResourceAsColor")
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(i in snapshot.children){
                     var name = i.child("name").getValue().toString()
                     var email = i.child("email").getValue().toString()
-
+                    var no = i.child("no").getValue().toString().toInt() ?: 0
+                    var io = name.substring(0,1).toString().toUpperCase()
+                    imageview.setText(io)
                     user_name.setText("$name")
                     user_email.setText("$email")
+                    when(no){
+                        1 -> imageview.setBackgroundColor(R.color.red)
+                        2 -> imageview.setBackgroundColor(R.color.blue)
+                        3 -> imageview.setBackgroundColor(R.color.black)
+                        4 -> imageview.setBackgroundColor(R.color.sea)
+                        5 -> imageview.setBackgroundColor(R.color.sea_blue)
+                        6 -> imageview.setBackgroundColor(R.color.green)
+                        7 -> imageview.setBackgroundColor(R.color.dark_green)
+                        8 -> imageview.setBackgroundColor(R.color.light_green)
+                        9 -> imageview.setBackgroundColor(R.color.red)
+                        10 -> imageview.setBackgroundColor(R.color.shimmer)
+                    }
+
+
                 }
             }
 
