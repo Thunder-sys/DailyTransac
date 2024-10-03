@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     tools:context=".Saksh.loginpage">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="175dp"
@@ -192,11 +197,18 @@
             android:layout_height="wrap_content"
             android:text="Sign In"
             android:textSize="19dp"
+            android:layout_marginBottom="70dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/light_blue"
             android:textStyle="bold"/>
+
+
+
+    </LinearLayout>
+
+
     </LinearLayout>
 
 
 
-</LinearLayout>
+</ScrollView>
