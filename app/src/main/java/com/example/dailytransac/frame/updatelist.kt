@@ -16,9 +16,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
@@ -101,8 +103,6 @@ class updatelist : Fragment() {
         firebaseRefer4 = firebaseDatabase.getReference().child("User").child(uid).child("daily2")
         firebaseRefer5 = firebaseDatabase.getReference().child("User").child(uid).child("pie1")
         firebaseRefer6 = firebaseDatabase.getReference().child("User").child(uid).child("pie2")
-
-
     }
 
     override fun onCreateView(
@@ -134,6 +134,9 @@ class updatelist : Fragment() {
                 var reversedate = ("$dataStringm3" + "$dataStringm2").toInt()
 
                 valuefor1 = (reversedate).toString()
+                if (layout_list.childCount.toString() == "0") {
+                    addcard("", "", "None",view)
+                }
 
                 val initiadate = LocalDate.parse(finalDate, formatte)
                 val initda = initiadate.toEpochDay().toInt()
@@ -142,7 +145,7 @@ class updatelist : Fragment() {
                 Log.d("Mus", "" + initda)
                 valuefor = (initda - initda2).toString()
                 valuefor2 = initda2.toString()
-                fetchdataforview()
+                fetchdataforview(view)
             }
         }
         // Start updating the TextView
@@ -155,9 +158,8 @@ class updatelist : Fragment() {
         }
 
         //DynamicView
-
         add_button.setOnClickListener() {
-            addcard("", "", "")
+            addcard("", "", "",view)
         }
         sumbit.setOnClickListener(){
             if (layout_list.childCount.toString()=="0"){
@@ -194,12 +196,13 @@ class updatelist : Fragment() {
             valuefor = (initda - initda2).toString()
             valuefor2 = initda2.toString()
 
+
             var p = calendar.text.toString()
             if (p.isNotEmpty()){
                 entry.setText("")
                 expences.setText("0")
                 totalMytkl= 0
-                fetchdataforview()
+                fetchdataforview(view)
                 layout_list.removeAllViews()
                 cardValuesMap.clear()
             }
@@ -210,16 +213,14 @@ class updatelist : Fragment() {
         )
         datapickerDialog.show()
 
+
     }
 
-    private fun addspinnerdata() {
-        val dialog = Dialog(requireContext()).apply {
-            setContentView(R.layout.home_add_spinner_data)
-            setCancelable(true)
-        }
+    private fun addspinnerdata(view1: View) {
+        var adddata:CardView = view1.findViewById(R.id.ass_data)
 
-        val addDataOp: EditText = dialog.findViewById(R.id.home_adddata_box)
-        val addButton: TextView = dialog.findViewById(R.id.home_submit)
+        val addDataOp: EditText = view1.findViewById(R.id.home_adddata_box)
+        val addButton: TextView = view1.findViewById(R.id.home_submit)
 
         addButton.setOnClickListener {
             val dataForSpinner = addDataOp.text.toString().trim()
@@ -242,13 +243,13 @@ class updatelist : Fragment() {
                                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
 
-                        dialog.dismiss()
+                        adddata.visibility = View.GONE
                     }
                 }
             }
         }
 
-        dialog.show()
+       adddata.visibility = View.VISIBLE
     }
 
     private fun checkIfValueExists(value: String, callback: (Boolean) -> Unit) {
@@ -477,7 +478,7 @@ class updatelist : Fragment() {
         })
     }
 
-    private fun fetchdataforview(){
+    private fun fetchdataforview(view: View){
         var minidate = calendar.text.toString()
         var yeardate = minidate.substring(6,10)
         var monthdate = minidate.substring(3,5)
@@ -486,7 +487,6 @@ class updatelist : Fragment() {
         var month = 13 - monthdate.toInt()
         var date = 32 - datedate.toInt()
         val formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val initiadate = LocalDate.parse(minidate, formatte)
         firebaseRefer100 = FirebaseDatabase.getInstance().getReference().child("User")
             .child(uid).child("year").child("$year").child("month")
             .child("$month").child("date1").child("$date").child("dater")
@@ -494,14 +494,14 @@ class updatelist : Fragment() {
         firebaseRefer200 = FirebaseDatabase.getInstance().getReference().child("User")
             .child(uid).child("year").child("$year").child("month")
             .child("$month").child("date1").child("$date").child("dateri")
-        var io = 0
+        var op = ""
 
         firebaseRefer100.limitToFirst(1).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (i in snapshot.children) {
                     var entry11 = i.child("entry").getValue().toString()
 
-                    var op = entry11.toString()
+                    op = entry11.toString()
 
                     entry.setText("$op")
                     firebaseRefer200.addListenerForSingleValueEvent(object :
@@ -513,20 +513,19 @@ class updatelist : Fragment() {
                                 var spinner1 = ip.child("Spinner").getValue().toString()
                                 var work1 = ip.child("work").getValue().toString()
 
-                                addcard(entry12,work1,spinner1)
-
-
-
+                                addcard(entry12,work1,spinner1,view)
                             }
-                        }
 
+                        }
                         override fun onCancelled(error: DatabaseError) {
                             TODO("Not yet implemented")
                         }
                     })
-
-
-
+                }
+                if (op==""){
+                    if (layout_list.childCount.toString() == "0") {
+                        addcard("", "", "None",view)
+                    }
                 }
             }
 
@@ -537,7 +536,7 @@ class updatelist : Fragment() {
     }
 
     //DynamicView
-    private fun addcard(entry12:String,work12:String,spinner12:String) {
+    private fun addcard(entry12:String,work12:String,spinner12:String,view1: View) {
         val view: View = layoutInflater.inflate(R.layout.add_list, null)
         val entry2: EditText = view.findViewById(R.id.entry2)
         val work: EditText = view.findViewById(R.id.work)
@@ -553,21 +552,21 @@ class updatelist : Fragment() {
         cardValuesMap[view] = 0
 
         spinnershow.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.home_spinner_show)
+            var addsa:CardView = view1.findViewById(R.id.add_recyclespinner)
 
-            val recyclerView: RecyclerView = dialog.findViewById(R.id.home_recycle)
-            val searchView: androidx.appcompat.widget.SearchView = dialog.findViewById(R.id.home_searchView)
-            val adddata: TextView = dialog.findViewById(R.id.home_adddata)
+            val recyclerView: RecyclerView = view1.findViewById(R.id.home_recycle)
+            val refresh: ImageView = view1.findViewById(R.id.home_spinner_refresh)
+            val searchView: androidx.appcompat.widget.SearchView = view1.findViewById(R.id.home_searchView)
+            val adddata: TextView = view1.findViewById(R.id.home_adddata)
             adddata.setOnClickListener {
-                addspinnerdata()
+                addspinnerdata(view1)
             }
 
             listOfMonth = ArrayList()
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
                 spinnershow.text = dattaspinner.text.toString()
-                dialog.dismiss()
+                addsa.visibility = View.GONE
             }
             recyclerView.adapter = adapter
 
@@ -582,24 +581,18 @@ class updatelist : Fragment() {
                     return true
                 }
             })
+            refresh.setOnClickListener { oprefreshdata() }
 
-            spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    listOfMonth.clear()  // Clear existing data
-                    for (ip in snapshot.children) {
-                        val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
-                        val id = ip.child("spinid").getValue(String::class.java) ?: ""
-                        listOfMonth.add(home_spinner_model(id,yearSpinner))
-                    }
-                    adapter.notifyDataSetChanged()
+            // Initialize periodic updates
+            handler = Handler(Looper.getMainLooper())
+            updateTimeRunnable = object : Runnable {
+                override fun run() {
+                    oprefreshdata()
                 }
+            }
+            handler.post(updateTimeRunnable) // Start periodic updates
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
-
-            dialog.show()
+            addsa.visibility = View.VISIBLE
         }
 
         entry2.addTextChangedListener(object : TextWatcher {
@@ -666,6 +659,23 @@ class updatelist : Fragment() {
             removeCard(view)
         }
     }
+
+    private fun oprefreshdata() {
+        spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                listOfMonth.clear()  // Clear existing data
+                for (ip in snapshot.children) {
+                    val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
+                    val id = ip.child("spinid").getValue(String::class.java) ?: ""
+                    listOfMonth.add(home_spinner_model(id,yearSpinner))
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })    }
 
     // Function to remove a card and update values
     private fun removeCard(view: View) {

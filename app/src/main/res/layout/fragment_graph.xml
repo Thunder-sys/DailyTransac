@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@color/light_blue"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".frame.home">
@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:background="@color/light_blue"
         android:layout_height="match_parent">
-
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -102,6 +101,8 @@
                 android:id="@+id/Linear_month_and_year"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="bottom"
+
+                android:gravity="center"
                 android:background="@drawable/gradient_dark_green"
                 android:layout_height="wrap_content">
 
@@ -113,9 +114,9 @@
 
                     <ImageView
                         android:id="@+id/graph_month_and_year_less_than"
-                        android:layout_width="45dp"
+                        android:layout_width="55dp"
                         android:background="@drawable/less_than"
-                        android:layout_height="35dp"/>
+                        android:layout_height="45dp"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -143,9 +144,9 @@
 
                     <ImageView
                         android:id="@+id/graph_month_and_year_greater_than"
-                        android:layout_width="45dp"
+                        android:layout_width="55dp"
                         android:background="@drawable/right_than"
-                        android:layout_height="35dp"/>
+                        android:layout_height="45dp"/>
 
                 </LinearLayout>
 
@@ -156,6 +157,7 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:id="@+id/Linear_year"
+                android:gravity="center"
                 android:visibility="gone"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="bottom"
@@ -170,9 +172,9 @@
 
                     <ImageView
                         android:id="@+id/graph_year_less_than"
-                        android:layout_width="40dp"
+                        android:layout_width="55dp"
                         android:background="@drawable/less_than"
-                        android:layout_height="30dp"/>
+                        android:layout_height="45dp"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -200,9 +202,9 @@
 
                     <ImageView
                         android:id="@+id/graph_year_greater_than"
-                        android:layout_width="40dp"
+                        android:layout_width="55dp"
                         android:background="@drawable/right_than"
-                        android:layout_height="30dp"/>
+                        android:layout_height="45dp"/>
 
                 </LinearLayout>
 
@@ -414,6 +416,23 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/linearLayout1"
+            android:id="@+id/nodata"
+            android:visibility="gone"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="110dp"
+            android:gravity="center"
+            android:layout_marginEnd="0dp"
+            android:text="No Data Available"
+            android:textSize="30dp" />
 
 
     </RelativeLayout>

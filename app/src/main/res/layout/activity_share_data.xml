@@ -49,9 +49,9 @@
         tools:listitem="@layout/setting_view" />
     
     <androidx.cardview.widget.CardView
+        android:id="@+id/old_password"
         android:layout_width="match_parent"
         android:layout_centerInParent="true"
-        android:id="@+id/old_password"
         android:layout_margin="28dp"
         android:visibility="gone"
         app:cardCornerRadius="10dp"

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".analysis.yearly">
@@ -60,95 +60,109 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="end"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="INCOME"
+                    android:textSize="20dp"
+                    android:layout_marginRight="30dp"
+                    android:textColor="@color/light_blue"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="EXPENSES"
+                    android:textSize="20dp"
+                    android:layout_marginRight="30dp"
+                    android:textColor="@color/light_blue"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="SAVING"
+                    android:textSize="20dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/light_blue"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="INCOME"
-                android:textSize="20dp"
-                android:layout_marginRight="30dp"
-                android:textColor="@color/light_blue"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="EXPENSES"
-                android:textSize="20dp"
-                android:layout_marginRight="30dp"
-                android:textColor="@color/light_blue"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="SAVING"
+                android:text="Total"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:layout_marginRight="20dp"
-                android:textColor="@color/light_blue"
-                android:textStyle="bold"
                 android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/daily_income"
+                    android:layout_width="80dp"
+                    android:text=""
+                    android:textSize="20dp"
+                    android:layout_marginRight="30dp"
+                    android:textColor="@color/light_blue"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/daily_expenses"
+                    android:layout_width="100dp"
+                    android:text=""
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:layout_marginRight="25dp"
+                    android:textColor="@color/light_blue"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/daily_saving"
+                    android:layout_width="80dp"
+                    android:text=""
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:layout_marginRight="15dp"
+                    android:textColor="@color/light_blue"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:id="@+id/month_reco"
-        tools:listitem="@layout/monthly_list"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="end"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/daily_income"
-                android:layout_width="80dp"
-                android:text=""
-                android:textSize="20dp"
-                android:layout_marginRight="30dp"
-                android:textColor="@color/light_blue"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/daily_expenses"
-                android:layout_width="100dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="20dp"
-                android:layout_marginRight="25dp"
-                android:textColor="@color/light_blue"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/daily_saving"
-                android:layout_width="80dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="20dp"
-                android:layout_marginRight="15dp"
-                android:textColor="@color/light_blue"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/month_reco"
+            tools:listitem="@layout/monthly_list"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

@@ -22,6 +22,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
@@ -184,7 +185,7 @@ class home : Fragment() {
         cardManager = CardManager(requireContext())
 
         // Load existing card values
-        loadExistingCards()
+        loadExistingCards(view)
 
         sumbit.setOnClickListener(){
             if (layout_list.childCount.toString()=="0"){
@@ -205,10 +206,10 @@ class home : Fragment() {
         })
         //DynamicView
         if (layoutList.childCount.toString() == "0"){
-            addCard("","","None")
+            addCard("","","None",view)
         }
         add_button.setOnClickListener() {
-            addCard("", "", "None")
+            addCard("", "", "None",view)
         }
 
         return view
@@ -246,7 +247,7 @@ class home : Fragment() {
         editor_for_entry.apply()
     }
 
-    private fun loadExistingCards() {
+    private fun loadExistingCards(view: View) {
         val entry1 = prefs_for_entry.getString("entry", "") ?: ""
         entry.setText(entry1)
         // Get all saved entries
@@ -264,7 +265,7 @@ class home : Fragment() {
             val spinnershow = prefs.getString("${uniqueId}_spinnershow", "") ?: ""
 
             // Add the card to the UI or data structure
-            addCard(entry2, work, spinnershow)
+            addCard(entry2, work, spinnershow,view)
         }
         // Clear existing cards if needed
         clearExistingCards()
@@ -284,7 +285,7 @@ class home : Fragment() {
         editor.apply()
     }
 
-    private fun addCard(s: String, s1: String, s2: String) {
+    private fun addCard(s: String, s1: String, s2: String,view1:View) {
         // Inflate the view
         val view: View = layoutInflater.inflate(R.layout.add_list, null)
         val entry2: EditText = view.findViewById(R.id.entry2)
@@ -305,45 +306,47 @@ class home : Fragment() {
             removeCard(view)
         }
         spinnershow.setOnClickListener {
-            val dialog = Dialog(requireContext()).apply {
-                setContentView(R.layout.home_spinner_show)
-                val recyclerView: RecyclerView = findViewById(R.id.home_recycle)
-                val refresh: ImageView = findViewById(R.id.home_spinner_refresh)
-                val searchView: androidx.appcompat.widget.SearchView = findViewById(R.id.home_searchView)
-                val adddata: TextView = findViewById(R.id.home_adddata)
+            var addvie = view1.findViewById<CardView>(R.id.add_recyclespinner)
+            val recyclerView: RecyclerView = view1.findViewById(R.id.home_recycle)
+            val refresh: ImageView = view1.findViewById(R.id.home_spinner_refresh)
+            val searchView: androidx.appcompat.widget.SearchView =
+                view1.findViewById(R.id.home_searchView)
+            val adddata: TextView = view1.findViewById(R.id.home_adddata)
+            addvie.visibility = View.VISIBLE
 
-                adddata.setOnClickListener { addspinnerdata() }
+            adddata.setOnClickListener { addspinnerdata(view1) }
 
-                listOfMonth = ArrayList()
-                recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
-                    spinnershow.text = dattaspinner.text.toString()
-                    dismiss()
-                }
-                recyclerView.adapter = adapter
-
-                searchView.clearFocus()
-                searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean = false
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        filter(newText)
-                        return true
-                    }
-                })
-
-                refresh.setOnClickListener { fetchDataAndUpdateRecyclerView() }
-
-                // Initialize periodic updates
-                handler = Handler(Looper.getMainLooper())
-                updateTimeRunnable = object : Runnable {
-                    override fun run() {
-                        fetchDataAndUpdateRecyclerView()
-                    }
-                }
-                handler.post(updateTimeRunnable) // Start periodic updates
+            listOfMonth = ArrayList()
+            recyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
+                spinnershow.text = dattaspinner.text.toString()
+                addvie.visibility = View.GONE
             }
-            dialog.show()
+            recyclerView.adapter = adapter
+
+            searchView.clearFocus()
+            searchView.setOnQueryTextListener(object :
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean = false
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    filter(newText)
+                    return true
+                }
+            })
+
+            refresh.setOnClickListener { fetchDataAndUpdateRecyclerView() }
+
+            // Initialize periodic updates
+            handler = Handler(Looper.getMainLooper())
+            updateTimeRunnable = object : Runnable {
+                override fun run() {
+                    fetchDataAndUpdateRecyclerView()
+                }
+            }
+            handler.post(updateTimeRunnable) // Start periodic updates
+
         }
 
         // Set up TextWatcher for entry2
@@ -435,14 +438,10 @@ class home : Fragment() {
         adapter.setAdapterList(ArrayList(filteredList))
     }
 
-    private fun addspinnerdata() {
-        val dialog = Dialog(requireContext()).apply {
-            setContentView(R.layout.home_add_spinner_data)
-            setCancelable(true)
-        }
-
-        val addDataOp: EditText = dialog.findViewById(R.id.home_adddata_box)
-        val addButton: TextView = dialog.findViewById(R.id.home_submit)
+    private fun addspinnerdata(view1: View) {
+        var adddata:CardView = view1.findViewById(R.id.ass_data)
+        val addDataOp: EditText = view1.findViewById(R.id.home_adddata_box)
+        val addButton: TextView = view1.findViewById(R.id.home_submit)
 
         addButton.setOnClickListener {
             val dataForSpinner = addDataOp.text.toString().trim()
@@ -466,14 +465,12 @@ class home : Fragment() {
                             .addOnFailureListener { e ->
                                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
-
-                        dialog.dismiss()
+                        adddata.visibility = View.GONE
                     }
                 }
             }
         }
-
-        dialog.show()
+        adddata.visibility = View.VISIBLE
     }
 
     private fun calculationChamber(oldValue: Int, newValue: Int) {

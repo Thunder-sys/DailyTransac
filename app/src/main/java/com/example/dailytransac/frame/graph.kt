@@ -90,6 +90,15 @@ class graph : Fragment() {
     lateinit var cancel: TextView
     lateinit var ok: TextView
 
+    var ab:Int = 0
+
+    lateinit var nodata:TextView
+
+    lateinit var layout1:LinearLayout
+    lateinit var layout2:LinearLayout
+    lateinit var layout3:LinearLayout
+    lateinit var layout4:LinearLayout
+
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val uid: String = firebaseAuth.currentUser?.uid ?: ""
     private lateinit var handler: Handler
@@ -154,6 +163,13 @@ class graph : Fragment() {
         year_Linear = view.findViewById(R.id.Linear_year)
         year_valueshow = view.findViewById(R.id.graph_year_value)
 
+        nodata = view.findViewById(R.id.nodata)
+
+        layout1= view.findViewById(R.id.linearLayout3)
+        layout2= view.findViewById(R.id.linearLayout6)
+        layout3= view.findViewById(R.id.linearLayout5)
+        layout4= view.findViewById(R.id.linearLayout9)
+
         firstdateShow = view.findViewById(R.id.Linear_first_date)
         lastdateshow = view.findViewById(R.id.Linear_last_date)
         dateshowLinear = view.findViewById(R.id.Linear_for_date)
@@ -203,7 +219,6 @@ class graph : Fragment() {
                         monthyear_Linear.visibility = View.GONE
                         dateshowLinear.visibility = View.GONE
                         year_Linear.visibility = View.GONE
-
                         fetchfulldataValueset(view, "0", "0")
                     }
                 }
@@ -548,12 +563,24 @@ class graph : Fragment() {
 
         monthyear_valueshow.text = "$monthvalue $dateString1"
 
-        var a1 = "01/0$dateString/$dateString1"
-        var a2 = "31/0$dateString/$dateString1"
-        Log.d("month","$a1")
-        Log.d("month","$a2")
+        if (dateString.toInt() < 10){
+            var a1 = "01/0$dateString/$dateString1"
+            var a2 = "31/0$dateString/$dateString1"
+            Log.d("month","$a1")
+            Log.d("month","$a2")
 
-        fetchfulldataValueset(view, a1, a2)
+            fetchfulldataValueset(view, a1, a2)
+        }
+        else if (dateString.toInt() >= 10){
+            var a1 = "01/$dateString/$dateString1"
+            var a2 = "31/$dateString/$dateString1"
+            Log.d("month", "$a1")
+            Log.d("month", "$a2")
+
+            fetchfulldataValueset(view, a1, a2)
+        }
+
+
 
     }
 
@@ -611,10 +638,13 @@ class graph : Fragment() {
             var fir = dend
             Log.d("miop", "$fir")
             Log.d("miop", "$fin")
+            text_rev.setText("")
+            text_exp.setText("")
             fetchdataformfirebase(view, fir, fin)
         }
         else if (iop=="Year"){
-
+            text_rev.setText("")
+            text_exp.setText("")
             var first = fino.substring(0, 10)
             var end = firo.substring(0, 10)
             var firstmo = fino.substring(3, 5).toInt()
@@ -639,6 +669,8 @@ class graph : Fragment() {
             fetchdataformonth(view,fir,fin,startmo,lastmo)
         }
         else {
+            text_rev.setText("")
+            text_exp.setText("")
             var fin = 0
             var fir = 0
             fetchdataformfirebase(view, fir, fin)
@@ -654,6 +686,7 @@ class graph : Fragment() {
         entries.clear()
         var total_exp = 0
         var total_rev = 0
+
 
         var opw = 310012
 
@@ -930,9 +963,11 @@ class graph : Fragment() {
                             if (spinvalueStr.isNotEmpty()) {
                                 try {
                                     val value = spinvalueStr.toFloat()
+                                    ab += 1
                                     categoryMap[spinner] =
                                         categoryMap.getOrDefault(spinner, 0f) + value
                                 } catch (e: NumberFormatException) {
+                                    ab == 0
                                     Log.e(
                                         "NumberFormatError",
                                         "Failed to parse value: $spinvalueStr",
@@ -958,6 +993,7 @@ class graph : Fragment() {
                 })
                 small += 1
             }
+
 
         }
         else {
@@ -1077,9 +1113,11 @@ class graph : Fragment() {
                         if (spinvalueStr.isNotEmpty()) {
                             try {
                                 val value = spinvalueStr.toFloat()
+                                ab += 1
                                 categoryMap[spinner] =
                                     categoryMap.getOrDefault(spinner, 0f) + value
                             } catch (e: NumberFormatException) {
+                                ab==0
                                 Log.e(
                                     "NumberFormatError",
                                     "Failed to parse value: $spinvalueStr",
@@ -1096,6 +1134,12 @@ class graph : Fragment() {
                     if (completedTasks == tasksCount) {
                         showpiechart(view, categoryMap)
                         showpiereco(view, categoryMap)
+                        if (total_exp.toInt() == 0){
+                            op_gone(view)
+                        }
+                        else {
+                            op_visi(view)
+                        }
                     }
                 }
 
@@ -1340,5 +1384,32 @@ class graph : Fragment() {
             // Handle the case where the color string is invalid
             Color.BLACK // Default to black if invalid
         }
+    }
+
+    private fun op_visi(view: View){
+        nodata = view.findViewById(R.id.nodata)
+
+        layout1= view.findViewById(R.id.linearLayout3)
+        layout2= view.findViewById(R.id.linearLayout6)
+        layout3= view.findViewById(R.id.linearLayout5)
+        layout4= view.findViewById(R.id.linearLayout9)
+        layout1.visibility = View.VISIBLE
+        layout2.visibility = View.VISIBLE
+        layout3.visibility = View.VISIBLE
+        layout4.visibility = View.VISIBLE
+        nodata.visibility = View.GONE
+    }
+    private fun op_gone(view: View){
+        nodata = view.findViewById(R.id.nodata)
+
+        layout1= view.findViewById(R.id.linearLayout3)
+        layout2= view.findViewById(R.id.linearLayout6)
+        layout3= view.findViewById(R.id.linearLayout5)
+        layout4= view.findViewById(R.id.linearLayout9)
+        layout1.visibility = View.GONE
+        layout2.visibility = View.GONE
+        layout3.visibility = View.GONE
+        layout4.visibility = View.GONE
+        nodata.visibility = View.VISIBLE
     }
 }
