@@ -20,7 +20,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailytransac.R
@@ -28,6 +27,7 @@ import com.example.dailytransac.kuna.home_spinner_adapter
 import com.example.dailytransac.kuna.home_spinner_adapter_add
 import com.example.dailytransac.kuna.home_spinner_model
 import com.example.dailytransac.kuna.home_spinner_model_add
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -559,6 +559,7 @@ class updatelist : Fragment() {
             val view1 = Dialog(requireContext())
             view1.setContentView(R.layout.home_spinner_show)
 
+            var simmerview: ShimmerFrameLayout = view1.findViewById(R.id.shimmer12)
             val recyclerView: RecyclerView = view1.findViewById(R.id.home_recycle)
             val refresh: ImageView = view1.findViewById(R.id.home_spinner_refresh)
             val searchView: androidx.appcompat.widget.SearchView = view1.findViewById(R.id.home_searchView)
@@ -567,6 +568,7 @@ class updatelist : Fragment() {
                 addspinnerdata()
             }
 
+            simmereffect(simmerview)
             listOfMonth = ArrayList()
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
@@ -586,13 +588,13 @@ class updatelist : Fragment() {
                     return true
                 }
             })
-            refresh.setOnClickListener { oprefreshdata() }
+            refresh.setOnClickListener { oprefreshdata(simmerview,recyclerView) }
 
             // Initialize periodic updates
             handler = Handler(Looper.getMainLooper())
             updateTimeRunnable = object : Runnable {
                 override fun run() {
-                    oprefreshdata()
+                    oprefreshdata(simmerview, recyclerView)
                 }
             }
             handler.post(updateTimeRunnable) // Start periodic updates
@@ -665,7 +667,7 @@ class updatelist : Fragment() {
         }
     }
 
-    private fun oprefreshdata() {
+    private fun oprefreshdata(simmerview: ShimmerFrameLayout, recyclerView: RecyclerView) {
         spinnerReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 listOfMonth.clear()  // Clear existing data
@@ -673,6 +675,9 @@ class updatelist : Fragment() {
                     val yearSpinner = ip.child("homespin").getValue(String::class.java) ?: ""
                     val id = ip.child("spinid").getValue(String::class.java) ?: ""
                     listOfMonth.add(home_spinner_model(id,yearSpinner))
+
+                    recyclerView.visibility = View.VISIBLE
+                    simmerview.visibility = View.GONE
                 }
                 adapter.notifyDataSetChanged()
             }
@@ -727,5 +732,11 @@ class updatelist : Fragment() {
 
         // Remove callbacks to prevent memory leaks
         handler.removeCallbacks(updateTimeRunnable)
+    }
+    private fun simmereffect(
+        shimmereffect1: ShimmerFrameLayout
+    ) {
+        shimmereffect1.visibility = View.VISIBLE
+
     }
 }
