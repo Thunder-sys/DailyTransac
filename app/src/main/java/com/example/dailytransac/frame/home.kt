@@ -306,22 +306,23 @@ class home : Fragment() {
             removeCard(view)
         }
         spinnershow.setOnClickListener {
-            var addvie = view1.findViewById<CardView>(R.id.add_recyclespinner)
+            var view1 =  Dialog(requireContext()).apply {
+                setContentView(R.layout.home_spinner_show)
+            }
             val recyclerView: RecyclerView = view1.findViewById(R.id.home_recycle)
             val refresh: ImageView = view1.findViewById(R.id.home_spinner_refresh)
-            val searchView: androidx.appcompat.widget.SearchView =
-                view1.findViewById(R.id.home_searchView)
+            val searchView: androidx.appcompat.widget.SearchView = view1.findViewById(R.id.home_searchView)
             val adddata: TextView = view1.findViewById(R.id.home_adddata)
-            addvie.visibility = View.VISIBLE
+            view1.show()
 
-            adddata.setOnClickListener { addspinnerdata(view1) }
+            adddata.setOnClickListener { addspinnerdata() }
 
             listOfMonth = ArrayList()
             recyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
                 spinnershow.text = dattaspinner.text.toString()
-                addvie.visibility = View.GONE
+                view1.dismiss()
             }
             recyclerView.adapter = adapter
 
@@ -438,8 +439,12 @@ class home : Fragment() {
         adapter.setAdapterList(ArrayList(filteredList))
     }
 
-    private fun addspinnerdata(view1: View) {
-        var adddata:CardView = view1.findViewById(R.id.ass_data)
+    private fun addspinnerdata() {
+
+        val view1 = Dialog(requireContext()).apply {
+            setContentView(R.layout.home_add_spinner_data)
+            setCancelable(true)
+        }
         val addDataOp: EditText = view1.findViewById(R.id.home_adddata_box)
         val addButton: TextView = view1.findViewById(R.id.home_submit)
 
@@ -465,12 +470,12 @@ class home : Fragment() {
                             .addOnFailureListener { e ->
                                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
-                        adddata.visibility = View.GONE
+                        view1.dismiss()
                     }
                 }
             }
         }
-        adddata.visibility = View.VISIBLE
+        view1.show()
     }
 
     private fun calculationChamber(oldValue: Int, newValue: Int) {

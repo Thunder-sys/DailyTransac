@@ -1,5 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/white" android:orientation="vertical" tools:context=".Saksh.loginpage">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Saksh.loginpage">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <ImageView
             android:layout_width="250dp"
             android:layout_height="280dp"
@@ -135,4 +147,4 @@
                 android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -65,7 +65,7 @@
             android:textSize="15dp"
             android:fontFamily="@font/popinregular"
             android:textColor="@color/black"
-            android:text="kunalwarriow25@gmail.com"/>
+            android:text=""/>
     </LinearLayout>
 
 

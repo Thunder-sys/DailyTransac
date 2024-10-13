@@ -216,8 +216,11 @@ class updatelist : Fragment() {
 
     }
 
-    private fun addspinnerdata(view1: View) {
-        var adddata:CardView = view1.findViewById(R.id.ass_data)
+    private fun addspinnerdata() {
+        val view1 = Dialog(requireContext()).apply {
+            setContentView(R.layout.home_add_spinner_data)
+            setCancelable(true)
+        }
 
         val addDataOp: EditText = view1.findViewById(R.id.home_adddata_box)
         val addButton: TextView = view1.findViewById(R.id.home_submit)
@@ -243,13 +246,13 @@ class updatelist : Fragment() {
                                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
 
-                        adddata.visibility = View.GONE
+                        view1.dismiss()
                     }
                 }
             }
         }
 
-       adddata.visibility = View.VISIBLE
+       view1.show()
     }
 
     private fun checkIfValueExists(value: String, callback: (Boolean) -> Unit) {
@@ -552,21 +555,23 @@ class updatelist : Fragment() {
         cardValuesMap[view] = 0
 
         spinnershow.setOnClickListener {
-            var addsa:CardView = view1.findViewById(R.id.add_recyclespinner)
+
+            val view1 = Dialog(requireContext())
+            view1.setContentView(R.layout.home_spinner_show)
 
             val recyclerView: RecyclerView = view1.findViewById(R.id.home_recycle)
             val refresh: ImageView = view1.findViewById(R.id.home_spinner_refresh)
             val searchView: androidx.appcompat.widget.SearchView = view1.findViewById(R.id.home_searchView)
             val adddata: TextView = view1.findViewById(R.id.home_adddata)
             adddata.setOnClickListener {
-                addspinnerdata(view1)
+                addspinnerdata()
             }
 
             listOfMonth = ArrayList()
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = home_spinner_adapter(listOfMonth) { dattaspinner ->
                 spinnershow.text = dattaspinner.text.toString()
-                addsa.visibility = View.GONE
+                view1.dismiss()
             }
             recyclerView.adapter = adapter
 
@@ -592,7 +597,7 @@ class updatelist : Fragment() {
             }
             handler.post(updateTimeRunnable) // Start periodic updates
 
-            addsa.visibility = View.VISIBLE
+            view1.show()
         }
 
         entry2.addTextChangedListener(object : TextWatcher {
