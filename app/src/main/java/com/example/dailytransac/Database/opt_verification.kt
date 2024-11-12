@@ -144,7 +144,7 @@ class opt_verification : AppCompatActivity() {
         random = Random.nextInt(100000, 999999) // Generate a random number
         try {
             val senderEmail = "radharanajiai@gmail.com"
-            val senderPass = "qxegmczzpnwrcgad"
+            val senderPass = "mqpqjrzwxpouiywv"
             val receiverEmail = binding.otpEmail.text.toString()
 
             val stringHost = "smtp.gmail.com"

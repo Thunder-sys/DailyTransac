@@ -129,9 +129,11 @@ class updatelist : Fragment() {
                 currentDate = dateFormat.format(Date())
                 calendar.text = currentDate
                 var dataStringm = currentDate.toString()
-                var dataStringm2 = currentDate.substring(3,5)
-                var dataStringm3 = currentDate.substring(6,10)
-                var reversedate = ("$dataStringm3" + "$dataStringm2").toInt()
+                var dataStringm2 = currentDate.substring(3,5).toInt()
+                var dataStringm3 = currentDate.substring(6,10).toInt()
+                var yearminus = 2100 - dataStringm3
+                var monthminus = 13 - dataStringm2
+                var reversedate = ("$yearminus" + "$monthminus").toInt()
 
                 valuefor1 = (reversedate).toString()
                 if (layout_list.childCount.toString() == "0") {
@@ -182,9 +184,11 @@ class updatelist : Fragment() {
             currentDate= dateFormat.format(selectedate.time)
             calendar.setText(currentDate)
             var dataStringm = currentDate.toString()
-            var dataStringm2 = currentDate.substring(3,5)
-            var dataStringm3 = currentDate.substring(6,10)
-            var reversedate = ("$dataStringm3" + "$dataStringm2").toInt()
+            var dataStringm2 = currentDate.substring(3,5).toInt()
+            var dataStringm3 = currentDate.substring(6,10).toInt()
+            var yearminus = 2100 - dataStringm3
+            var monthminus = 13 - dataStringm2
+            var reversedate = ("$yearminus" + "$monthminus").toInt()
 
             valuefor1 = (reversedate).toString()
 
@@ -284,6 +288,7 @@ class updatelist : Fragment() {
         val mysendt1: MutableMap<String, Any> = HashMap()
         mysendt1["yearspinner"] = "$currentyear"
 
+        monthly_data_remove(year,month,date,currentdate)
         daily_data_remove()
         pie_data_remove(year,month,date)
         full_data_remove(year,month,date,currentdate)
@@ -304,36 +309,39 @@ class updatelist : Fragment() {
             val mycat = work.text.toString()
             val myspin = spinnershow.text.toString()
 
-            if (TextUtils.isEmpty(myvalie)) {
-                entry2.error = "Please Enter The Data"
-                return
-            } else if (TextUtils.isEmpty(mycat)) {
+            if (TextUtils.isEmpty(mycat)) {
                 work.error = "Please Enter The Data"
                 return
             } else {
-                sum += myvalie.toInt()
-                val mysendtipp1: MutableMap<String, Any> = HashMap()
-                mysendtipp1["valueno"] = "$i"
-                val mysendtipp: MutableMap<String, Any> = HashMap()
-                mysendtipp["entry2"] = myvalie
-                mysendtipp["work"] = mycat
-                mysendtipp["Spinner"] = myspin
-                firebaseRefer6.child("$year"+"$month"+"$date"+"$i").setValue(mysendtipp)
-                firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer.child("date").child("$currentdate").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer.child("date1").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer.child("date1").child("$date").child("dater").child("op1").child("op2").updateChildren(mysendtipp1)
+                    sum += myvalie.toInt()
+                    val mysendtipp1: MutableMap<String, Any> = HashMap()
+                    mysendtipp1["valueno"] = "$i"
+                    val mysendtipp: MutableMap<String, Any> = HashMap()
+                    mysendtipp["entry2"] = myvalie
+                    mysendtipp["work"] = mycat
+                    mysendtipp["Spinner"] = myspin
+                    firebaseRefer6.child("$year" + "$month" + "$date" + "$i").setValue(mysendtipp)
+                    firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i")
+                        .setValue(mysendtipp)
+                    firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i")
+                        .setValue(mysendtipp)
+                    firebaseRefer.child("date").child("$currentdate").child("dateri")
+                        .child("Myfirstdata$i").setValue(mysendtipp)
+                    firebaseRefer.child("date1").child("$date").child("dateri")
+                        .child("Myfirstdata$i").setValue(mysendtipp)
+                    firebaseRefer.child("date1").child("$date").child("dater").child("op1")
+                        .child("op2").updateChildren(mysendtipp1)
 
-                    .addOnSuccessListener {
-                        Log.d("Firebase", "Data saved successfully for item $i")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("Firebase", "Error saving data for item $i", e)
-                    }
+                        .addOnSuccessListener {
+                            Log.d("Firebase", "Data saved successfully for item $i")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firebase", "Error saving data for item $i", e)
+                        }
+
             }
         }
-        val myallsum = entry.text.toString()
+        val myallsum = entry.text.toString().toInt()?:0
         val ik = myallsum.toInt()
         expences.text = sum.toString()
         val myallsav = ik - sum
@@ -342,8 +350,8 @@ class updatelist : Fragment() {
         val allexper = sum.toString()
         val allstru: MutableMap<String, Any> = HashMap()
         val allstru1: MutableMap<String, Any> = HashMap()
-        allstru1["entry"] = myallsum
-        allstru["entry"] = myallsum
+        allstru1["entry"] = "$myallsum"
+        allstru["entry"] = "$myallsum"
         allstru["Expenses"] = allexper
         allstru["income"] = myallsav.toString()
         allstru["datevalue"] = valuefor
@@ -390,6 +398,14 @@ class updatelist : Fragment() {
         note1.child("$valuefor").removeValue()
         note2.child("$valuefor1").removeValue()
 
+    }
+
+    private fun monthly_data_remove(year: Int, month: Int, date: Int, currentdate: String) {
+        var note1 = firebaseDatabase.getReference().child("User").child(uid).child("monthly")
+
+        var create_value_for_month = "$year$month"
+
+        note1.child("$create_value_for_month").removeValue()
     }
 
     private fun monthlyp(s: String, s1: String, s2: String, view: View) {
@@ -733,9 +749,8 @@ class updatelist : Fragment() {
         // Remove callbacks to prevent memory leaks
         handler.removeCallbacks(updateTimeRunnable)
     }
-    private fun simmereffect(
-        shimmereffect1: ShimmerFrameLayout
-    ) {
+
+    private fun simmereffect(shimmereffect1: ShimmerFrameLayout) {
         shimmereffect1.visibility = View.VISIBLE
 
     }

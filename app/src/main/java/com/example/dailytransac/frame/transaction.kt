@@ -103,7 +103,7 @@ class transaction : Fragment() {
         var adaptt = Adapter_mainpage(listofdata)
         reco3.adapter = adaptt
 
-        firebase_for_daily.addListenerForSingleValueEvent(object : ValueEventListener {
+        firebase_for_daily.limitToFirst(30).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (myds in dataSnapshot.children) {
                     var entry = myds.child("entry").getValue().toString()
@@ -161,7 +161,7 @@ class transaction : Fragment() {
         reco2.adapter = adap
 
 
-        firebaseRefrence.addListenerForSingleValueEvent(object : ValueEventListener {
+        firebaseRefrence.limitToFirst(30).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(apidata in snapshot.children) {
                     var Year = apidata.child("currentmonth").getValue().toString()

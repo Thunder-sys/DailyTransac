@@ -558,35 +558,39 @@ class home : Fragment() {
             val mycat = work.text.toString()
             val myspin = spinnershow.text.toString()
 
-            if (TextUtils.isEmpty(myvalie)) {
-                entry2.error = "Please Enter The Data"
-                return
-            } else if (TextUtils.isEmpty(mycat)) {
+            if (TextUtils.isEmpty(mycat)) {
                 work.error = "Please Enter The Data"
                 return
             } else {
-                sum += myvalie.toInt()
-                val mysendtipp1: MutableMap<String, Any> = HashMap()
-                mysendtipp1["valueno"] = "$i"
-                val mysendtipp: MutableMap<String, Any> = HashMap()
-                mysendtipp["entry2"] = myvalie
-                mysendtipp["work"] = mycat
-                mysendtipp["Spinner"] = myspin
-                firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer5.child("$year"+"$month"+"$date"+"$i").setValue(mysendtipp)
-                firebaseRefer.child("date").child("$currentdate").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer.child("date1").child("$date").child("dateri").child("Myfirstdata$i").setValue(mysendtipp)
-                firebaseRefer.child("date1").child("$date").child("dater").updateChildren(mysendtipp1)
-                    .addOnSuccessListener {
-                        Log.d("Firebase", "Data saved successfully for item $i")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("Firebase", "Error saving data for item $i", e)
-                    }
-            }
+                    sum += myvalie.toInt()
+                    val mysendtipp1: MutableMap<String, Any> = HashMap()
+                    mysendtipp1["valueno"] = "$i"
+                    val mysendtipp: MutableMap<String, Any> = HashMap()
+                    mysendtipp["entry2"] = myvalie
+                    mysendtipp["work"] = mycat
+                    mysendtipp["Spinner"] = myspin
+                    firebaseRefer6.child("$year" + "$month" + "$date" + "$i").setValue(mysendtipp)
+                    firebaseRefer2.child(valuefor).child("dateri").child("Myfirstdata$i")
+                        .setValue(mysendtipp)
+                    firebaseRefer5.child(valuefor2).child("dateri").child("Myfirstdata$i")
+                        .setValue(mysendtipp)
+                    firebaseRefer.child("date").child("$currentdate").child("dateri")
+                        .child("Myfirstdata$i").setValue(mysendtipp)
+                    firebaseRefer.child("date1").child("$date").child("dateri")
+                        .child("Myfirstdata$i").setValue(mysendtipp)
+                    firebaseRefer.child("date1").child("$date").child("dater").child("op1")
+                        .child("op2").updateChildren(mysendtipp1)
+
+                        .addOnSuccessListener {
+                            Log.d("Firebase", "Data saved successfully for item $i")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firebase", "Error saving data for item $i", e)
+                        }
+                }
+
         }
-        val myallsum = entry.text.toString()
+        val myallsum = entry.text.toString().toInt()?:0
         val ik = myallsum.toInt()
         expences.text = sum.toString()
         val myallsav = ik - sum
@@ -595,8 +599,8 @@ class home : Fragment() {
         val allexper = sum.toString()
         val allstru: MutableMap<String, Any> = HashMap()
         val allstru1: MutableMap<String, Any> = HashMap()
-        allstru1["entry"] = myallsum
-        allstru["entry"] = myallsum
+        allstru1["entry"] = "$myallsum"
+        allstru["entry"] = "$myallsum"
         allstru["Expenses"] = allexper
         allstru["income"] = myallsav.toString()
         allstru["datevalue"] = valuefor
