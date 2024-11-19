@@ -341,31 +341,59 @@ class updatelist : Fragment() {
 
             }
         }
-        val myallsum = entry.text.toString().toInt()?:0
-        val ik = myallsum.toInt()
-        expences.text = sum.toString()
-        val myallsav = ik - sum
-        income.text = myallsav.toString()
+        val myallsum = entry.text.toString()
+        if(myallsum.isEmpty()){
+            val ik = 0
+            expences.text = sum.toString()
+            val myallsav = ik - sum
+            income.text = myallsav.toString()
 
-        val allexper = sum.toString()
-        val allstru: MutableMap<String, Any> = HashMap()
-        val allstru1: MutableMap<String, Any> = HashMap()
-        allstru1["entry"] = "$myallsum"
-        allstru["entry"] = "$myallsum"
-        allstru["Expenses"] = allexper
-        allstru["income"] = myallsav.toString()
-        allstru["datevalue"] = valuefor
-        allstru["mydateg"] = currentDate
+            val allexper = sum.toString()
+            val allstru: MutableMap<String, Any> = HashMap()
+            val allstru1: MutableMap<String, Any> = HashMap()
+            allstru1["entry"] = "0"
+            allstru["entry"] = "0"
+            allstru["Expenses"] = allexper
+            allstru["income"] = myallsav.toString()
+            allstru["datevalue"] = valuefor
+            allstru["mydateg"] = currentDate
 
-        firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
-        firebaseRefer.child("date1").child("$date").updateChildren(allstru)
-        firebaseRefer.child("date1").child("$date").child("dater").child("op").updateChildren(allstru)
-        firebaseRefer2.child(valuefor).updateChildren(allstru)
-        firebaseRefer4.child(valuefor2).child("date1").child("date").updateChildren(allstru)
-        firebaseRefer4.child(valuefor2).updateChildren(allstru)
+            firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
+            firebaseRefer.child("date1").child("$date").updateChildren(allstru)
+            firebaseRefer.child("date1").child("$date").child("dater").child("op").updateChildren(allstru)
+            firebaseRefer2.child(valuefor).updateChildren(allstru)
+            firebaseRefer4.child(valuefor2).child("date1").child("date").updateChildren(allstru)
+            firebaseRefer4.child(valuefor2).updateChildren(allstru)
 
 
-        monthlyp("$year","$month","$currentmonth",view)
+            monthlyp("$year","$month","$currentmonth",view)
+        }
+        else{
+            val ik = myallsum.toInt()
+            expences.text = sum.toString()
+            val myallsav = ik - sum
+            income.text = myallsav.toString()
+
+            val allexper = sum.toString()
+            val allstru: MutableMap<String, Any> = HashMap()
+            val allstru1: MutableMap<String, Any> = HashMap()
+            allstru1["entry"] = "$myallsum"
+            allstru["entry"] = "$myallsum"
+            allstru["Expenses"] = allexper
+            allstru["income"] = myallsav.toString()
+            allstru["datevalue"] = valuefor
+            allstru["mydateg"] = currentDate
+
+            firebaseRefer.child("date").child("$currentdate").updateChildren(allstru)
+            firebaseRefer.child("date1").child("$date").updateChildren(allstru)
+            firebaseRefer.child("date1").child("$date").child("dater").child("op").updateChildren(allstru)
+            firebaseRefer2.child(valuefor).updateChildren(allstru)
+            firebaseRefer4.child(valuefor2).child("date1").child("date").updateChildren(allstru)
+            firebaseRefer4.child(valuefor2).updateChildren(allstru)
+
+
+            monthlyp("$year","$month","$currentmonth",view)
+        }
     }
 
     private fun full_data_remove(year: Int, month: Int, date: Int, currentdate: String) {
